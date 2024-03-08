@@ -1,6 +1,6 @@
 import logo from './images/logo.png';
-import './App.css';
 import React, { useState } from 'react';
+import {firestore} from './firebase'
 
 function App() {
   const [nome, setNome] = useState('');
@@ -15,6 +15,10 @@ function App() {
     console.log('Telefone:', telefone);
     console.log('Endereço:', endereco);
     console.log('Cidade:', cidade);
+
+    /* firestore().collection('Usuário').add({
+      teste:'09'
+    }) */
   };
   return (
     <div >
