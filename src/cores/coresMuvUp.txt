@@ -1,0 +1,7 @@
+Cores site MuvUp
+
+#EB8952 telha
+#FAC670 creme
+#6ABC8B verde
+#00A9A4 azul
+#8F6DA0 roxo
