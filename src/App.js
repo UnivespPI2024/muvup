@@ -1,8 +1,10 @@
 import logo from './images/logo.png';
 import React, { useState } from 'react';
-import {firestore} from './firebase'
+import { db } from './firebase'
+import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore/lite';
 
 function App() {
+  // const db = getFirestore(app)
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -16,9 +18,15 @@ function App() {
     console.log('Endereço:', endereco);
     console.log('Cidade:', cidade);
 
-    /* firestore().collection('Usuário').add({
-      teste:'09'
-    }) */
+    setDoc(doc(db, 'Usuários', email), {
+      nome: nome,
+      email: email,
+      telefone: telefone,
+      endereco: endereco,
+      cidade: cidade
+    });
+
+    
   };
   return (
     <div >
