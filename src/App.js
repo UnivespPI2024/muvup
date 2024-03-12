@@ -26,56 +26,102 @@ function App() {
       cidade: cidade
     });
 
-    
+
   };
   return (
     <div >
       <div style={styles.logoContainer}>
         <img src={logo} style={styles.logo}></img>
       </div>
-      <div style={styles.cadastroContainer}>
-        <h2>Cadastro de Cliente</h2>
-        <div style={styles.formGroup}>
-          <input
-            type="text" 
-            placeholder="Nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
+      <div style={styles.container}>
+        <div style={styles.cadastroContainer}>
+          <h2 style={styles.texto}>Cadastro de Aluno</h2>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Telefone"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Endereço"
+              value={endereco}
+              onChange={(e) => setEndereco(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Cidade"
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+            />
+          </div>
+          <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Cliente</button>
         </div>
-        <div style={styles.formGroup}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <div style={styles.cadastroContainer}>
+          <h2 style={styles.texto}>Cadastro de Professor</h2>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Telefone"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Endereço"
+              value={endereco}
+              onChange={(e) => setEndereco(e.target.value)}
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <input
+              type="text"
+              placeholder="Cidade"
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+            />
+          </div>
+          <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button>
         </div>
-        <div style={styles.formGroup}>
-          <input
-            type="text"
-            placeholder="Telefone"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <input
-            type="text"
-            placeholder="Endereço"
-            value={endereco}
-            onChange={(e) => setEndereco(e.target.value)}
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <input
-            type="text"
-            placeholder="Cidade"
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
-          />
-        </div>
-        <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Cliente</button>
       </div>
     </div>
   );
@@ -83,32 +129,36 @@ function App() {
 
 export default App;
 
-const styles={
-  texto:{
-    color:'red',
-    fontSize:30
+const styles = {
+  container:{
+    flexDirection:'row', 
+    display:'flex',
+    justifyContent:'center'
   },
-  logoContainer:{
-    display: 'flex',
-    justifyContent: 'center'    
-  },
-  logo:{
-    height:'300px',
-    textAlign:'center'
-  },
-  cadastroContainer:{
-    maxWidth: '400px',
-    margin: '0 auto',
+  cadastroContainer: {
     padding: '20px',
     border: '1px solid #ccc',
     borderRadius: '5px',
     backgroundColor: '#f9f9f9',
+    margin: '30px'
   },
-  formGroup:{
+  logoContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '30px'
+  },
+  texto:{
+    color: '#FAC670'
+  },
+  logo: {
+    height: '300px',
+    textAlign: 'center'
+  },
+  formGroup: {
     marginBottom: '15px',
   },
-  btnCadastrar:{
-    backgroundColor: '#007bff',
+  btnCadastrar: {
+    backgroundColor: '#6ABC8B',
     color: '#fff',
     border: 'none',
     padding: '10px 20px',
@@ -116,7 +166,7 @@ const styles={
     borderRadius: '5px',
     cursor: 'pointer',
   },
-  btnCadastrarHover:{
+  btnCadastrarHover: {
     backgroundColor: '#0056b3',
   }
 }
