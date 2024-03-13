@@ -5,6 +5,13 @@ import { setDoc, doc } from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
   const [qntAulas, setQntAulas] = useState('');
+  const [diaAula1, setDiaAula1] = useState('');
+  const [horaAula1, setHoraAula1] = useState('');
+  const [diaAula2, setDiaAula2] = useState('');
+  const [horaAula2, setHoraAula2] = useState('');
+  const [diaAula3, setDiaAula3] = useState('');
+  const [horaAula3, setHoraAula3] = useState('');
+
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -33,8 +40,35 @@ const CadastroAluno = () => {
   // seleção qnt de aulas
   const handleSelectQntAulas = (event) => {
     setQntAulas(event.target.value);
+    setDiaAula1(''); setHoraAula1('')
+    setDiaAula2(''); setHoraAula2('')
+    setDiaAula3(''); setHoraAula3('')
   };
 
+  // seleção de dia e hora para 3 aulas/semana
+  const handleSelDia1 = (dia) =>{
+    setDiaAula1(dia)
+  }
+
+  const handleSelHora1 = (hora) =>{
+    setHoraAula1(hora)
+  }
+
+  const handleSelDia2 = (dia) =>{
+    setDiaAula2(dia)
+  }
+
+  const handleSelHora2 = (hora) =>{
+    setHoraAula2(hora)
+  }
+
+  const handleSelDia3 = (dia) =>{
+    setDiaAula3(dia)
+  }
+
+  const handleSelHora3 = (hora) =>{
+    setHoraAula3(hora)
+  }
 
   return (
     <div style={styles.cadastroContainer}>
@@ -95,29 +129,32 @@ const CadastroAluno = () => {
         qntAulas=='1aula'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
         </div>:null
       }
       {
         qntAulas=='2aulas'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
           <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
         </div>:null
       }
       {
         qntAulas=='3aulas'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
           <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
           <text>Selecione dia e horário da terceira aula</text>
-          <SelHorAulaAluno/>
+          <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3}/>
         </div>:null
       }
+      <text>{diaAula1} {horaAula1}</text>
+      <text>{diaAula2} {horaAula2}</text>
+      <text>{diaAula3} {horaAula3}</text>
       <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>
   )
