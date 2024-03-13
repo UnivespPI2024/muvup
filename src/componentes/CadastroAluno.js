@@ -21,20 +21,28 @@ const CadastroAluno = () => {
 
   // inclusão no DB de aluno
   const handleCadastro = () => {
-    console.log('Nome:', nome);
-    console.log('Email:', email);
-    console.log('Telefone:', telefone);
-    console.log('Endereço:', endereco);
-    console.log('Cidade:', cidade);
-
-    setDoc(doc(db, 'Usuários', email), {
-      nome: nome,
-      email: email,
-      telefone: telefone,
-      endereco: endereco,
-      cidade: cidade
-    });
-
+    if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
+      console.log('Nome:', nome);
+      console.log('Email:', email);
+      console.log('Telefone:', telefone);
+      console.log('Endereço:', endereco);
+      console.log('Cidade:', cidade);
+  
+      setDoc(doc(db, 'Usuários', email), {
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        endereco: endereco,
+        cidade: cidade
+      }).then([
+        window.alert('Aluno salvo com sucesso!'),
+        setNome(''), setEmail(''),
+        setTelefone(''),setEndereco(''),
+        setCidade(''), setQntAulas('')]
+      )
+    }else{
+        window.alert('Preencha todos os campos obrigatórios!')
+    }
   };
 
   // seleção qnt de aulas
