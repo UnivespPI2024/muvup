@@ -4,13 +4,15 @@ import { db } from './firebase'
 import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore/lite';
 
 function App() {
-  // const db = getFirestore(app)
+  const [selectedOption, setSelectedOption] = useState('');
+
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [endereco, setEndereco] = useState('');
   const [cidade, setCidade] = useState('');
 
+  // inclusão no DB de aluno
   const handleCadastro = () => {
     console.log('Nome:', nome);
     console.log('Email:', email);
@@ -25,9 +27,13 @@ function App() {
       endereco: endereco,
       cidade: cidade
     });
-
-
   };
+
+  // seleção qnt de aulas
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
     <div >
       <div style={styles.logoContainer}>
@@ -44,6 +50,7 @@ function App() {
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
+
           <div style={styles.formGroup}>
             <input
               type="email"
@@ -75,6 +82,17 @@ function App() {
               value={cidade}
               onChange={(e) => setCidade(e.target.value)}
             />
+          </div>
+          <div>
+            <select
+              style={styles.select}
+              value={selectedOption}
+              onChange={handleSelectChange}>
+              <option value="">Quantidade de aulas na semana</option>
+              <option value="option1">1 aula</option>
+              <option value="option2">2 aulas</option>
+              <option value="option3">3 aulas</option>
+            </select>
           </div>
           <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Cliente</button>
         </div>
@@ -130,10 +148,10 @@ function App() {
 export default App;
 
 const styles = {
-  container:{
-    flexDirection:'row', 
-    display:'flex',
-    justifyContent:'center'
+  container: {
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'center'
   },
   cadastroContainer: {
     padding: '20px',
@@ -147,7 +165,7 @@ const styles = {
     justifyContent: 'center',
     margin: '30px'
   },
-  texto:{
+  texto: {
     color: '#FAC670'
   },
   logo: {
@@ -156,6 +174,9 @@ const styles = {
   },
   formGroup: {
     marginBottom: '15px',
+  },
+  select: {
+    marginBottom: '15px'
   },
   btnCadastrar: {
     backgroundColor: '#6ABC8B',
