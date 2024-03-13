@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SelHorAulaAluno from './SelHorAulaAluno'
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
@@ -84,11 +85,12 @@ const CadastroAluno = () => {
                 value={selectedOption}
                 onChange={handleSelectChange}>
                 <option value="">Quantidade de aulas na semana</option>
-                <option value="option1">1 aula</option>
-                <option value="option2">2 aulas</option>
-                <option value="option3">3 aulas</option>
+                <option value="1aula">1 aula</option>
+                <option value="2aulas">2 aulas</option>
+                <option value="3aulas">3 aulas</option>
               </select>
             </div>
+            <SelHorAulaAluno></SelHorAulaAluno>
             <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>
   )

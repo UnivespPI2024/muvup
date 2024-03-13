@@ -7,7 +7,7 @@ import { setDoc, doc } from 'firebase/firestore/lite';
 
 function App() {
   return (
-    <div >
+    <div>
       <div style={styles.logoContainer}>
         <img src={logo} style={styles.logo}></img>
       </div>
