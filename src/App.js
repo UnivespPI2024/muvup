@@ -1,21 +1,23 @@
 import logo from './images/logo.png';
-import CadastroAluno from './componentes/CadastroAluno';
-import CadastroProfessor from './componentes/CadastroProfessor';
-import React, { useState } from 'react';
+import CadastroAluno from './views/CadastroAluno';
+import CadastroProfessor from './views/CadastroProfessor';
+import FlatListExample from './componentes/FlatlistAlunos';
+import React from 'react';
 import { db } from './firebase'
 import { getDocs , collection } from 'firebase/firestore/lite';
 
 function App() {
+ let alunos
 
-  async function pegarCadastros(db){
-    const usuarios = collection(db, 'Usuários');
-    const usuarioSnapshot = await getDocs(usuarios);
-    const listaUsuários = usuarioSnapshot.docs.map(doc => doc.data());
-    console.log(listaUsuários);
-    return listaUsuários; 
+  async function getAlunosCadastrados(db){
+    const alunos = collection(db, 'Alunos');
+    const alunosSnapshot = await getDocs(alunos);
+    const listaAlunos = alunosSnapshot.docs.map(doc => doc.data());
+    return listaAlunos; 
   }
 
-  pegarCadastros(db)
+  alunos = getAlunosCadastrados(db)
+  console.log(alunos);
 
   return (
     <div>
@@ -25,6 +27,7 @@ function App() {
       <div style={styles.container}>
         <CadastroAluno></CadastroAluno>
         <CadastroProfessor></CadastroProfessor>
+        <FlatListExample></FlatListExample>
       </div>
     </div>
   );

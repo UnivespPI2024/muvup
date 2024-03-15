@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SelHorAulaAluno from './SelHorAulaAluno'
+import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
@@ -28,7 +28,7 @@ const CadastroAluno = () => {
       console.log('Endereço:', endereco);
       console.log('Cidade:', cidade);
   
-      setDoc(doc(db, 'Usuários', email), {
+      setDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
         telefone: telefone,
