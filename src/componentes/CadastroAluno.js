@@ -33,7 +33,16 @@ const CadastroAluno = () => {
         email: email,
         telefone: telefone,
         endereco: endereco,
-        cidade: cidade
+        cidade: cidade,
+        qntAulas: qntAulas,
+        diaHorAula:{
+          diaAula1: diaAula1,
+          horaAula1: horaAula1,
+          diaAula2: diaAula2,
+          horaAula2: horaAula2,
+          diaAula3: diaAula3,
+          horaAula3: horaAula3,
+        }
       }).then([
         window.alert('Aluno salvo com sucesso!'),
         setNome(''), setEmail(''),
@@ -160,9 +169,6 @@ const CadastroAluno = () => {
           <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3}/>
         </div>:null
       }
-      <text>{diaAula1} {horaAula1}</text>
-      <text>{diaAula2} {horaAula2}</text>
-      <text>{diaAula3} {horaAula3}</text>
       <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>
   )
