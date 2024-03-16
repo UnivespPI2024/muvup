@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import logo from './images/logo.png';
 import CadastroAluno from './views/CadastroAluno';
 import CadastroProfessor from './views/CadastroProfessor';
-import FlatListExample from './views/FlatlistAlunos';
+import FlatListAlunos from './views/FlatListAlunos';
+import ProcurarAluno from './views/ProcurarAluno';
 import MenuLateral from './views/MenuLateral';
 
 function App() {
@@ -20,11 +21,11 @@ function App() {
         <img src={logo} style={styles.logo}></img>
       </div>
       <div style={styles.container}>
-        {currentComponent === 'cadastroAluno' &&  <CadastroAluno></CadastroAluno>}
+        {currentComponent === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
         {currentComponent === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
-        {currentComponent === 'todosAlunos' && <FlatListExample></FlatListExample>}
+        {currentComponent === 'todosAlunos' && <FlatListAlunos></FlatListAlunos>}
+        {currentComponent === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
       </div>
-      
     </div>
   );
 }
