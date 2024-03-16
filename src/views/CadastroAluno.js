@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
+import styleViews from '../estilos/styleViews'
+
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
@@ -88,9 +91,9 @@ const CadastroAluno = () => {
   }
 
   return (
-    <div style={styles.cadastroContainer}>
-      <h2 style={styles.texto}>Cadastro de Aluno</h2>
-      <div style={styles.formGroup}>
+    <div style={styleViews.cadastroContainer}>
+      <h2 style={styleViews.texto}>Cadastro de Aluno</h2>
+      <div style={styleViews.formGroup}>
         <input
           type="text"
           placeholder="Nome"
@@ -98,8 +101,7 @@ const CadastroAluno = () => {
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
-
-      <div style={styles.formGroup}>
+      <div style={styleViews.formGroup}>
         <input
           type="email"
           placeholder="Email"
@@ -107,7 +109,7 @@ const CadastroAluno = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div style={styles.formGroup}>
+      <div style={styleViews.formGroup}>
         <input
           type="text"
           placeholder="Telefone"
@@ -115,7 +117,7 @@ const CadastroAluno = () => {
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <div style={styles.formGroup}>
+      <div style={styleViews.formGroup}>
         <input
           type="text"
           placeholder="Endereço"
@@ -123,7 +125,7 @@ const CadastroAluno = () => {
           onChange={(e) => setEndereco(e.target.value)}
         />
       </div>
-      <div style={styles.formGroup}>
+      <div style={styleViews.formGroup}>
         <input
           type="text"
           placeholder="Cidade"
@@ -133,7 +135,7 @@ const CadastroAluno = () => {
       </div>
       <div>
         <select
-          style={styles.select}
+          style={styleViews.select}
           value={qntAulas}
           onChange={handleSelectQntAulas}>
           <option value="">Quantidade de aulas na semana</option>
@@ -169,41 +171,10 @@ const CadastroAluno = () => {
           <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3}/>
         </div>:null
       }
-      <button style={styles.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
+      <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>
   )
 
-}
-
-const styles = {
-  cadastroContainer: {
-    padding: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    backgroundColor: '#f9f9f9',
-    margin: '30px'
-  },
-  texto: {
-    color: '#FAC670'
-  },
-  formGroup: {
-    marginBottom: '15px',
-  },
-  select: {
-    marginBottom: '15px'
-  },
-  btnCadastrar: {
-    backgroundColor: '#6ABC8B',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 20px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  btnCadastrarHover: {
-    backgroundColor: '#0056b3',
-  }
 }
 
 export default CadastroAluno;

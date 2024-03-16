@@ -1,34 +1,30 @@
+import React, { useState } from 'react';
+
 import logo from './images/logo.png';
 import CadastroAluno from './views/CadastroAluno';
 import CadastroProfessor from './views/CadastroProfessor';
-import FlatListExample from './componentes/FlatlistAlunos';
-import React from 'react';
-import { db } from './firebase'
-import { getDocs, collection } from 'firebase/firestore/lite';
+import FlatListExample from './views/FlatlistAlunos';
+import MenuLateral from './views/MenuLateral';
 
 function App() {
-  let alunos
+  const [currentComponent, setCurrentComponent] = useState('cadastroAluno');
 
-  async function getAlunosCadastrados(db) {
-    const alunos = collection(db, 'Alunos');
-    const alunosSnapshot = await getDocs(alunos);
-    const listaAlunos = alunosSnapshot.docs.map(doc => doc.data());
-    return listaAlunos;
-  }
-
-  alunos = getAlunosCadastrados(db)
-  console.log(alunos);
+  const handleItemClick = (component) => {
+    setCurrentComponent(component);
+  };
 
   return (
-    <div /* style={{marginBottom: '20px'}} */>
+    <div>
+      <MenuLateral onItemClick={handleItemClick}></MenuLateral>
       <div style={styles.logoContainer}>
         <img src={logo} style={styles.logo}></img>
       </div>
       <div style={styles.container}>
-        <CadastroAluno></CadastroAluno>
-        <CadastroProfessor></CadastroProfessor>
+        {currentComponent === 'cadastroAluno' &&  <CadastroAluno></CadastroAluno>}
+        {currentComponent === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
+        {currentComponent === 'todosAlunos' && <FlatListExample></FlatListExample>}
       </div>
-      <FlatListExample></FlatListExample>
+      
     </div>
   );
 }
@@ -44,7 +40,6 @@ const styles = {
   logoContainer: {
     display: 'flex',
     justifyContent: 'center',
-    margin: '30px'
   },
   logo: {
     height: '300px',
