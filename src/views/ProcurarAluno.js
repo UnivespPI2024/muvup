@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import styleViews from '../estilos/styleViews'
 import styleListas from '../estilos/styleListas'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+
 import { db } from '../firebase'
-import { query, collection, where, getDocs } from 'firebase/firestore/lite';
+import { query, collection, where, getDocs, doc, deleteDoc } from 'firebase/firestore/lite';
 
 const ProcurarAluno = () => {
 
@@ -23,6 +26,10 @@ const ProcurarAluno = () => {
         console.log('encontrados', alunos)
         setAlunosEncont(alunos)
     };
+
+    const deleteAluno = async (email) =>{
+        await deleteDoc(doc(db,'Alunos',email)).then(window.alert('Aluno excluído com sucesso'))
+    }
 
 
     return (
@@ -44,7 +51,12 @@ const ProcurarAluno = () => {
                 <div style={styleListas.listContainer}>
                     {(alunosEncont.map(item => (
                         <div key={item.email} style={styleListas.item}>
-                            <text>Nome: {item.nome}    Email: {item.email}    Telefone: {item.telefone}    Endereço: {item.endereco}</text>
+                            <span style={styleListas.divider}>Nome: {item.nome} </span>
+                            <span style={styleListas.divider}>Email: {item.email} </span>
+                            <span style={styleListas.divider}>Telefone: {item.telefone} </span>
+                            <span style={styleListas.divider}>Endereço: {item.endereco} </span>
+                            <FontAwesomeIcon onClick={()=>deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
+                            <FontAwesomeIcon style={styleListas.divider} icon={faPenToSquare} />
                         </div>
                     )))}
                 </div>

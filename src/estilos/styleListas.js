@@ -31,7 +31,7 @@ const styleListas = {
       backgroundColor: '#f0f0f0',
     },
     divider:{
-      padding: '5px'
+      padding: '10px'
     }
   };
 
