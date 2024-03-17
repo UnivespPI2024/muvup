@@ -43,7 +43,7 @@ const styles = {
     justifyContent: 'center',
   },
   logo: {
-    height: '300px',
+    height: '250px',
     textAlign: 'center'
   }
 }

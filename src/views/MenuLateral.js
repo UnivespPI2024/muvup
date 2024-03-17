@@ -10,7 +10,7 @@ const MenuLateral = ({onItemClick}) => {
   return (
     <div className="menulateral">
       <ul className="menu-nav">
-        <li className="menu-group">Cadastros</li>
+        <li className="menu-group">Cadastrar</li>
         <li className="menu-item" onClick={() => handleClick('cadastroAluno')}>
           <span className="menu-link">Cadastrar Alunos</span>
         </li>

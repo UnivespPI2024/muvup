@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
+import EditarAluno from './EditarAluno';
+
 import styleViews from '../estilos/styleViews'
 import styleListas from '../estilos/styleListas'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { db } from '../firebase'
 import { query, collection, where, getDocs, doc, deleteDoc } from 'firebase/firestore/lite';
@@ -13,6 +15,14 @@ const ProcurarAluno = () => {
 
     const [search, setSearch] = useState('')
     const [alunosEncont, setAlunosEncont] = useState([])
+    const [visibleEditar, setVisibleEditar] = useState(false)
+    
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [dadosEditar, setDadosEditar] = useState({})
 
     // procurar por aluno no BD
     const searchAluno = async () => {
@@ -27,10 +37,24 @@ const ProcurarAluno = () => {
         setAlunosEncont(alunos)
     };
 
-    const deleteAluno = async (email) =>{
-        await deleteDoc(doc(db,'Alunos',email)).then(window.alert('Aluno excluído com sucesso'))
+    const deleteAluno = async (idAluno) => {
+        const result = window.confirm('Deseja realmente excluir o aluno? Essa ação é definitiva!')
+        if (result) {
+            await deleteDoc(doc(db, 'Alunos', idAluno)).then(window.alert('Aluno excluído com sucesso'))
+            window.location.reload()
+        }
     }
 
+    const editAluno = async (item) => {
+        setDadosEditar({
+            nome:item.nome,
+            email:item.email,
+            telefone:item.telefone,
+            endereco:item.endereco,
+            cidade:item.cidade
+        })
+        setVisibleEditar(true)
+    }
 
     return (
         <div>
@@ -55,12 +79,13 @@ const ProcurarAluno = () => {
                             <span style={styleListas.divider}>Email: {item.email} </span>
                             <span style={styleListas.divider}>Telefone: {item.telefone} </span>
                             <span style={styleListas.divider}>Endereço: {item.endereco} </span>
-                            <FontAwesomeIcon onClick={()=>deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
-                            <FontAwesomeIcon style={styleListas.divider} icon={faPenToSquare} />
+                            <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
+                            <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
                         </div>
                     )))}
                 </div>
             </div>
+            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} />}
         </div>
     )
 
