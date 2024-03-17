@@ -135,7 +135,7 @@ const EditarAluno = (props) => {
       <div>
         <select
           style={styleViews.select}
-          value={qntAulas}
+          value={props.dadosEditar.qntAulas}
           onChange={handleSelectQntAulas}>
           <option value="">Quantidade de aulas na semana</option>
           <option value="1aula">1 aula</option>

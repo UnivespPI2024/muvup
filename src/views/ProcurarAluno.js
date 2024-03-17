@@ -16,12 +16,6 @@ const ProcurarAluno = () => {
     const [search, setSearch] = useState('')
     const [alunosEncont, setAlunosEncont] = useState([])
     const [visibleEditar, setVisibleEditar] = useState(false)
-    
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [endereco, setEndereco] = useState('');
-    const [cidade, setCidade] = useState('');
     const [dadosEditar, setDadosEditar] = useState({})
 
     // procurar por aluno no BD
@@ -51,7 +45,8 @@ const ProcurarAluno = () => {
             email:item.email,
             telefone:item.telefone,
             endereco:item.endereco,
-            cidade:item.cidade
+            cidade:item.cidade,
+            qntAulas:item.qntAulas
         })
         setVisibleEditar(true)
     }
