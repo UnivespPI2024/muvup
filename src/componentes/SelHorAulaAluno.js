@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 
 
-const SelHorAulaAluno = ({onChangeDia, onChangeHora}) =>{
-  const [diaSemana, setDiaSemana] = useState('');
-  const [horaAula, setHoraAula] = useState('');
+const SelHorAulaAluno = ({onChangeDia, onChangeHora, diaAulaSelec, horaAulaSelec}) =>{
+  const [diaAula, setDiaAula] = useState(diaAulaSelec);
+  const [horaAula, setHoraAula] = useState(horaAulaSelec);
 
   const handleSelectDia = (event) => {
-    setDiaSemana(event.target.value)
+    setDiaAula(event.target.value)
     onChangeDia(event.target.value)
   };
 
@@ -19,7 +19,7 @@ const SelHorAulaAluno = ({onChangeDia, onChangeHora}) =>{
         <div>
             <select
                 style={styles.select}
-                value={diaSemana}
+                value={diaAula}
                 onChange={handleSelectDia}>
                 <option value="">Selecione o dia da semana</option>
                 <option value="segunda">Segunda</option>

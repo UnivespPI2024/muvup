@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
@@ -7,7 +7,13 @@ import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
 const EditarAluno = (props) => {
-  const [qntAulas, setQntAulas] = useState('');
+  const [nome, setNome] = useState(props.dadosEditar.nome);
+  const [email, setEmail] = useState(props.dadosEditar.email);
+  const [telefone, setTelefone] = useState(props.dadosEditar.telefone);
+  const [endereco, setEndereco] = useState(props.dadosEditar.endereco);
+  const [cidade, setCidade] = useState(props.dadosEditar.cidade);
+
+  const [qntAulas, setQntAulas] = useState(props.dadosEditar.qntAulas);
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
   const [diaAula2, setDiaAula2] = useState('');
@@ -15,12 +21,7 @@ const EditarAluno = (props) => {
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
 
-  const [nome, setNome] = useState(props.dadosEditar.nome);
-  const [email, setEmail] = useState(props.dadosEditar.email);
-  const [telefone, setTelefone] = useState(props.dadosEditar.telefone);
-  const [endereco, setEndereco] = useState(props.dadosEditar.endereco);
-  const [cidade, setCidade] = useState(props.dadosEditar.cidade);
-
+  console.log('valorProps',props.dadosEditar.diaAula1)
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
@@ -46,7 +47,8 @@ const EditarAluno = (props) => {
           horaAula3: horaAula3,
         }
       }).then([
-        window.alert('Aluno salvo com sucesso!'),
+        window.alert('Aluno editado com sucesso!'),
+        window.location.reload(),
         setNome(''), setEmail(''),
         setTelefone(''),setEndereco(''),
         setCidade(''), setQntAulas('')]
@@ -135,7 +137,7 @@ const EditarAluno = (props) => {
       <div>
         <select
           style={styleViews.select}
-          value={props.dadosEditar.qntAulas}
+          value={qntAulas}
           onChange={handleSelectQntAulas}>
           <option value="">Quantidade de aulas na semana</option>
           <option value="1aula">1 aula</option>
@@ -147,27 +149,51 @@ const EditarAluno = (props) => {
         qntAulas=='1aula'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
+          <SelHorAulaAluno 
+            horaAulaSelec={props.dadosEditar.horaAula1}  
+            diaAulaSelec={props.dadosEditar.diaAula1}
+            onChangeDia={handleSelDia1} 
+            onChangeHora={handleSelHora1}/>
         </div>:null
       }
       {
         qntAulas=='2aulas'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
+          <SelHorAulaAluno
+            horaAulaSelec={props.dadosEditar.horaAula1}  
+            diaAulaSelec={props.dadosEditar.diaAula1}
+            onChangeDia={handleSelDia1} 
+            onChangeHora={handleSelHora1}/>
           <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
+          <SelHorAulaAluno
+            horaAulaSelec={props.dadosEditar.horaAula2}  
+            diaAulaSelec={props.dadosEditar.diaAula2}
+            onChangeDia={handleSelDia2} 
+            onChangeHora={handleSelHora2}/>
         </div>:null
       }
       {
         qntAulas=='3aulas'?
         <div>
           <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
+          <SelHorAulaAluno
+            horaAulaSelec={props.dadosEditar.horaAula1}  
+            diaAulaSelec={props.dadosEditar.diaAula1}
+            onChangeDia={handleSelDia1} 
+            onChangeHora={handleSelHora1}/>
           <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
+          <SelHorAulaAluno
+            horaAulaSelec={props.dadosEditar.horaAula2}  
+            diaAulaSelec={props.dadosEditar.diaAula2}
+            onChangeDia={handleSelDia2} 
+            onChangeHora={handleSelHora2}/>
           <text>Selecione dia e horário da terceira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3}/>
+          <SelHorAulaAluno
+            horaAulaSelec={props.dadosEditar.horaAula3}  
+            diaAulaSelec={props.dadosEditar.diaAula3}
+            onChangeDia={handleSelDia3} 
+            onChangeHora={handleSelHora3}/>
         </div>:null
       }
       <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Editar Aluno</button>

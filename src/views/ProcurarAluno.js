@@ -46,10 +46,17 @@ const ProcurarAluno = () => {
             telefone:item.telefone,
             endereco:item.endereco,
             cidade:item.cidade,
-            qntAulas:item.qntAulas
+            qntAulas:item.qntAulas,
+            diaAula1:item.diaHorAula.diaAula1,
+            horaAula1:item.diaHorAula.horaAula1,
+            diaAula2:item.diaHorAula.diaAula2,
+            horaAula2:item.diaHorAula.horaAula2,
+            diaAula3:item.diaHorAula.diaAula3,
+            horaAula3:item.diaHorAula.horaAula3,
         })
         setVisibleEditar(true)
     }
+
 
     return (
         <div>
@@ -74,6 +81,7 @@ const ProcurarAluno = () => {
                             <span style={styleListas.divider}>Email: {item.email} </span>
                             <span style={styleListas.divider}>Telefone: {item.telefone} </span>
                             <span style={styleListas.divider}>Endereço: {item.endereco} </span>
+                            <span style={styleListas.divider}>QntAulas: {item.horaAula1} </span>
                             <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
                             <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
                         </div>
