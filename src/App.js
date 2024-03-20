@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import logo from './images/logo.png';
 import CadastroAluno from './views/CadastroAluno';
 import CadastroProfessor from './views/CadastroProfessor';
-import FlatListAlunos from './views/FlatListAlunos';
+import ProcurarTodosAlunos from './views/ProcurarTodosAlunos';
 import ProcurarAluno from './views/ProcurarAluno';
 import MenuLateral from './views/MenuLateral';
 
@@ -23,7 +23,7 @@ function App() {
       <div style={styles.container}>
         {currentComponent === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
         {currentComponent === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
-        {currentComponent === 'todosAlunos' && <FlatListAlunos></FlatListAlunos>}
+        {currentComponent === 'todosAlunos' && <ProcurarTodosAlunos></ProcurarTodosAlunos>}
         {currentComponent === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
       </div>
     </div>

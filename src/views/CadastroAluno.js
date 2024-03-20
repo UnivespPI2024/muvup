@@ -25,12 +25,7 @@ const CadastroAluno = () => {
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
-      console.log('Nome:', nome);
-      console.log('Email:', email);
-      console.log('Telefone:', telefone);
-      console.log('Endereço:', endereco);
-      console.log('Cidade:', cidade);
-  
+
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
@@ -47,7 +42,7 @@ const CadastroAluno = () => {
           horaAula3: horaAula3,
         }
       }).then([
-        window.alert('Aluno salvo com sucesso!'),
+        window.alert('Aluno cadastrado com sucesso!'),
         setNome(''), setEmail(''),
         setTelefone(''),setEndereco(''),
         setCidade(''), setQntAulas('')]

@@ -6,7 +6,7 @@ import { getDocs, collection } from 'firebase/firestore/lite';
 import { db } from '../firebase'
 
 
-const FlatListAlunos = () => {
+const ProcurarTodosAlunos = () => {
   const [listaAlunos, setListaAlunos] = useState([])
 
   useEffect(() => {
@@ -17,8 +17,6 @@ const FlatListAlunos = () => {
       setListaAlunos(listaAlunos)
     })()
   }, [])
-
-  console.log(listaAlunos);
 
   return (
     <div style={styleListas.container}>
@@ -37,4 +35,4 @@ const FlatListAlunos = () => {
   );
 };
 
-export default FlatListAlunos;
+export default ProcurarTodosAlunos;

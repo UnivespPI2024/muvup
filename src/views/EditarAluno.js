@@ -21,15 +21,9 @@ const EditarAluno = (props) => {
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
 
-  console.log('valorProps',props.dadosEditar.diaAula1)
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
-      console.log('Nome:', nome);
-      console.log('Email:', email);
-      console.log('Telefone:', telefone);
-      console.log('Endereço:', endereco);
-      console.log('Cidade:', cidade);
   
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,

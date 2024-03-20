@@ -13,21 +13,24 @@ import { query, collection, where, getDocs, doc, deleteDoc } from 'firebase/fire
 
 const ProcurarAluno = () => {
 
-    const [search, setSearch] = useState('')
+    const [searchNome, setSearchNome] = useState('')
     const [alunosEncont, setAlunosEncont] = useState([])
     const [visibleEditar, setVisibleEditar] = useState(false)
     const [dadosEditar, setDadosEditar] = useState({})
 
     // procurar por aluno no BD
     const searchAluno = async () => {
+        const procuraNormaliz = searchNome.toLowerCase()
         const alunosCollec = collection(db, 'Alunos');
-        const q = query(alunosCollec, where('nome', '==', search));
-        const querySnapshot = await getDocs(q);
+        const alunosSnapshot = await getDocs(alunosCollec);
         const alunos = []
-        querySnapshot.forEach((doc) => {
-            alunos.push(doc.data())
+        alunosSnapshot.forEach((doc)=>{
+            const nomeNormalizado = doc.data().nome.toLowerCase()
+            if(nomeNormalizado.includes(procuraNormaliz)){
+                console.log("nomeNormaliz ",nomeNormalizado,'procNormaliz',procuraNormaliz)
+                alunos.push(doc.data())
+            }
         })
-        console.log('encontrados', alunos)
         setAlunosEncont(alunos)
     };
 
@@ -66,8 +69,8 @@ const ProcurarAluno = () => {
                     <input
                         type="text"
                         placeholder="Nome"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        value={searchNome}
+                        onChange={(e) => setSearchNome(e.target.value)}
                     />
                 </div>
                 <button style={styleViews.btnCadastrar} onClick={searchAluno}>Procurar Aluno</button>
@@ -81,7 +84,7 @@ const ProcurarAluno = () => {
                             <span style={styleListas.divider}>Email: {item.email} </span>
                             <span style={styleListas.divider}>Telefone: {item.telefone} </span>
                             <span style={styleListas.divider}>Endereço: {item.endereco} </span>
-                            <span style={styleListas.divider}>QntAulas: {item.horaAula1} </span>
+                            <span style={styleListas.divider}>QntAulas: {item.qntAulas} </span>
                             <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
                             <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
                         </div>

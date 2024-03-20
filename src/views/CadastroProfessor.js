@@ -16,11 +16,6 @@ const CadastroProfessor = () => {
 
   // inclusão no DB de professor
   const handleCadastro = () => {
-    console.log('Nome:', nome);
-    console.log('Email:', email);
-    console.log('Telefone:', telefone);
-    console.log('Endereço:', endereco);
-    console.log('Cidade:', cidade);
 
     setDoc(doc(db, 'Usuários', email), {
       nome: nome,
