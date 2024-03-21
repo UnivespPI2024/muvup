@@ -4,18 +4,26 @@ const styleViews = {
     padding: '20px',
     border: '1px solid #ccc',
     borderRadius: '5px',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#8F6DA080',
     margin: '30px',
     justifyContent: 'center'
   },
   texto: {
-    color: '#8F6DA0'
+    color: 'white',
+    fontSize: '36px'
   },
   formGroup: {
     marginBottom: '15px',
   },
+  input:{
+    padding:'10px',
+    fontSize: '20px',
+  },
   select: {
-    marginBottom: '15px'
+    padding: '10px',
+    marginBottom: '15px',
+    color: '#999',
+    fontSize: '20px',
   },
   btnCadastrar: {
     backgroundColor: '#6ABC8B',

@@ -24,7 +24,7 @@ const CadastroAluno = () => {
 
   // inclusão no DB de aluno
   const handleCadastro = () => {
-    if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
+    if (nome != '' && email != '' && telefone != '' && endereco != '' && cidade != '' && qntAulas != '') {
 
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
@@ -33,7 +33,7 @@ const CadastroAluno = () => {
         endereco: endereco,
         cidade: cidade,
         qntAulas: qntAulas,
-        diaHorAula:{
+        diaHorAula: {
           diaAula1: diaAula1,
           horaAula1: horaAula1,
           diaAula2: diaAula2,
@@ -44,11 +44,11 @@ const CadastroAluno = () => {
       }).then([
         window.alert('Aluno cadastrado com sucesso!'),
         setNome(''), setEmail(''),
-        setTelefone(''),setEndereco(''),
+        setTelefone(''), setEndereco(''),
         setCidade(''), setQntAulas('')]
       )
-    }else{
-        window.alert('Preencha todos os campos obrigatórios!')
+    } else {
+      window.alert('Preencha todos os campos obrigatórios!')
     }
   };
 
@@ -61,27 +61,27 @@ const CadastroAluno = () => {
   };
 
   // seleção de dia e hora para 3 aulas/semana
-  const handleSelDia1 = (dia) =>{
+  const handleSelDia1 = (dia) => {
     setDiaAula1(dia)
   }
 
-  const handleSelHora1 = (hora) =>{
+  const handleSelHora1 = (hora) => {
     setHoraAula1(hora)
   }
 
-  const handleSelDia2 = (dia) =>{
+  const handleSelDia2 = (dia) => {
     setDiaAula2(dia)
   }
 
-  const handleSelHora2 = (hora) =>{
+  const handleSelHora2 = (hora) => {
     setHoraAula2(hora)
   }
 
-  const handleSelDia3 = (dia) =>{
+  const handleSelDia3 = (dia) => {
     setDiaAula3(dia)
   }
 
-  const handleSelHora3 = (hora) =>{
+  const handleSelHora3 = (hora) => {
     setHoraAula3(hora)
   }
 
@@ -90,6 +90,7 @@ const CadastroAluno = () => {
       <h2 style={styleViews.texto}>Cadastro de Aluno</h2>
       <div style={styleViews.formGroup}>
         <input
+          style={styleViews.input}
           type="text"
           placeholder="Nome"
           value={nome}
@@ -98,6 +99,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
+          style={styleViews.input}
           type="email"
           placeholder="Email"
           value={email}
@@ -106,6 +108,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
+          style={styleViews.input}
           type="text"
           placeholder="Telefone"
           value={telefone}
@@ -114,6 +117,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
+          style={styleViews.input}
           type="text"
           placeholder="Endereço"
           value={endereco}
@@ -122,6 +126,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
+          style={styleViews.input}
           type="text"
           placeholder="Cidade"
           value={cidade}
@@ -140,31 +145,31 @@ const CadastroAluno = () => {
         </select>
       </div>
       {
-        qntAulas=='1aula'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
-        </div>:null
+        qntAulas == '1aula' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
+          </div> : null
       }
       {
-        qntAulas=='2aulas'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
-          <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
-        </div>:null
+        qntAulas == '2aulas' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
+            <text>Selecione dia e horário da segunda aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} />
+          </div> : null
       }
       {
-        qntAulas=='3aulas'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1}/>
-          <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2}/>
-          <text>Selecione dia e horário da terceira aula</text>
-          <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3}/>
-        </div>:null
+        qntAulas == '3aulas' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
+            <text>Selecione dia e horário da segunda aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} />
+            <text>Selecione dia e horário da terceira aula</text>
+            <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} />
+          </div> : null
       }
       <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>

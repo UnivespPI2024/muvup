@@ -32,61 +32,66 @@ const CadastroProfessor = () => {
     setSelectedOption(event.target.value);
   };
 
-  return(
+  return (
     <div style={styleViews.cadastroContainer}>
       <h2 style={styleViews.texto}>Cadastro de Professor</h2>
-            <div style={styleViews.formGroup}>
-              <input
-                type="text"
-                placeholder="Nome"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              />
-            </div>
-            <div style={styleViews.formGroup}>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div style={styleViews.formGroup}>
-              <input
-                type="text"
-                placeholder="Telefone"
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-              />
-            </div>
-            <div style={styleViews.formGroup}>
-              <input
-                type="text"
-                placeholder="Endereço"
-                value={endereco}
-                onChange={(e) => setEndereco(e.target.value)}
-              />
-            </div>
-            <div style={styleViews.formGroup}>
-              <input
-                type="text"
-                placeholder="Cidade"
-                value={cidade}
-                onChange={(e) => setCidade(e.target.value)}
-              />
-            </div>
-            <div>
-              <select
-                style={styleViews.select}
-                value={selectedOption}
-                onChange={handleSelectChange}>
-                <option value="">Quantidade de aulas na semana</option>
-                <option value="option1">1 aula</option>
-                <option value="option2">2 aulas</option>
-                <option value="option3">3 aulas</option>
-              </select>
-            </div>
-            <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button>
+      <div style={styleViews.formGroup}>
+        <input
+          style={styleViews.input}
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+      </div>
+      <div style={styleViews.formGroup}>
+        <input
+          style={styleViews.input}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div style={styleViews.formGroup}>
+        <input
+          style={styleViews.input}
+          type="text"
+          placeholder="Telefone"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+        />
+      </div>
+      <div style={styleViews.formGroup}>
+        <input
+          style={styleViews.input}
+          type="text"
+          placeholder="Endereço"
+          value={endereco}
+          onChange={(e) => setEndereco(e.target.value)}
+        />
+      </div>
+      <div style={styleViews.formGroup}>
+        <input
+          style={styleViews.input}
+          type="text"
+          placeholder="Cidade"
+          value={cidade}
+          onChange={(e) => setCidade(e.target.value)}
+        />
+      </div>
+      <div>
+        <select
+          style={styleViews.select}
+          value={selectedOption}
+          onChange={handleSelectChange}>
+          <option value="">Quantidade de aulas na semana</option>
+          <option value="option1">1 aula</option>
+          <option value="option2">2 aulas</option>
+          <option value="option3">3 aulas</option>
+        </select>
+      </div>
+      <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button>
     </div>
   )
 }

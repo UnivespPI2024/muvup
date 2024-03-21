@@ -67,6 +67,7 @@ const ProcurarAluno = () => {
                 <h2 style={styleViews.texto}>Procurar por nome</h2>
                 <div style={styleViews.formGroup}>
                     <input
+                        style={styleViews.input}
                         type="text"
                         placeholder="Nome"
                         value={searchNome}
