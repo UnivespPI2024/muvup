@@ -12,6 +12,10 @@ const styleViews = {
     color: 'white',
     fontSize: '36px'
   },
+  textoPequeno:{
+    color: 'white',
+    fontSize: '24px'
+  },
   formGroup: {
     marginBottom: '15px',
   },

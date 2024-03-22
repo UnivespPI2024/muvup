@@ -11,18 +11,14 @@ const CadastroProfessor = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [cidade, setCidade] = useState('');
 
   // inclusão no DB de professor
   const handleCadastro = () => {
 
-    setDoc(doc(db, 'Usuários', email), {
+    setDoc(doc(db, 'Professores', email), {
       nome: nome,
       email: email,
       telefone: telefone,
-      endereco: endereco,
-      cidade: cidade
     });
 
   };
@@ -62,24 +58,7 @@ const CadastroProfessor = () => {
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
-        <input
-          style={styleViews.input}
-          type="text"
-          placeholder="Endereço"
-          value={endereco}
-          onChange={(e) => setEndereco(e.target.value)}
-        />
-      </div>
-      <div style={styleViews.formGroup}>
-        <input
-          style={styleViews.input}
-          type="text"
-          placeholder="Cidade"
-          value={cidade}
-          onChange={(e) => setCidade(e.target.value)}
-        />
-      </div>
+      <h2 style={styleViews.textoPequeno}>Horário das aulas na segunda-feira</h2>
       <div>
         <select
           style={styleViews.select}
