@@ -147,27 +147,27 @@ const CadastroAluno = () => {
       {
         qntAulas == '1aula' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
           </div> : null
       }
       {
         qntAulas == '2aulas' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
-            <text>Selecione dia e horário da segunda aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} />
           </div> : null
       }
       {
         qntAulas == '3aulas' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula::</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
-            <text>Selecione dia e horário da segunda aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} />
-            <text>Selecione dia e horário da terceira aula</text>
+            <text style={styleViews.textoPequeno}>Selecione dia e horário da terceira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} />
           </div> : null
       }

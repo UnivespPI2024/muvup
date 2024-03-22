@@ -1,6 +1,6 @@
 const styleViews = {
   cadastroContainer: {
-    width: '500px',
+    width: '65%',
     padding: '20px',
     border: '1px solid #ccc',
     borderRadius: '5px',
@@ -8,13 +8,16 @@ const styleViews = {
     margin: '30px',
     justifyContent: 'center'
   },
+  checkBoxContainer:{
+    margin: '40px'
+  },
   texto: {
     color: 'white',
     fontSize: '36px'
   },
   textoPequeno:{
     color: 'white',
-    fontSize: '24px'
+    fontSize: '24px',
   },
   formGroup: {
     marginBottom: '15px',
@@ -40,7 +43,7 @@ const styleViews = {
   },
   btnCadastrarHover: {
     backgroundColor: '#0056b3',
-  }
+  },
 }
 
 export default styleViews;

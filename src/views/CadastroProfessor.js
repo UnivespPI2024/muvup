@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
 import styleViews from '../estilos/styleViews'
+import SelHorAulaProf from '../componentes/SelHorAulaProf';
 
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
 const CadastroProfessor = () => {
-  const [selectedOption, setSelectedOption] = useState('');
-
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -21,11 +20,6 @@ const CadastroProfessor = () => {
       telefone: telefone,
     });
 
-  };
-
-  // seleção qnt de aulas
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
   };
 
   return (
@@ -58,19 +52,30 @@ const CadastroProfessor = () => {
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <h2 style={styleViews.textoPequeno}>Horário das aulas na segunda-feira</h2>
-      <div>
-        <select
-          style={styleViews.select}
-          value={selectedOption}
-          onChange={handleSelectChange}>
-          <option value="">Quantidade de aulas na semana</option>
-          <option value="option1">1 aula</option>
-          <option value="option2">2 aulas</option>
-          <option value="option3">3 aulas</option>
-        </select>
+      <h2 style={styleViews.textoPequeno}>Horário das aulas:</h2>
+      <div style={{display: 'flex', flexDirection:'row'}}>
+        <div style={styleViews.checkBoxContainer}>
+          <h2 style={styleViews.textoPequeno}>Segunda-feira:</h2>
+          <SelHorAulaProf></SelHorAulaProf>
+        </div>
+        <div style={styleViews.checkBoxContainer}>
+          <h2 style={styleViews.textoPequeno}>Terça-feira:</h2>
+          <SelHorAulaProf></SelHorAulaProf>
+        </div>
+        <div style={styleViews.checkBoxContainer}>
+          <h2 style={styleViews.textoPequeno}>Quarta-feira:</h2>
+          <SelHorAulaProf></SelHorAulaProf>
+        </div>
+        <div style={styleViews.checkBoxContainer}>
+          <h2 style={styleViews.textoPequeno}>Quinta-feira:</h2>
+          <SelHorAulaProf></SelHorAulaProf>
+        </div>
+        <div style={styleViews.checkBoxContainer}>
+          <h2 style={styleViews.textoPequeno}>Sexta-feira:</h2>
+          <SelHorAulaProf></SelHorAulaProf>
+        </div>
       </div>
-      <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button>
+      {/* <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button> */}
     </div>
   )
 }
