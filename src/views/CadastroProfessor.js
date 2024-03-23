@@ -25,14 +25,33 @@ const CadastroProfessor = () => {
   const [confirmHorSex, setConfirmHorSex] = useState();
 
   // inclusão no DB de professor
-  const handleCadastro = () => {
+  const handleCadastroProf = () => {
+    if (nome !== '' && email !== '' && telefone !== '') {
+      if (confirmHorSeg === true && confirmHorTer === true && confirmHorQua === true && confirmHorQui === true && confirmHorSex === true) {
+        setDoc(doc(db, 'Professores', email), {
+          nome: nome,
+          email: email,
+          telefone: telefone,
+          diaHorProf: {
+            horSegunda: horSegunda,
+            horTerca: horTerca,
+            horQuarta: horQuarta,
+            horQuinta: horQuinta,
+            horSexta: horSexta
+          }
+        }).then([
+          window.alert('Professor cadastrado com sucesso!'),
+          setNome(''), setEmail(''),
+          setTelefone('')]
+        )
+      }else {
+        window.alert('Confirme todos dias da semana!')
+      }
+    } else {
+      window.alert('Preencha todos os campos obrigatórios!')
+    }
+  }
 
-    setDoc(doc(db, 'Professores', email), {
-      nome: nome,
-      email: email,
-      telefone: telefone,
-    });
-  };
 
   const cboxChangeSegunda = (horarios) => {
     setHorSegunda(horarios)
@@ -54,23 +73,23 @@ const CadastroProfessor = () => {
     setHorSexta(horarios)
   }
 
-  const handleConfSeg = (confirm) =>{
+  const handleConfSeg = (confirm) => {
     setConfirmHorSeg(confirm)
   }
 
-  const handleConfTer = (confirm) =>{
+  const handleConfTer = (confirm) => {
     setConfirmHorTer(confirm)
   }
 
-  const handleConfQua = (confirm) =>{
+  const handleConfQua = (confirm) => {
     setConfirmHorQua(confirm)
   }
 
-  const handleConfQui = (confirm) =>{
+  const handleConfQui = (confirm) => {
     setConfirmHorQui(confirm)
   }
 
-  const handleConfSex = (confirm) =>{
+  const handleConfSex = (confirm) => {
     setConfirmHorSex(confirm)
   }
 
@@ -118,7 +137,7 @@ const CadastroProfessor = () => {
         />
       </div>
       <h2 style={styleViews.textoPequeno}>Horário das aulas:</h2>
-      <div style={{display: 'flex', flexDirection:'row'}}>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Segunda-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeSegunda} handleConf={handleConfSeg}></SelHorAulaProf>
@@ -140,7 +159,7 @@ const CadastroProfessor = () => {
           <SelHorAulaProf onChangeHor={cboxChangeSexta} handleConf={handleConfSex}></SelHorAulaProf>
         </div>
       </div>
-      <button style={styleViews.btnCadastrar} onClick={enviar}>Cadastrar Professor</button>
+      <button style={styleViews.btnCadastrar} onClick={handleCadastroProf}>Cadastrar Professor</button>
     </div>
   )
 }
