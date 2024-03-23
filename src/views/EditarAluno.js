@@ -22,7 +22,7 @@ const EditarAluno = (props) => {
   const [horaAula3, setHoraAula3] = useState('');
 
   // inclusão no DB de aluno
-  const handleCadastro = () => {
+  const handleEditarAluno = () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
@@ -189,7 +189,7 @@ const EditarAluno = (props) => {
             onChangeHora={handleSelHora3}/>
         </div>:null
       }
-      <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Editar Aluno</button>
+      <button style={styleViews.btnCadastrar} onClick={handleEditarAluno}>Editar Aluno</button>
     </div>
   )
 

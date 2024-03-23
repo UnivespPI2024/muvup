@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styleSelHorAulaProf from '../estilos/styleSelHorProf';
 
-function SelHorAulaProf({ onChangeHor, handleConf }) {
+function SelHorAulaProf({ onChangeHor, handleConf, horarios }) {
 
   const [botaoClicado, setBotaoClicado] = useState(false);
 
-  const [checkboxes, setCheckboxes] = useState({
+  const [checkboxes, setCheckboxes] = useState(
+    horarios!==undefined? horarios:
+    { 
     hor06: false, hor07: false, hor08: false,
     hor09: false, hor10: false, hor11: false,
     hor12: false, hor13: false, hor14: false,
     hor15: false, hor16: false, hor17: false,
   });
+
+  useEffect(()=>{
+    console.log('useEffectDOSelHorProf', horarios);
+  },[])
 
   const handleBotaoClicado = () => {
     handleConf(true)
@@ -30,7 +36,11 @@ function SelHorAulaProf({ onChangeHor, handleConf }) {
 
   const enviar = (event) => {
     event.preventDefault();
-    const horSelec = Object.keys(checkboxes).filter(option => checkboxes[option]);
+    const horSelec = Object.keys(checkboxes).reduce((acc, key) => {
+      acc[key] = checkboxes[key]
+      return acc;
+    }, {});
+    /* .filter(option => checkboxes[option]); */
     onChangeHor(horSelec)
   };
 

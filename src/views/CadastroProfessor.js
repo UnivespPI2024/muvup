@@ -94,19 +94,6 @@ const CadastroProfessor = () => {
     setConfirmHorSex(confirm)
   }
 
-  const enviar = (event) => {
-    console.log('confirmSeg', confirmHorSeg);
-    console.log('confirmTer', confirmHorTer);
-    console.log('confirmQua', confirmHorQua);
-    console.log('confirmQui', confirmHorQui);
-    console.log('confirmSex', confirmHorSex);
-    console.log("SeleçõesCadastroProf**horSegunda:", horSegunda)
-    console.log("SeleçõesCadastroProf**horTerca:", horTerca)
-    console.log("SeleçõesCadastroProf**horQuarta:", horQuarta)
-    console.log("SeleçõesCadastroProf**horQuinta:", horQuinta)
-    console.log("SeleçõesCadastroProf**horSexta:", horSexta)
-  };
-
   return (
     <div style={styleViews.cadastroContainer}>
       <h2 style={styleViews.texto}>Cadastro de Professor</h2>

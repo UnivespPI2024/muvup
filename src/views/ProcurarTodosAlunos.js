@@ -20,16 +20,18 @@ const ProcurarTodosAlunos = () => {
 
   return (
     <div style={styleListas.container}>
-      <h2 style={styleListas.heading}>Alunos cadastrados</h2>
-      <div style={styleListas.listContainer}>
-        {(listaAlunos.map(item => (
-          <div key={item.email} style={styleListas.item}>
-            <span style={styleListas.divider}>Nome: {item.nome} </span>
-            <span style={styleListas.divider}>Email: {item.email} </span>
-            <span style={styleListas.divider}>Telefone: {item.telefone} </span>
-            <span style={styleListas.divider}>Endereço: {item.endereco} </span>
-          </div>
-        )))}
+      <div style={styleListas.containerLista}>
+        <h2 style={styleListas.heading}>Alunos cadastrados:</h2>
+        <div style={styleListas.listContainer}>
+          {(listaAlunos.map(item => (
+            <div key={item.email} style={styleListas.item}>
+              <span style={styleListas.divider}>Nome: {item.nome} </span>
+              <span style={styleListas.divider}>Email: {item.email} </span>
+              <span style={styleListas.divider}>Telefone: {item.telefone} </span>
+              <span style={styleListas.divider}>Endereço: {item.endereco} </span>
+            </div>
+          )))}
+        </div>
       </div>
     </div>
   );
