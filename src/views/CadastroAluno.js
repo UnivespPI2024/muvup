@@ -7,6 +7,13 @@ import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
+
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [endereco, setEndereco] = useState('');
+  const [cidade, setCidade] = useState('');
+
   const [qntAulas, setQntAulas] = useState('');
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
@@ -14,13 +21,6 @@ const CadastroAluno = () => {
   const [horaAula2, setHoraAula2] = useState('');
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
-
-
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [cidade, setCidade] = useState('');
 
   // inclusão no DB de aluno
   const handleCadastro = () => {

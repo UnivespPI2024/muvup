@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 
 import styleSelHorAulaProf from '../estilos/styleSelHorProf';
 
-function SelHorAulaProf() {
+function SelHorAulaProf({ onChangeHor, handleConf }) {
+
+  const [botaoClicado, setBotaoClicado] = useState(false);
 
   const [checkboxes, setCheckboxes] = useState({
-    hor06: false,   hor07: false,   hor08: false,
-    hor09: false,   hor10: false,   hor11: false,
-    hor12: false,   hor13: false,   hor14: false,
-    hor15: false,   hor16: false,   hor17: false,
+    hor06: false, hor07: false, hor08: false,
+    hor09: false, hor10: false, hor11: false,
+    hor12: false, hor13: false, hor14: false,
+    hor15: false, hor16: false, hor17: false,
   });
 
+  const handleBotaoClicado = () => {
+    handleConf(true)
+    setBotaoClicado(true);
+  };
+
   const handleCheckboxChange = (event) => {
+    handleConf(false)
+    setBotaoClicado(false);
     const { name, checked } = event.target;
     setCheckboxes({
       ...checkboxes,
@@ -21,9 +30,8 @@ function SelHorAulaProf() {
 
   const enviar = (event) => {
     event.preventDefault();
-    const horSelecionados = Object.keys(checkboxes).filter(option => checkboxes[option]);
-    console.log("Seleções:", horSelecionados);
-    // Aqui você pode enviar as seleções para onde precisar, como um estado, uma função de callback, etc.
+    const horSelec = Object.keys(checkboxes).filter(option => checkboxes[option]);
+    onChangeHor(horSelec)
   };
 
   return (
@@ -148,7 +156,11 @@ function SelHorAulaProf() {
         />
         <label style={styleSelHorAulaProf.checkBox} htmlFor="17:00h até 18:00h">17:00h até 18:00h</label>
       </div>
-      {/* <button type="submit">Submit</button> */}
+      <button
+        type="submit"
+        onClick={handleBotaoClicado}
+        style={botaoClicado ? styleSelHorAulaProf.btnCadastrarSelec : styleSelHorAulaProf.btnCadastrar}
+      >Confirmar</button>
     </form>
   );
 }

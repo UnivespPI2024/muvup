@@ -7,9 +7,22 @@ import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 
 const CadastroProfessor = () => {
+
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
+
+  const [horSegunda, setHorSegunda] = useState([]);
+  const [horTerca, setHorTerca] = useState([]);
+  const [horQuarta, setHorQuarta] = useState([]);
+  const [horQuinta, setHorQuinta] = useState([]);
+  const [horSexta, setHorSexta] = useState([]);
+
+  const [confirmHorSeg, setConfirmHorSeg] = useState();
+  const [confirmHorTer, setConfirmHorTer] = useState();
+  const [confirmHorQua, setConfirmHorQua] = useState();
+  const [confirmHorQui, setConfirmHorQui] = useState();
+  const [confirmHorSex, setConfirmHorSex] = useState();
 
   // inclusão no DB de professor
   const handleCadastro = () => {
@@ -19,7 +32,59 @@ const CadastroProfessor = () => {
       email: email,
       telefone: telefone,
     });
+  };
 
+  const cboxChangeSegunda = (horarios) => {
+    setHorSegunda(horarios)
+  }
+
+  const cboxChangeTerca = (horarios) => {
+    setHorTerca(horarios)
+  }
+
+  const cboxChangeQuarta = (horarios) => {
+    setHorQuarta(horarios)
+  }
+
+  const cboxChangeQuinta = (horarios) => {
+    setHorQuinta(horarios)
+  }
+
+  const cboxChangeSexta = (horarios) => {
+    setHorSexta(horarios)
+  }
+
+  const handleConfSeg = (confirm) =>{
+    setConfirmHorSeg(confirm)
+  }
+
+  const handleConfTer = (confirm) =>{
+    setConfirmHorTer(confirm)
+  }
+
+  const handleConfQua = (confirm) =>{
+    setConfirmHorQua(confirm)
+  }
+
+  const handleConfQui = (confirm) =>{
+    setConfirmHorQui(confirm)
+  }
+
+  const handleConfSex = (confirm) =>{
+    setConfirmHorSex(confirm)
+  }
+
+  const enviar = (event) => {
+    console.log('confirmSeg', confirmHorSeg);
+    console.log('confirmTer', confirmHorTer);
+    console.log('confirmQua', confirmHorQua);
+    console.log('confirmQui', confirmHorQui);
+    console.log('confirmSex', confirmHorSex);
+    console.log("SeleçõesCadastroProf**horSegunda:", horSegunda)
+    console.log("SeleçõesCadastroProf**horTerca:", horTerca)
+    console.log("SeleçõesCadastroProf**horQuarta:", horQuarta)
+    console.log("SeleçõesCadastroProf**horQuinta:", horQuinta)
+    console.log("SeleçõesCadastroProf**horSexta:", horSexta)
   };
 
   return (
@@ -56,26 +121,26 @@ const CadastroProfessor = () => {
       <div style={{display: 'flex', flexDirection:'row'}}>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Segunda-feira:</h2>
-          <SelHorAulaProf></SelHorAulaProf>
+          <SelHorAulaProf onChangeHor={cboxChangeSegunda} handleConf={handleConfSeg}></SelHorAulaProf>
         </div>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Terça-feira:</h2>
-          <SelHorAulaProf></SelHorAulaProf>
+          <SelHorAulaProf onChangeHor={cboxChangeTerca} handleConf={handleConfTer}></SelHorAulaProf>
         </div>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Quarta-feira:</h2>
-          <SelHorAulaProf></SelHorAulaProf>
+          <SelHorAulaProf onChangeHor={cboxChangeQuarta} handleConf={handleConfQua}></SelHorAulaProf>
         </div>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Quinta-feira:</h2>
-          <SelHorAulaProf></SelHorAulaProf>
+          <SelHorAulaProf onChangeHor={cboxChangeQuinta} handleConf={handleConfQui}></SelHorAulaProf>
         </div>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Sexta-feira:</h2>
-          <SelHorAulaProf></SelHorAulaProf>
+          <SelHorAulaProf onChangeHor={cboxChangeSexta} handleConf={handleConfSex}></SelHorAulaProf>
         </div>
       </div>
-      {/* <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Professor</button> */}
+      <button style={styleViews.btnCadastrar} onClick={enviar}>Cadastrar Professor</button>
     </div>
   )
 }
