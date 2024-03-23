@@ -67,7 +67,7 @@ const ProcurarAluno = () => {
                 <h2 style={styleViews.texto}>Procurar por nome</h2>
                 <div style={styleViews.formGroup}>
                     <input
-                        style={styleViews.input}
+                        style={styleViews.inputAluno}
                         type="text"
                         placeholder="Nome"
                         value={searchNome}
@@ -77,19 +77,21 @@ const ProcurarAluno = () => {
                 <button style={styleViews.btnCadastrar} onClick={searchAluno}>Procurar Aluno</button>
             </div>
             <div style={styleListas.container}>
-                <h2 style={styleListas.heading}>Alunos Encontrados</h2>
-                <div style={styleListas.listContainer}>
-                    {(alunosEncont.map(item => (
-                        <div key={item.email} style={styleListas.item}>
-                            <span style={styleListas.divider}>Nome: {item.nome} </span>
-                            <span style={styleListas.divider}>Email: {item.email} </span>
-                            <span style={styleListas.divider}>Telefone: {item.telefone} </span>
-                            <span style={styleListas.divider}>Endereço: {item.endereco} </span>
-                            <span style={styleListas.divider}>QntAulas: {item.qntAulas} </span>
-                            <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
-                            <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
-                        </div>
-                    )))}
+                <div style={styleListas.containerLista}>
+                    <h2 style={styleListas.heading}>Alunos Encontrados</h2>
+                    <div style={styleListas.listContainer}>
+                        {(alunosEncont.map(item => (
+                            <div key={item.email} style={styleListas.item}>
+                                <span style={styleListas.divider}>Nome: {item.nome} </span>
+                                <span style={styleListas.divider}>Email: {item.email} </span>
+                                <span style={styleListas.divider}>Telefone: {item.telefone} </span>
+                                <span style={styleListas.divider}>Endereço: {item.endereco} </span>
+                                <span style={styleListas.divider}>QntAulas: {item.qntAulas} </span>
+                                <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
+                                <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
+                            </div>
+                        )))}
+                    </div>
                 </div>
             </div>
             {visibleEditar && <EditarAluno dadosEditar={dadosEditar} />}

@@ -25,12 +25,12 @@ const styleViews = {
   inputAluno:{
     padding:'10px',
     fontSize: '20px',
-    width: '90%'
+    width: '600px'
   },
   inputProf:{
     padding:'10px',
     fontSize: '20px',
-    width: '50%'
+    width: '600px'
   },
   select: {
     padding: '10px',

@@ -18,7 +18,6 @@ const styleListas = {
     fontSize: '36px'
   },
   listContainer: {
-    maxHeight: 200,
     overflowY: 'auto',
     borderTop: '1px solid #ccc',
   },
