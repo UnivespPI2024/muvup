@@ -90,7 +90,7 @@ const CadastroAluno = () => {
       <h2 style={styleViews.texto}>Cadastro de Aluno</h2>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputAluno}
           type="text"
           placeholder="Nome"
           value={nome}
@@ -99,7 +99,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputAluno}
           type="email"
           placeholder="Email"
           value={email}
@@ -108,7 +108,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputAluno}
           type="text"
           placeholder="Telefone"
           value={telefone}
@@ -117,7 +117,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputAluno}
           type="text"
           placeholder="Endereço"
           value={endereco}
@@ -126,7 +126,7 @@ const CadastroAluno = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputAluno}
           type="text"
           placeholder="Cidade"
           value={cidade}

@@ -111,7 +111,7 @@ const CadastroProfessor = () => {
       <h2 style={styleViews.texto}>Cadastro de Professor</h2>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputProf}
           type="text"
           placeholder="Nome"
           value={nome}
@@ -120,7 +120,7 @@ const CadastroProfessor = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputProf}
           type="email"
           placeholder="Email"
           value={email}
@@ -129,14 +129,14 @@ const CadastroProfessor = () => {
       </div>
       <div style={styleViews.formGroup}>
         <input
-          style={styleViews.input}
+          style={styleViews.inputProf}
           type="text"
           placeholder="Telefone"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <h2 style={styleViews.textoPequeno}>Horário das aulas:</h2>
+      <h2 style={styleViews.texto}>Horário das aulas:</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={styleViews.checkBoxContainer}>
           <h2 style={styleViews.textoPequeno}>Segunda-feira:</h2>

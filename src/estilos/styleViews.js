@@ -1,6 +1,5 @@
 const styleViews = {
   cadastroContainer: {
-    width: '65%',
     padding: '20px',
     border: '1px solid #ccc',
     borderRadius: '5px',
@@ -9,7 +8,7 @@ const styleViews = {
     justifyContent: 'center'
   },
   checkBoxContainer:{
-    margin: '40px'
+    margin: '30px'
   },
   texto: {
     color: 'white',
@@ -21,15 +20,22 @@ const styleViews = {
   },
   formGroup: {
     marginBottom: '15px',
+    marginRigth: '15px',
   },
-  input:{
+  inputAluno:{
     padding:'10px',
     fontSize: '20px',
+    width: '90%'
+  },
+  inputProf:{
+    padding:'10px',
+    fontSize: '20px',
+    width: '50%'
   },
   select: {
     padding: '10px',
-    marginBottom: '15px',
-    color: '#999',
+    margin: '15px',
+    color: 'black',
     fontSize: '20px',
   },
   btnCadastrar: {

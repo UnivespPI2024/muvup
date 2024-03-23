@@ -11,6 +11,7 @@ const styleSelHorAulaProf = {
         fontSize: '16px',
         borderRadius: '5px',
         cursor: 'pointer',
+        margin: '15px'
     },
     btnCadastrarSelec: {
         backgroundColor: '#6ABC8B',
@@ -20,6 +21,7 @@ const styleSelHorAulaProf = {
         fontSize: '16px',
         borderRadius: '5px',
         cursor: 'pointer',
+        margin: '15px'
     },
 }
 

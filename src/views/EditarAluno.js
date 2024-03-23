@@ -24,7 +24,6 @@ const EditarAluno = (props) => {
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
-  
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,

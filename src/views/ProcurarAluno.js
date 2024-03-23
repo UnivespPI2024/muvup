@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { db } from '../firebase'
-import { query, collection, where, getDocs, doc, deleteDoc } from 'firebase/firestore/lite';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore/lite';
 
 const ProcurarAluno = () => {
 
