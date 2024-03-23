@@ -1,7 +1,7 @@
 const styleSelHorAulaProf = {
-    checkBox: {
+    checkBoxLabel: {
         color: 'white',
-        fontSize: '20px'
+        fontSize: '20px',
     },
     btnCadastrar: {
         backgroundColor: '#CCC',
