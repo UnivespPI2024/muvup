@@ -21,6 +21,9 @@ const MenuLateral = ({onItemClick}) => {
         <li className="menu-item" onClick={() => handleClick('todosAlunos')}>
           <span className="menu-link">Listar Todos Alunos</span>
         </li>
+        <li className="menu-item" onClick={() => handleClick('todosProfessores')}>
+          <span className="menu-link">Listar Todos Professores</span>
+        </li>
         <li className="menu-item" onClick={() => handleClick('procurarAluno')}>
           <span className="menu-link">Procurar Aluno</span>
         </li>

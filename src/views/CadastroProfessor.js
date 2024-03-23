@@ -25,10 +25,10 @@ const CadastroProfessor = () => {
   const [confirmHorSex, setConfirmHorSex] = useState();
 
   // inclusão no DB de professor
-  const handleCadastroProf = () => {
+  const handleCadastroProf = async () => {
     if (nome !== '' && email !== '' && telefone !== '') {
       if (confirmHorSeg === true && confirmHorTer === true && confirmHorQua === true && confirmHorQui === true && confirmHorSex === true) {
-        setDoc(doc(db, 'Professores', email), {
+        await setDoc(doc(db, 'Professores', email), {
           nome: nome,
           email: email,
           telefone: telefone,
@@ -50,6 +50,7 @@ const CadastroProfessor = () => {
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
+    window.location.reload()
   }
 
 

@@ -4,14 +4,15 @@ import logo from './images/logo.png';
 import CadastroAluno from './views/CadastroAluno';
 import CadastroProfessor from './views/CadastroProfessor';
 import ProcurarTodosAlunos from './views/ProcurarTodosAlunos';
+import ProcurarTodosProf from './views/ProcurarTodosProf';
 import ProcurarAluno from './views/ProcurarAluno';
 import MenuLateral from './views/MenuLateral';
 
 function App() {
-  const [currentComponent, setCurrentComponent] = useState('cadastroAluno');
+  const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
 
   const handleItemClick = (component) => {
-    setCurrentComponent(component);
+    setComponenteAtual(component);
   };
 
   return (
@@ -23,10 +24,11 @@ function App() {
             <img src={logo} style={styles.logo}></img>
           </div>
           <div style={styles.containerCadastro}>
-            {currentComponent === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
-            {currentComponent === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
-            {currentComponent === 'todosAlunos' && <ProcurarTodosAlunos></ProcurarTodosAlunos>}
-            {currentComponent === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
+            {componenteAtual === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
+            {componenteAtual === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
+            {componenteAtual === 'todosAlunos' && <ProcurarTodosAlunos></ProcurarTodosAlunos>}
+            {componenteAtual === 'todosProfessores' && <ProcurarTodosProf></ProcurarTodosProf>}
+            {componenteAtual === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
           </div>
         </div>
       </div>
