@@ -4,11 +4,9 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { setDoc, doc, collection, getDocs } from 'firebase/firestore/lite';
+import { setDoc, doc, collection, getDocs, query, where} from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
-
-  const options = ['Opção 1', 'Opção 2', 'Opção 3'];
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +31,6 @@ const CadastroAluno = () => {
       const professoresSnapshot = await getDocs(professores);
       const nomesProfessores = professoresSnapshot.docs.map(doc => doc.data().nome);
       setNomesProf(nomesProfessores)
-      console.log('listaProfessores', nomesProf);
     })()
   }, [])
 
@@ -80,8 +77,16 @@ const CadastroAluno = () => {
   };
 
   // seleção de dia e hora para 3 aulas/semana
-  const handleSelDia1 = (dia) => {
+  const handleSelDia1 = async (dia) => {
     setDiaAula1(dia)
+    const diaStr = 'horQuarta'
+    const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc)=>{
+      
+      console.log('querySnapshot',doc.data().diaHorProf);
+      
+    })
   }
 
   const handleSelHora1 = (hora) => {
@@ -157,9 +162,9 @@ const CadastroAluno = () => {
           style={styleViews.select}
           onChange={handleSelectProf}>
           <option value="">Escolha um professor</option>
-          {nomesProf.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+          {nomesProf.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
             </option>
           ))}
         </select>
