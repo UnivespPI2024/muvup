@@ -131,7 +131,7 @@ const EditarProfessor = (props) => {
                     <SelHorAulaProf
                         onChangeHor={cboxChangeSegunda}
                         handleConf={handleConfSeg}
-                        horarios={props.dadosEditar.horSeg}>
+                        horariosEditar={props.dadosEditar.horSeg}>
                     </SelHorAulaProf>
                 </div>
                 <div style={styleViews.checkBoxContainer}>
@@ -139,7 +139,7 @@ const EditarProfessor = (props) => {
                     <SelHorAulaProf
                         onChangeHor={cboxChangeTerca}
                         handleConf={handleConfTer}
-                        horarios={props.dadosEditar.horTer}>
+                        horariosEditar={props.dadosEditar.horTer}>
                     </SelHorAulaProf>
                 </div>
                 <div style={styleViews.checkBoxContainer}>
@@ -147,7 +147,7 @@ const EditarProfessor = (props) => {
                     <SelHorAulaProf
                         onChangeHor={cboxChangeQuarta}
                         handleConf={handleConfQua}
-                        horarios={props.dadosEditar.horQua}>
+                        horariosEditar={props.dadosEditar.horQua}>
                     </SelHorAulaProf>
                 </div>
                 <div style={styleViews.checkBoxContainer}>
@@ -155,7 +155,7 @@ const EditarProfessor = (props) => {
                     <SelHorAulaProf
                         onChangeHor={cboxChangeQuinta}
                         handleConf={handleConfQui}
-                        horarios={props.dadosEditar.horQui}>
+                        horariosEditar={props.dadosEditar.horQui}>
                     </SelHorAulaProf>
                 </div>
                 <div style={styleViews.checkBoxContainer}>
@@ -163,7 +163,7 @@ const EditarProfessor = (props) => {
                     <SelHorAulaProf
                         onChangeHor={cboxChangeSexta}
                         handleConf={handleConfSex}
-                        horarios={props.dadosEditar.horSex}>
+                        horariosEditar={props.dadosEditar.horSex}>
                     </SelHorAulaProf>
                 </div>
             </div>

@@ -2,22 +2,27 @@ import React, { useState, useEffect } from 'react';
 
 import styleSelHorAulaProf from '../estilos/styleSelHorProf';
 
-function SelHorAulaProf({ onChangeHor, handleConf, horarios }) {
+function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
 
-  const [botaoClicado, setBotaoClicado] = useState(false);
-
-  const [checkboxes, setCheckboxes] = useState(
-    // horarios!==undefined? horarios:
-    { 
+  const [horarios,setHorarios] = useState(
+  {
     hor06: false, hor07: false, hor08: false,
     hor09: false, hor10: false, hor11: false,
     hor12: false, hor13: false, hor14: false,
     hor15: false, hor16: false, hor17: false,
-  });
+  })
+  useEffect(() => {
+    if (horariosEditar !== undefined) {
+      for (let chave in horarios) {
+        if (horariosEditar.includes(chave)) {
+          setHorarios(horarios[chave] = true)
+        }
+      }
+    }
+  }, [])
 
-  useEffect(()=>{
-    console.log('useEffectDOSelHorProf', horarios);
-  },[])
+  const [botaoClicado, setBotaoClicado] = useState(false);
+  const [checkboxes, setCheckboxes] = useState(horarios);
 
   const handleBotaoClicado = () => {
     handleConf(true)
@@ -39,19 +44,9 @@ function SelHorAulaProf({ onChangeHor, handleConf, horarios }) {
     const horSelec = Object.keys(checkboxes).filter(selecao => checkboxes[selecao]);
     const horSelecComAulas = horSelec.map(selecao => {
       const obj = {};
-      obj[selecao] = {
-        aluno1: '',
-        aluno2: '',
-        aluno3: '',
-        aluno4: ''
-      };
+      obj[selecao] = {};
       return obj;
     });
-    
-    /* .reduce((acc, key) => {
-      acc[key] = checkboxes[key]
-      return acc;
-    }, {}); */
     onChangeHor(horSelecComAulas)
   };
 

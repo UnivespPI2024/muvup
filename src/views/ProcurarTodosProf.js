@@ -28,7 +28,7 @@ const ProcurarTodosProf = () => {
   const deleteProf = async (idProf) => {
     const result = window.confirm('Deseja realmente excluir o professor? Essa ação é definitiva!')
     if (result) {
-      await deleteDoc(doc(db, 'Professores', idProf)).then(window.alert('Aluno excluído com sucesso'))
+      await deleteDoc(doc(db, 'Professores', idProf)).then(window.alert('Professor excluído com sucesso'))
       window.location.reload()
     }
   }
@@ -38,11 +38,11 @@ const ProcurarTodosProf = () => {
         nome:item.nome,
         email:item.email,
         telefone:item.telefone,
-        horSeg:item.diaHorProf.horSegunda,
-        horTer:item.diaHorProf.horTerca,
-        horQua:item.diaHorProf.horQuarta,
-        horQui:item.diaHorProf.horQuinta,
-        horSex:item.diaHorProf.horSexta,
+        horSeg:item.diaHorProf.horSegunda.map(hor => Object.keys(hor)[0]),
+        horTer:item.diaHorProf.horTerca.map(hor => Object.keys(hor)[0]),
+        horQua:item.diaHorProf.horQuarta.map(hor => Object.keys(hor)[0]),
+        horQui:item.diaHorProf.horQuinta.map(hor => Object.keys(hor)[0]),
+        horSex:item.diaHorProf.horSexta.map(hor => Object.keys(hor)[0]),
     })
     setVisibleEditar(true)
 }

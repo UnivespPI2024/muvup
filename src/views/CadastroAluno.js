@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { setDoc, doc } from 'firebase/firestore/lite';
+import { setDoc, doc, collection, getDocs } from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
+
+  const options = ['Opção 1', 'Opção 2', 'Opção 3'];
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [endereco, setEndereco] = useState('');
   const [cidade, setCidade] = useState('');
+
+  const [nomesProf, setNomesProf] = useState([])
+  const [profSelec, setprofSelec] = useState('')
 
   const [qntAulas, setQntAulas] = useState('');
   const [diaAula1, setDiaAula1] = useState('');
@@ -21,6 +26,16 @@ const CadastroAluno = () => {
   const [horaAula2, setHoraAula2] = useState('');
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const professores = collection(db, 'Professores');
+      const professoresSnapshot = await getDocs(professores);
+      const nomesProfessores = professoresSnapshot.docs.map(doc => doc.data().nome);
+      setNomesProf(nomesProfessores)
+      console.log('listaProfessores', nomesProf);
+    })()
+  }, [])
 
   // inclusão no DB de aluno
   const handleCadastro = () => {
@@ -50,6 +65,10 @@ const CadastroAluno = () => {
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
+  };
+
+  const handleSelectProf = (event) => {
+    setprofSelec(event.target.value);
   };
 
   // seleção qnt de aulas
@@ -132,6 +151,18 @@ const CadastroAluno = () => {
           value={cidade}
           onChange={(e) => setCidade(e.target.value)}
         />
+      </div>
+      <div>
+        <select
+          style={styleViews.select}
+          onChange={handleSelectProf}>
+          <option value="">Escolha um professor</option>
+          {nomesProf.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <select
