@@ -27,7 +27,6 @@ const ProcurarAluno = () => {
         alunosSnapshot.forEach((doc)=>{
             const nomeNormalizado = doc.data().nome.toLowerCase()
             if(nomeNormalizado.includes(procuraNormaliz)){
-                console.log("nomeNormaliz ",nomeNormalizado,'procNormaliz',procuraNormaliz)
                 alunos.push(doc.data())
             }
         })

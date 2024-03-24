@@ -7,7 +7,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horarios }) {
   const [botaoClicado, setBotaoClicado] = useState(false);
 
   const [checkboxes, setCheckboxes] = useState(
-    horarios!==undefined? horarios:
+    // horarios!==undefined? horarios:
     { 
     hor06: false, hor07: false, hor08: false,
     hor09: false, hor10: false, hor11: false,
@@ -36,12 +36,23 @@ function SelHorAulaProf({ onChangeHor, handleConf, horarios }) {
 
   const enviar = (event) => {
     event.preventDefault();
-    const horSelec = Object.keys(checkboxes).reduce((acc, key) => {
+    const horSelec = Object.keys(checkboxes).filter(selecao => checkboxes[selecao]);
+    const horSelecComAulas = horSelec.map(selecao => {
+      const obj = {};
+      obj[selecao] = {
+        aluno1: '',
+        aluno2: '',
+        aluno3: '',
+        aluno4: ''
+      };
+      return obj;
+    });
+    
+    /* .reduce((acc, key) => {
       acc[key] = checkboxes[key]
       return acc;
-    }, {});
-    /* .filter(option => checkboxes[option]); */
-    onChangeHor(horSelec)
+    }, {}); */
+    onChangeHor(horSelecComAulas)
   };
 
   return (

@@ -55,6 +55,7 @@ const CadastroProfessor = () => {
 
 
   const cboxChangeSegunda = (horarios) => {
+    console.log('horarios',horarios);
     setHorSegunda(horarios)
   }
 
