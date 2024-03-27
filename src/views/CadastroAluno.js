@@ -4,12 +4,13 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { setDoc, doc, collection, getDocs, query, where} from 'firebase/firestore/lite';
+import { setDoc, doc, collection, getDocs, query, where, updateDoc} from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [emailProf, setEmailProf] = useState('');
   const [telefone, setTelefone] = useState('');
   const [endereco, setEndereco] = useState('');
   const [cidade, setCidade] = useState('');
@@ -59,6 +60,10 @@ const CadastroAluno = () => {
         setTelefone(''), setEndereco(''),
         setCidade(''), setQntAulas('')]
       )
+
+      updateDoc(doc(db,'Professores',emailProf,diaAula1,horaAula1),{
+            alunos:[email]
+      })
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
@@ -79,17 +84,16 @@ const CadastroAluno = () => {
   // seleção de dia e hora para 3 aulas/semana
   const handleSelDia1 = async (dia) => {
     setDiaAula1(dia)
-    const diaStr = 'horQuarta'
     const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc)=>{
-      
-      console.log('querySnapshot',doc.data().diaHorProf);
-      
-    })
+    const querySnapshot = await getDocs(q).catch((error)=>{console.log('erro',error);})
+    querySnapshot.forEach(doc => {
+      setEmailProf(doc.data().email)
+    });
+    
   }
 
   const handleSelHora1 = (hora) => {
+  console.log('horaAula1',hora);
     setHoraAula1(hora)
   }
 

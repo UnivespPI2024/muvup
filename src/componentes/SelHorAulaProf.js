@@ -42,12 +42,12 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
   const enviar = (event) => {
     event.preventDefault();
     const horSelec = Object.keys(checkboxes).filter(selecao => checkboxes[selecao]);
-    const horSelecComAulas = horSelec.map(selecao => {
-      const obj = {};
+    /* const obj ={}
+    horSelec.forEach(selecao => {
       obj[selecao] = {};
-      return obj;
-    });
-    onChangeHor(horSelecComAulas)
+      
+    }); */
+    onChangeHor(horSelec)
   };
 
   return (

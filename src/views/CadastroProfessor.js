@@ -12,11 +12,11 @@ const CadastroProfessor = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
 
-  const [horSegunda, setHorSegunda] = useState([]);
+ /*  const [horSegunda, setHorSegunda] = useState([]);
   const [horTerca, setHorTerca] = useState([]);
   const [horQuarta, setHorQuarta] = useState([]);
   const [horQuinta, setHorQuinta] = useState([]);
-  const [horSexta, setHorSexta] = useState([]);
+  const [horSexta, setHorSexta] = useState([]); */
 
   const [confirmHorSeg, setConfirmHorSeg] = useState();
   const [confirmHorTer, setConfirmHorTer] = useState();
@@ -32,19 +32,18 @@ const CadastroProfessor = () => {
           nome: nome,
           email: email,
           telefone: telefone,
-          diaHorProf: {
-            horSegunda: horSegunda,
-            horTerca: horTerca,
-            horQuarta: horQuarta,
-            horQuinta: horQuinta,
-            horSexta: horSexta
-          }
+          /* segunda: horSegunda,
+          terca: horTerca,
+          quarta: horQuarta,
+          quinta: horQuinta,
+          sexta: horSexta */
+
         }).then([
           window.alert('Professor cadastrado com sucesso!'),
           setNome(''), setEmail(''),
           setTelefone('')]
         )
-      }else {
+      } else {
         window.alert('Confirme todos dias da semana!')
       }
     } else {
@@ -55,23 +54,49 @@ const CadastroProfessor = () => {
 
 
   const cboxChangeSegunda = (horarios) => {
-    setHorSegunda(horarios)
+    console.log('horarios', horarios);
+    horarios.forEach((hor) => {
+      setDoc(doc(db, 'Professores', email, 'segunda', hor), {
+        alunos:[]
+      })
+    })
+    // setHorSegunda(horarios)
   }
 
   const cboxChangeTerca = (horarios) => {
-    setHorTerca(horarios)
+    horarios.forEach((hor) => {
+      setDoc(doc(db, 'Professores', email, 'terca', hor), {
+        alunos:[]
+      })
+    })
+    // setHorTerca(horarios)
   }
 
   const cboxChangeQuarta = (horarios) => {
-    setHorQuarta(horarios)
+    horarios.forEach((hor) => {
+      setDoc(doc(db, 'Professores', email, 'quarta', hor), {
+        alunos:[]
+      })
+    })
+    // setHorQuarta(horarios)
   }
 
   const cboxChangeQuinta = (horarios) => {
-    setHorQuinta(horarios)
+    horarios.forEach((hor) => {
+      setDoc(doc(db, 'Professores', email, 'quinta', hor), {
+        alunos:[]
+      })
+    })
+    // setHorQuinta(horarios)
   }
 
   const cboxChangeSexta = (horarios) => {
-    setHorSexta(horarios)
+    horarios.forEach((hor) => {
+      setDoc(doc(db, 'Professores', email, 'sexta', hor), {
+        alunos:[]
+      })
+    })
+    // setHorSexta(horarios)
   }
 
   const handleConfSeg = (confirm) => {
