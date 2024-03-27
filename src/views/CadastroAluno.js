@@ -116,6 +116,11 @@ const CadastroAluno = () => {
 
     const q = query(collection(db, 'Professores', emailProf, dia));
     const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
+    //horarios do prof
+    const ids = querySnapshot.docs.map(doc => doc.id);
+    console.log('horDisponiveisKeys',ids)
+    
+    //verificação se horario está lotado
     querySnapshot.forEach(doc => {
       console.log('horDisponiveis',Object.keys(doc.data().alunos).length)
     });
