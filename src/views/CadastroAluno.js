@@ -4,7 +4,7 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { setDoc, doc, collection, getDocs, query, where, updateDoc} from 'firebase/firestore/lite';
+import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
 
@@ -61,9 +61,31 @@ const CadastroAluno = () => {
         setCidade(''), setQntAulas('')]
       )
 
-      updateDoc(doc(db,'Professores',emailProf,diaAula1,horaAula1),{
-            alunos:[email]
-      })
+      if (qntAulas == '1aula') {
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion(email)
+        })
+      }
+      if (qntAulas == '2aulas') {
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion(email)
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
+          alunos: arrayUnion(email)
+        })
+      }
+      if (qntAulas == '3aulas') {
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion(email)
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
+          alunos: arrayUnion(email)
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
+          alunos: arrayUnion(email)
+        })
+      }
+
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
@@ -74,26 +96,35 @@ const CadastroAluno = () => {
   };
 
   // seleção qnt de aulas
-  const handleSelectQntAulas = (event) => {
+  const handleSelectQntAulas = async (event) => {
     setQntAulas(event.target.value);
     setDiaAula1(''); setHoraAula1('')
     setDiaAula2(''); setHoraAula2('')
     setDiaAula3(''); setHoraAula3('')
+
+    //consulta do email do professor
+    const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
+    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
+    querySnapshot.forEach(doc => {
+      setEmailProf(doc.data().email)
+    });
   };
 
   // seleção de dia e hora para 3 aulas/semana
   const handleSelDia1 = async (dia) => {
     setDiaAula1(dia)
-    const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
-    const querySnapshot = await getDocs(q).catch((error)=>{console.log('erro',error);})
+
+    const q = query(collection(db, 'Professores', emailProf, dia));
+    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
-      setEmailProf(doc.data().email)
+      console.log('horDisponiveis',Object.keys(doc.data().alunos).length)
     });
-    
+
+
   }
 
   const handleSelHora1 = (hora) => {
-  console.log('horaAula1',hora);
+    console.log('horaAula1', hora);
     setHoraAula1(hora)
   }
 
