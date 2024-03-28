@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
+import { MAX_ALUNOS } from './constantes';
 
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
@@ -17,6 +18,8 @@ const CadastroAluno = () => {
 
   const [nomesProf, setNomesProf] = useState([])
   const [profSelec, setprofSelec] = useState('')
+  const [horDispProf, setHorDispProf] = useState([])
+
 
   const [qntAulas, setQntAulas] = useState('');
   const [diaAula1, setDiaAula1] = useState('');
@@ -116,16 +119,14 @@ const CadastroAluno = () => {
 
     const q = query(collection(db, 'Professores', emailProf, dia));
     const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
-    //horarios do prof
-    const ids = querySnapshot.docs.map(doc => doc.id);
-    console.log('horDisponiveisKeys',ids)
-    
-    //verificação se horario está lotado
-    querySnapshot.forEach(doc => {
-      console.log('horDisponiveis',Object.keys(doc.data().alunos).length)
-    });
-
-
+    //horarios disponíveis pro professor => limite de alunos por aula = 4
+    const horariosDisp = querySnapshot.docs.map(doc => {
+      if(Object.keys(doc.data().alunos).length<MAX_ALUNOS){
+        return doc.id
+      }
+    }).filter(value => value!==undefined);
+    setHorDispProf(horariosDisp)
+    console.log('horDisponiveisKeys',horariosDisp)
   }
 
   const handleSelHora1 = (hora) => {
@@ -200,6 +201,7 @@ const CadastroAluno = () => {
       <div>
         <select
           style={styleViews.select}
+          value={profSelec}
           onChange={handleSelectProf}>
           <option value="">Escolha um professor</option>
           {nomesProf.map((item, index) => (
@@ -224,7 +226,7 @@ const CadastroAluno = () => {
         qntAulas == '1aula' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} />
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf} />
           </div> : null
       }
       {
