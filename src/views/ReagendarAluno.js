@@ -28,22 +28,55 @@ const ReagendarAluno = () => {
 
     useEffect(() => {
         (async () => {
-            const q = query(collection(db, 'Alunos'), where('email', '==', 'aluno10@gmail.com'))
+            function datasPorDiaSemana(diaDaSemanaStr, hora) {
+
+                const diasDaSemana = {
+                    "domingo": 0, "segunda": 1, "terca": 2, "quarta": 3,
+                    "quinta": 4, "sexta": 5, "sabado": 6
+                };
+
+                const diaDaSemana = diasDaSemana[diaDaSemanaStr];
+                const datas = [];
+                const hoje = new Date();
+                const diaAlvo = diaDaSemana; 
+
+                for (let i = 0; i < 30; i++) {
+                    const diaAtual = new Date(hoje.getTime() + i * 24 * 60 * 60 * 1000);
+                    if (diaAtual.getDay() === diaAlvo) {
+                        const dataFormatada = diaAtual.getDate() + '/' + 
+                            (diaAtual.getMonth() + 1) + '/' + diaAtual.getFullYear() +
+                            ', ' + diaDaSemanaStr + '-feira' + ' às ' + hora + 'h';
+                        datas.push(dataFormatada);
+                    }
+                }
+                return datas;
+            }
+
+            const q = query(collection(db, 'Alunos'), where('email', '==', 'aluno12@gmail.com'))
             const diaHorAlunoSnapshot = await getDocs(q)
             const listahorarios = diaHorAlunoSnapshot.docs.map(doc => doc.data().diaHorAula);
             const listaNormalizada = listahorarios[0]
-            // const listaValores = Object.values(listaNormalizada)
-            // console.log('listaDiaHorAluno', listaNormalizada);
 
             const keysConcatenadas = [['diaAula1', 'horaAula1'], ['diaAula2', 'horaAula2'], ['diaAula3', 'horaAula3']]; // Pares de chaves que você quer concatenar
-            const listaValoresConcat = keysConcatenadas.map(([key1, key2]) => {
+            const listaDiaHor = keysConcatenadas.map(([key1, key2]) => {
                 if (listaNormalizada.hasOwnProperty(key1) && listaNormalizada.hasOwnProperty(key2)) {
-                    return listaNormalizada[key1] + listaNormalizada[key2];
+                    return listaNormalizada[key1] + ' ' + listaNormalizada[key2].substring(3, 5);
                 }
-                return ''; 
+                return '';
             });
-            console.log('listaValoresConcat', listaValoresConcat);
-            setListaDiaHorAluno(listaValoresConcat)
+            console.log('listaValoresConcat', listaDiaHor);
+            
+            const listaDataDiaHor = listaDiaHor.map((diaHor)=>{
+                const partes = diaHor.split(' ');
+                const dia = partes[0]
+                const hora = partes[1]
+                return datasPorDiaSemana(dia, hora)
+            })
+            
+            const listaDataDiaHorNorm = [].concat(...listaDataDiaHor)
+            setListaDiaHorAluno(listaDataDiaHorNorm)
+
+            console.log('nextDays', listaDataDiaHorNorm);
         })()
     }, [])
 
