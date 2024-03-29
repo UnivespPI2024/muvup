@@ -33,6 +33,7 @@ const CadastroAluno = () => {
 
   useEffect(() => {
     (async () => {
+      //consulta dos professores
       const professores = collection(db, 'Professores');
       const professoresSnapshot = await getDocs(professores);
       const nomesProfessores = professoresSnapshot.docs.map(doc => doc.data().nome);

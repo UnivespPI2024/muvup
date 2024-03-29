@@ -37,7 +37,7 @@ const styleViews = {
     margin: '15px',
     color: 'black',
     fontSize: '20px',
-    width: '400px' 
+    width: '420px' 
   },
   btnCadastrar: {
     backgroundColor: '#6ABC8B',
