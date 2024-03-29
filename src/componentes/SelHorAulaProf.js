@@ -41,12 +41,8 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
 
   const enviar = (event) => {
     event.preventDefault();
-    const horSelec = Object.keys(checkboxes).filter(selecao => checkboxes[selecao]);
-    /* const obj ={}
-    horSelec.forEach(selecao => {
-      obj[selecao] = {};
-      
-    }); */
+    const horSelec = Object.keys(checkboxes)
+      .filter(selecao => checkboxes[selecao]);
     onChangeHor(horSelec)
   };
 

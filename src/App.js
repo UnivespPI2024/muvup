@@ -7,6 +7,7 @@ import ProcurarTodosAlunos from './views/ProcurarTodosAlunos';
 import ProcurarTodosProf from './views/ProcurarTodosProf';
 import ProcurarAluno from './views/ProcurarAluno';
 import MenuLateral from './views/MenuLateral';
+import ReagendarAluno from './views/ReagendarAluno';
 
 function App() {
   const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
@@ -29,6 +30,7 @@ function App() {
             {componenteAtual === 'todosAlunos' && <ProcurarTodosAlunos></ProcurarTodosAlunos>}
             {componenteAtual === 'todosProfessores' && <ProcurarTodosProf></ProcurarTodosProf>}
             {componenteAtual === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
+            {componenteAtual === 'reagendarAluno' && <ReagendarAluno></ReagendarAluno>}
           </div>
         </div>
       </div>

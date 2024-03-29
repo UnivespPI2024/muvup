@@ -63,7 +63,8 @@ const CadastroAluno = () => {
         window.alert('Aluno cadastrado com sucesso!'),
         setNome(''), setEmail(''),
         setTelefone(''), setEndereco(''),
-        setCidade(''), setQntAulas('')]
+        setCidade(''), setQntAulas(''),
+        setprofSelec('')]
       )
 
       if (qntAulas == '1aula') {
@@ -98,6 +99,7 @@ const CadastroAluno = () => {
 
   const handleSelectProf = (event) => {
     setprofSelec(event.target.value);
+    setQntAulas('');
   };
 
   // seleção qnt de aulas
