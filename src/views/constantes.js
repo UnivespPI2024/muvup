@@ -1,4 +1,5 @@
 export const MAX_ALUNOS = 4
+export const MAX_DIAS_REMARC = 30
 
 export const CORES = {
     TELHA: '#EB8952',

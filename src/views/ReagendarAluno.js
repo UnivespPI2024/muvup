@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import styleViews from '../estilos/styleViews'
 import Calendar from 'react-calendar';
+import { MAX_DIAS_REMARC } from './constantes';
+
 import 'react-calendar/dist/Calendar.css';
+import '../estilos/customCalendar.css'; 
 
 import { db } from '../firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore/lite';
@@ -12,6 +15,16 @@ const ReagendarAluno = () => {
     const [date, setDate] = useState(new Date())
     const [listaDiaHorAluno, setListaDiaHorAluno] = useState([])
     const [diaHorSelec, setDiaHorSelec] = useState('')
+
+    // máxima data permitida para remarcar
+    const maxData = new Date();
+    maxData.setDate(maxData.getDate() + MAX_DIAS_REMARC);
+
+    // função para desabilitar os fins de semana
+    const tileDisabled = ({ date }) => {
+        const day = date.getDay();
+        return day === 0 || day === 6;
+    };
 
     const onChangeData = date => {
         setDate(date);
@@ -38,12 +51,12 @@ const ReagendarAluno = () => {
                 const diaDaSemana = diasDaSemana[diaDaSemanaStr];
                 const datas = [];
                 const hoje = new Date();
-                const diaAlvo = diaDaSemana; 
+                const diaAlvo = diaDaSemana;
 
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < MAX_DIAS_REMARC; i++) {
                     const diaAtual = new Date(hoje.getTime() + i * 24 * 60 * 60 * 1000);
                     if (diaAtual.getDay() === diaAlvo) {
-                        const dataFormatada = diaAtual.getDate() + '/' + 
+                        const dataFormatada = diaAtual.getDate() + '/' +
                             (diaAtual.getMonth() + 1) + '/' + diaAtual.getFullYear() +
                             ', ' + diaDaSemanaStr + '-feira' + ' às ' + hora + 'h';
                         datas.push(dataFormatada);
@@ -65,14 +78,14 @@ const ReagendarAluno = () => {
                 return '';
             });
             console.log('listaValoresConcat', listaDiaHor);
-            
-            const listaDataDiaHor = listaDiaHor.map((diaHor)=>{
+
+            const listaDataDiaHor = listaDiaHor.map((diaHor) => {
                 const partes = diaHor.split(' ');
                 const dia = partes[0]
                 const hora = partes[1]
                 return datasPorDiaSemana(dia, hora)
             })
-            
+
             const listaDataDiaHorNorm = [].concat(...listaDataDiaHor)
             setListaDiaHorAluno(listaDataDiaHorNorm)
 
@@ -100,7 +113,11 @@ const ReagendarAluno = () => {
                     onChange={onChangeData}
                     value={date}
                     formatShortWeekday={diasFormatados}
-                    minDate={new Date(2024, 1, 1)}
+                    minDate={new Date()}
+                    maxDate={maxData}
+                    calendarType="US"
+                    tileDisabled={tileDisabled}
+                    /* className={"custom-calendar"} */
                 />
             </div>
         </div>
