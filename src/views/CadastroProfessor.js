@@ -12,11 +12,6 @@ const CadastroProfessor = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
 
- /*  const [horSegunda, setHorSegunda] = useState([]);
-  const [horTerca, setHorTerca] = useState([]);
-  const [horQuarta, setHorQuarta] = useState([]);
-  const [horQuinta, setHorQuinta] = useState([]);
-  const [horSexta, setHorSexta] = useState([]); */
 
   const [confirmHorSeg, setConfirmHorSeg] = useState();
   const [confirmHorTer, setConfirmHorTer] = useState();
@@ -32,11 +27,6 @@ const CadastroProfessor = () => {
           nome: nome,
           email: email,
           telefone: telefone,
-          /* segunda: horSegunda,
-          terca: horTerca,
-          quarta: horQuarta,
-          quinta: horQuinta,
-          sexta: horSexta */
 
         }).then([
           window.alert('Professor cadastrado com sucesso!'),
@@ -65,7 +55,7 @@ const CadastroProfessor = () => {
 
   const cboxChangeTerca = (horarios) => {
     horarios.forEach((hor) => {
-      setDoc(doc(db, 'Professores', email, 'terca', hor), {
+      setDoc(doc(db, 'Professores', email, 'terça', hor), {
         alunos:[]
       })
     })

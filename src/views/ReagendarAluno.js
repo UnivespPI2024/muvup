@@ -8,17 +8,17 @@ import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
 
 import { db } from '../firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where, doc, setDoc } from 'firebase/firestore/lite';
 
 const ReagendarAluno = () => {
 
     const diasDaSemana = {
-        "domingo": 0, "segunda": 1, "terca": 2, "quarta": 3,
+        "domingo": 0, "segunda": 1, "terça": 2, "quarta": 3,
         "quinta": 4, "sexta": 5, "sabado": 6
     };
 
     const diasDaSemana2 = {
-        0: 'domingo', 1: 'segunda', 2: 'terca', 3: 'quarta',
+        0: 'domingo', 1: 'segunda', 2: 'terça', 3: 'quarta',
         4: 'quinta', 5: 'sexta', 6: 'sabado',
     };
 
@@ -30,6 +30,12 @@ const ReagendarAluno = () => {
     const [nomesProf, setNomesProf] = useState([])
     const [profSelec, setprofSelec] = useState('')
     const [emailProf, setEmailProf] = useState('');
+
+    const handleReagendar = () => {
+        setDoc(doc(db, 'Professores', emailProf, 'Reagendamentos', 'março'), {
+            email:'aluno2@gmail.com'
+        })
+    }
 
     // máxima data permitida para remarcar
     const maxData = new Date();
@@ -50,10 +56,14 @@ const ReagendarAluno = () => {
     const handleSelectDiaHorAula = async (event) => {
         setDiaHorSelec(event.target.value)
         setprofSelec('')
+        setDataCalendario('')
+        setHorDispSelec('')
     }
 
     const handleSelectProf = async (event) => {
         setprofSelec(event.target.value);
+        setDataCalendario('')
+        setHorDispSelec('')
 
         //consulta do email do professor
         const qEmail = query(collection(db, "Professores"), where("nome", "==", event.target.value));
@@ -94,6 +104,7 @@ const ReagendarAluno = () => {
                 const hoje = new Date();
                 const diaAlvo = diaDaSemana;
 
+
                 for (let i = 0; i < MAX_DIAS_REMARC; i++) {
                     const diaAtual = new Date(hoje.getTime() + i * 24 * 60 * 60 * 1000);
                     if (diaAtual.getDay() === diaAlvo) {
@@ -103,11 +114,12 @@ const ReagendarAluno = () => {
                         datas.push(dataFormatada);
                     }
                 }
+                console.log('datas', datas);
                 return datas;
             }
 
             //consulta no BD dos dias e horários de um aluno
-            const q = query(collection(db, 'Alunos'), where('email', '==', 'aluno12@gmail.com'))
+            const q = query(collection(db, 'Alunos'), where('email', '==', 'aluno2@gmail.com'))
             const diaHorAlunoSnapshot = await getDocs(q)
             const listahorarios = diaHorAlunoSnapshot.docs.map(doc => doc.data().diaHorAula);
             const listaNormalizada = listahorarios[0]
@@ -193,33 +205,33 @@ const ReagendarAluno = () => {
             {
                 profSelec !== '' ?
                     <div>
-                        <h2 style={styleViews.texto}>Para qual data?</h2>
-                        <Calendar
-                            onChange={onChangeDataCalendario}
-                            value={dataCalendario}
-                            formatShortWeekday={diasFormatados}
-                            minDate={new Date()}
-                            maxDate={maxData}
-                            calendarType="gregory"
-                            tileDisabled={tileDisabled}
-                        /* className={"custom-calendar"} */
-                        />
+                        <div>
+                            <h2 style={styleViews.texto}>Para qual data?</h2>
+                            <Calendar
+                                onChange={onChangeDataCalendario}
+                                value={dataCalendario}
+                                formatShortWeekday={diasFormatados}
+                                minDate={new Date()}
+                                maxDate={maxData}
+                                calendarType="gregory"
+                                tileDisabled={tileDisabled}
+                            /* className={"custom-calendar"} */
+                            />
+                        </div>
+                        <select
+                            style={styleViews.select}
+                            value={horDispSelec}
+                            onChange={handleHorSelect}>
+                            <option value="">Escolha um horário disponível:</option>
+                            {horDisp.map((item, index) => (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
+                        <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button>
                     </div> : null
             }
-            <div>
-                <select
-                    style={styleViews.select}
-                    value={horDispSelec}
-                    onChange={handleHorSelect}>
-                    <option value="">Escolha um horário disponível:</option>
-                    {horDisp.map((item, index) => (
-                        <option key={index} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
         </div>
     )
 }
