@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
 
 import { db } from '../firebase'
-import { collection, getDocs, query, where, doc, arrayUnion, updateDoc } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where, doc, arrayUnion, updateDoc, setDoc } from 'firebase/firestore/lite';
 
 const ReagendarAluno = () => {
 
@@ -32,19 +32,32 @@ const ReagendarAluno = () => {
     const [profSelec, setprofSelec] = useState('')
     const [emailProf, setEmailProf] = useState('');
 
-    const handleReagendar = () => {
+    const handleReagendar = async () => {
         const diaAtual = diaHorSelecAtual.split(',')[0]
         const horAtual = 'hor'+diaHorSelecAtual.split(' ')[3].substring(0,2)
         const diaRemarc = dataCalendarioRemarc.getDate()+'-'+(dataCalendarioRemarc.getMonth()+1)+'-'+dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
 
-        updateDoc(doc(db, 'Professores', emailProf, 'Reagendamentos', 'AulasReagendadas'), {
-            [diaRemarc]:{
-                [horRemarc]:arrayUnion('aluno2@gmail.com')
-            }
+        const aulasReagendREf = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'))
+        const docSnap = await getDocs(aulasReagendREf)
+
+        docSnap.forEach((doc)=>{
+            console.log(doc.data());
+        })
+        /* if(docSnap.empty){
+            console.log('ñexiste');
+        }else{
+            console.log('existe');
+        } */
+
+        /* setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+            [horRemarc]:arrayUnion('aluno63@gmail.com')
+        }) */
+        /* updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+            [horRemarc]:arrayUnion('aluno63@gmail.com')
         }).then([
             window.alert('Dia e horário remarcado com sucesso!'),
-            ])
+            ]) */
     }
 
     // máxima data permitida para remarcar
