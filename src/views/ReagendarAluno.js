@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
 
 import { db } from '../firebase'
-import { collection, getDocs, query, where, doc, setDoc } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where, doc, arrayUnion, updateDoc } from 'firebase/firestore/lite';
 
 const ReagendarAluno = () => {
 
@@ -22,19 +22,29 @@ const ReagendarAluno = () => {
         4: 'quinta', 5: 'sexta', 6: 'sabado',
     };
 
-    const [dataCalendario, setDataCalendario] = useState(new Date())
     const [listaDiaHorAluno, setListaDiaHorAluno] = useState([])
-    const [diaHorSelec, setDiaHorSelec] = useState('')
-    const [horDisp, setHorDisp] = useState([])
+    const [listaHorDisp, setListaHorDisp] = useState([])
+    const [diaHorSelecAtual, setDiaHorSelecAtual] = useState('')
+    const [dataCalendarioRemarc, setDataCalendarioRemarc] = useState('')
     const [horDispSelec, setHorDispSelec] = useState('')
+
     const [nomesProf, setNomesProf] = useState([])
     const [profSelec, setprofSelec] = useState('')
     const [emailProf, setEmailProf] = useState('');
 
     const handleReagendar = () => {
-        setDoc(doc(db, 'Professores', emailProf, 'Reagendamentos', 'março'), {
-            email:'aluno2@gmail.com'
-        })
+        const diaAtual = diaHorSelecAtual.split(',')[0]
+        const horAtual = 'hor'+diaHorSelecAtual.split(' ')[3].substring(0,2)
+        const diaRemarc = dataCalendarioRemarc.getDate()+'-'+(dataCalendarioRemarc.getMonth()+1)+'-'+dataCalendarioRemarc.getFullYear()
+        const horRemarc = horDispSelec
+
+        updateDoc(doc(db, 'Professores', emailProf, 'Reagendamentos', 'AulasReagendadas'), {
+            [diaRemarc]:{
+                [horRemarc]:arrayUnion('aluno2@gmail.com')
+            }
+        }).then([
+            window.alert('Dia e horário remarcado com sucesso!'),
+            ])
     }
 
     // máxima data permitida para remarcar
@@ -54,15 +64,15 @@ const ReagendarAluno = () => {
     };
 
     const handleSelectDiaHorAula = async (event) => {
-        setDiaHorSelec(event.target.value)
+        setDiaHorSelecAtual(event.target.value)
         setprofSelec('')
-        setDataCalendario('')
+        setDataCalendarioRemarc('')
         setHorDispSelec('')
     }
 
     const handleSelectProf = async (event) => {
         setprofSelec(event.target.value);
-        setDataCalendario('')
+        setDataCalendarioRemarc('')
         setHorDispSelec('')
 
         //consulta do email do professor
@@ -78,7 +88,9 @@ const ReagendarAluno = () => {
     }
 
     const onChangeDataCalendario = async (data) => {
-        setDataCalendario(data);
+        setDataCalendarioRemarc(data);
+        setHorDispSelec('')
+
         const dia = diasDaSemana2[data.getDay()];
 
         const qHorarios = query(collection(db, 'Professores', emailProf, dia));
@@ -89,7 +101,7 @@ const ReagendarAluno = () => {
                 return doc.id
             }
         }).filter(value => value !== undefined);
-        setHorDisp(horariosDisp)
+        setListaHorDisp(horariosDisp)
     }
 
 
@@ -180,7 +192,7 @@ const ReagendarAluno = () => {
             <h2 style={styleViews.texto}>Reagendar horário aluno:</h2>
             <select
                 style={styleViews.select}
-                value={diaHorSelec}
+                value={diaHorSelecAtual}
                 onChange={handleSelectDiaHorAula}>
                 <option value="">Selecione o dia para reagendar</option>
                 {listaDiaHorAluno.map((item, index) => (
@@ -209,7 +221,7 @@ const ReagendarAluno = () => {
                             <h2 style={styleViews.texto}>Para qual data?</h2>
                             <Calendar
                                 onChange={onChangeDataCalendario}
-                                value={dataCalendario}
+                                value={dataCalendarioRemarc}
                                 formatShortWeekday={diasFormatados}
                                 minDate={new Date()}
                                 maxDate={maxData}
@@ -223,13 +235,18 @@ const ReagendarAluno = () => {
                             value={horDispSelec}
                             onChange={handleHorSelect}>
                             <option value="">Escolha um horário disponível:</option>
-                            {horDisp.map((item, index) => (
+                            {listaHorDisp.map((item, index) => (
                                 <option key={index} value={item}>
-                                    {item}
+                                    {item.substring(3,5)+'h'}
                                 </option>
                             ))}
                         </select>
-                        <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button>
+                        <div>
+                            {
+                                horDispSelec !== '' ?
+                                <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button>:null
+                            }
+                        </div>
                     </div> : null
             }
         </div>

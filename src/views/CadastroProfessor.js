@@ -27,12 +27,11 @@ const CadastroProfessor = () => {
           nome: nome,
           email: email,
           telefone: telefone,
-
         }).then([
           window.alert('Professor cadastrado com sucesso!'),
           setNome(''), setEmail(''),
-          setTelefone('')]
-        )
+          setTelefone('')
+        ])
       } else {
         window.alert('Confirme todos dias da semana!')
       }
