@@ -34,30 +34,33 @@ const ReagendarAluno = () => {
 
     const handleReagendar = async () => {
         const diaAtual = diaHorSelecAtual.split(',')[0]
-        const horAtual = 'hor'+diaHorSelecAtual.split(' ')[3].substring(0,2)
-        const diaRemarc = dataCalendarioRemarc.getDate()+'-'+(dataCalendarioRemarc.getMonth()+1)+'-'+dataCalendarioRemarc.getFullYear()
+        const horAtual = 'hor' + diaHorSelecAtual.split(' ')[3].substring(0, 2)
+        const diaRemarc = dataCalendarioRemarc.getDate() + '-' + (dataCalendarioRemarc.getMonth() + 1) + '-' + dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
+        let flagId = false
 
         const aulasReagendREf = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'))
         const docSnap = await getDocs(aulasReagendREf)
 
-        docSnap.forEach((doc)=>{
-            console.log(doc.data());
+        docSnap.forEach((doc) => {
+            if (doc.id == diaRemarc) {
+                flagId = true
+            }
         })
-        /* if(docSnap.empty){
-            console.log('ñexiste');
-        }else{
-            console.log('existe');
-        } */
 
-        /* setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-            [horRemarc]:arrayUnion('aluno63@gmail.com')
-        }) */
-        /* updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-            [horRemarc]:arrayUnion('aluno63@gmail.com')
-        }).then([
-            window.alert('Dia e horário remarcado com sucesso!'),
-            ]) */
+        if (flagId) {
+            console.log(`existe ${diaRemarc}`);
+            updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+                [horRemarc]: arrayUnion('aluno67@gmail.com')
+            }).then([
+                window.alert('Dia e horário remarcado com sucesso!'),
+            ])
+        } else {
+            setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+                [horRemarc]: arrayUnion('aluno67@gmail.com')
+            })
+        }
+
     }
 
     // máxima data permitida para remarcar
@@ -250,14 +253,14 @@ const ReagendarAluno = () => {
                             <option value="">Escolha um horário disponível:</option>
                             {listaHorDisp.map((item, index) => (
                                 <option key={index} value={item}>
-                                    {item.substring(3,5)+'h'}
+                                    {item.substring(3, 5) + 'h'}
                                 </option>
                             ))}
                         </select>
                         <div>
                             {
                                 horDispSelec !== '' ?
-                                <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button>:null
+                                    <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button> : null
                             }
                         </div>
                     </div> : null
