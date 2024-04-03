@@ -41,26 +41,27 @@ const ReagendarAluno = () => {
 
         const aulasReagendREf = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'))
         const docSnap = await getDocs(aulasReagendREf)
-
         docSnap.forEach((doc) => {
             if (doc.id == diaRemarc) {
                 flagId = true
             }
         })
 
+        //verificação se o nó existe no firebase
         if (flagId) {
-            console.log(`existe ${diaRemarc}`);
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno67@gmail.com')
+                [horRemarc]: arrayUnion('aluno68@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
                 [horRemarc]: arrayUnion('aluno67@gmail.com')
-            })
+            }).then([
+                window.alert('Dia e horário remarcado com sucesso!'),
+            ])
         }
-
+        window.location.reload()
     }
 
     // máxima data permitida para remarcar
