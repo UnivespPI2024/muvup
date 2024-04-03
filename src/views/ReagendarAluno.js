@@ -37,30 +37,53 @@ const ReagendarAluno = () => {
         const horAtual = 'hor' + diaHorSelecAtual.split(' ')[3].substring(0, 2)
         const diaRemarc = dataCalendarioRemarc.getDate() + '-' + (dataCalendarioRemarc.getMonth() + 1) + '-' + dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
-        let flagId = false
+        let flagIdRemarc = false
+        let flagIdDesmarc = false
 
+        //consulta se o nó AulasReagendadas existe no BD
         const aulasReagendREf = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'))
-        const docSnap = await getDocs(aulasReagendREf)
-        docSnap.forEach((doc) => {
+        const docSnapAulasReagend = await getDocs(aulasReagendREf)
+        docSnapAulasReagend.forEach((doc) => {
             if (doc.id == diaRemarc) {
-                flagId = true
+                flagIdRemarc = true
             }
         })
 
-        //verificação se o nó existe no firebase
-        if (flagId) {
+        // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
+        if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+                [horRemarc]: arrayUnion('aluno68@gmail.com')
+            })
+        } else {
+            setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+                [horRemarc]: arrayUnion('aluno67@gmail.com')
+            })
+        }
+
+        //consulta se o nó AulasDesmarcadas existe no BD
+        const aulasDesmarcREf = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'))
+        const docSnapAulasDesmarc = await getDocs(aulasReagendREf)
+        docSnapAulasDesmarc.forEach((doc) => {
+            if (doc.id == diaAtual) {
+                flagIdDesmarc = true
+            }
+        })
+
+        // atualiza nó AulasDesmarcadas se já existir ou cria nó se não existir
+        if (flagIdDesmarc) {
+            updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
                 [horRemarc]: arrayUnion('aluno68@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
-            setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
+            setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
                 [horRemarc]: arrayUnion('aluno67@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         }
+
         window.location.reload()
     }
 
