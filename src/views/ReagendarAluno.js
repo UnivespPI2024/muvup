@@ -52,11 +52,11 @@ const ReagendarAluno = () => {
         // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
         if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno68@gmail.com')
+                [horRemarc]: arrayUnion('aluno70@gmail.com')
             })
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno67@gmail.com')
+                [horRemarc]: arrayUnion('aluno70@gmail.com')
             })
         }
 
@@ -72,13 +72,13 @@ const ReagendarAluno = () => {
         // atualiza nó AulasDesmarcadas se já existir ou cria nó se não existir
         if (flagIdDesmarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno68@gmail.com')
+                [horRemarc]: arrayUnion('aluno70@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno67@gmail.com')
+                [horRemarc]: arrayUnion('aluno70@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
@@ -132,13 +132,34 @@ const ReagendarAluno = () => {
         setHorDispSelec('')
 
         const dia = diasDaSemana2[data.getDay()];
+        const diaSelec = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear()
+        const qntMaxAlunosMaisUm = 0
+        const qntMaxAlunosMenosUm = 0
 
+        const verificaQntAulasRemarcadas = async (hor) => {
+            console.log('horVerificados',hor);
+            //consulta se no dia e horário selecionado já existem remarcações
+            const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
+            const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
+            querySnapshotHorRemarc.forEach((docDia) => {
+                if (docDia.id == diaSelec) {
+                    if(Object.keys(docDia.data())==hor){
+                        console.log('diaSelec',diaSelec,'hor',hor,'docDia.data().length',Object.values(docDia.data())[0].length );
+                    }
+                }
+            })
+        }
+
+
+
+
+        //consulta dos horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
         const qHorarios = query(collection(db, 'Professores', emailProf, dia));
         const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
-        //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
-        const horariosDisp = querySnapshot.docs.map(doc => {
-            if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
-                return doc.id
+        const horariosDisp = querySnapshot.docs.map(docHor => {
+            const qntAulasRemarc = verificaQntAulasRemarcadas(docHor.id)
+            if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS) {
+                return docHor.id
             }
         }).filter(value => value !== undefined);
         setListaHorDisp(horariosDisp)
@@ -166,7 +187,6 @@ const ReagendarAluno = () => {
                         datas.push(dataFormatada);
                     }
                 }
-                console.log('datas', datas);
                 return datas;
             }
 
