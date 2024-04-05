@@ -137,17 +137,20 @@ const ReagendarAluno = () => {
         const qntMaxAlunosMenosUm = 0
 
         const verificaQntAulasRemarcadas = async (hor) => {
-            console.log('horVerificados',hor);
+            // console.log('horVerificados',hor);
             //consulta se no dia e horário selecionado já existem remarcações
+            let qntAulasRemarc = 0
             const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
             const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
-            querySnapshotHorRemarc.forEach((docDia) => {
+            const retorno  = querySnapshotHorRemarc.forEach((docDia) => {
                 if (docDia.id == diaSelec) {
-                    if(Object.keys(docDia.data())==hor){
-                        console.log('diaSelec',diaSelec,'hor',hor,'docDia.data().length',Object.values(docDia.data())[0].length );
+                    if(Object.keys(docDia.data()).includes(hor)){
+                        // console.log('diaSelec',diaSelec,'hor',hor,'docDia.data().length',Object.values(docDia.data())[0].length);
+                        qntAulasRemarc = Object.values(docDia.data())[0].length
                     }
                 }
             })
+            return qntAulasRemarc
         }
 
 
@@ -158,6 +161,10 @@ const ReagendarAluno = () => {
         const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
         const horariosDisp = querySnapshot.docs.map(docHor => {
             const qntAulasRemarc = verificaQntAulasRemarcadas(docHor.id)
+            qntAulasRemarc.then(result=>{
+                console.log('result',result);
+            })
+            
             if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS) {
                 return docHor.id
             }
