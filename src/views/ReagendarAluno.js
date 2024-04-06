@@ -33,7 +33,8 @@ const ReagendarAluno = () => {
     const [emailProf, setEmailProf] = useState('');
 
     const handleReagendar = async () => {
-        const diaAtual = diaHorSelecAtual.split(',')[0]
+        const diaAtual = diaHorSelecAtual.split(',')[0].replace(/\//g,'-')
+        console.log('diaAtual',diaAtual);
         const horAtual = 'hor' + diaHorSelecAtual.split(' ')[3].substring(0, 2)
         const diaRemarc = dataCalendarioRemarc.getDate() + '-' + (dataCalendarioRemarc.getMonth() + 1) + '-' + dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
@@ -52,7 +53,7 @@ const ReagendarAluno = () => {
         // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
         if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno74@gmail.com')
+                [horRemarc]: arrayUnion('aluno85@gmail.com')
             })
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
@@ -62,8 +63,9 @@ const ReagendarAluno = () => {
 
         //consulta se o nó AulasDesmarcadas existe no BD
         const aulasDesmarcREf = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'))
-        const docSnapAulasDesmarc = await getDocs(aulasReagendREf)
+        const docSnapAulasDesmarc = await getDocs(aulasDesmarcREf)
         docSnapAulasDesmarc.forEach((doc) => {
+            console.log('doc.id',doc.id,'diaAtual',diaAtual);
             if (doc.id == diaAtual) {
                 flagIdDesmarc = true
             }
@@ -71,14 +73,15 @@ const ReagendarAluno = () => {
 
         // atualiza nó AulasDesmarcadas se já existir ou cria nó se não existir
         if (flagIdDesmarc) {
-            updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno70@gmail.com')
+            console.log('entrou aqui');
+            updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
+                [horAtual]: arrayUnion('aluno70@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
-            setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno70@gmail.com')
+            setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
+                [horAtual]: arrayUnion('aluno70@gmail.com')
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
@@ -133,24 +136,41 @@ const ReagendarAluno = () => {
 
         const dia = diasDaSemana2[data.getDay()];
         const diaSelec = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear()
-        
+
 
         const verificaQntAulas = async (docHor) => {
-            console.log('horVerificados',docHor.id);
+            // console.log('horVerificados',docHor.id);
             //consulta se no dia e horário selecionado já existem remarcações
             let qntAulasRemarc = 0
+            let qntAulasDesmarc = 0
+
             const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
             const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
             querySnapshotHorRemarc.forEach((docDia) => {
                 if (docDia.id == diaSelec) {
                     if (Object.keys(docDia.data()).includes(docHor.id)) {
-                        console.log('diaSelec',diaSelec,'hor',docHor.id,'docDia.data().length',Object.values(docDia.data()));
-                        qntAulasRemarc = Object.values(docDia.data())[0].length
-                        console.log('qntAulasRemarc',qntAulasRemarc);
+                        const idx = Object.keys(docDia.data()).indexOf(docHor.id)
+                        // console.log('diaSelec', diaSelec, 'hor', docHor.id, 'docDia.data().length', Object.values(docDia.data())[idx].length);
+                        qntAulasRemarc = Object.values(docDia.data())[idx].length
+                        // console.log('qntAulasRemarc',qntAulasRemarc);
                     }
                 }
             })
-            if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS - qntAulasRemarc) {
+
+            const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
+            const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
+            querySnapshotHorDesmarc.forEach((docDia) => {
+                if (docDia.id == diaSelec) {
+                    if (Object.keys(docDia.data()).includes(docHor.id)) {
+                        const idx = Object.keys(docDia.data()).indexOf(docHor.id)
+                        // console.log('diaSelec', diaSelec, 'hor', docHor.id, 'docDia.data().length', Object.values(docDia.data())[idx].length);
+                        qntAulasDesmarc = Object.values(docDia.data())[idx].length
+                        // console.log('qntAulasDesmarc',qntAulasDesmarc);
+                    }
+                }
+            })
+
+            if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS - qntAulasRemarc + qntAulasDesmarc) {
                 return docHor.id
             }
         }
@@ -160,10 +180,9 @@ const ReagendarAluno = () => {
         const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
         const horariosDisp = await Promise.all(querySnapshot.docs.map(async docHor => {
             return await verificaQntAulas(docHor)
-             
         }))
         setListaHorDisp(horariosDisp.filter(value => value !== undefined))
-        console.log('horariosDisp',horariosDisp);
+        // console.log('horariosDisp',horariosDisp);
     }
 
     useEffect(() => {
