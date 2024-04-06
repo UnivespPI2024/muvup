@@ -4,6 +4,7 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 import { MAX_ALUNOS } from './constantes';
 
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
@@ -30,6 +31,8 @@ const CadastroAluno = () => {
   const [horaAula2, setHoraAula2] = useState('');
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
+
+
 
   useEffect(() => {
     (async () => {
@@ -93,6 +96,43 @@ const CadastroAluno = () => {
         })
       }
 
+      //gerador de senha aleatória
+      function gerarSenha(tamanho) {
+        var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var senha = "";
+        for (var i = 0; i < tamanho; i++) {
+          var indiceCaractere = Math.floor(Math.random() * caracteres.length);
+          senha += caracteres[indiceCaractere];
+        }
+        return senha;
+      }
+
+      let novaSenha = gerarSenha(6);
+
+      //criar novo usuário com senha aleatória
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, novaSenha)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log('user', user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log('erro', errorCode, errorMessage);
+        });
+
+      //envio de email para redefinição de senha
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          console.log('email de redefinição de senha foi enviado');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log('erro', errorCode, errorMessage);
+        });
+
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
@@ -126,10 +166,10 @@ const CadastroAluno = () => {
     const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
     //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
     const horariosDisp = querySnapshot.docs.map(doc => {
-      if(Object.keys(doc.data().alunos).length<MAX_ALUNOS){
+      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
         return doc.id
       }
-    }).filter(value => value!==undefined);
+    }).filter(value => value !== undefined);
     setHorDispProf1(horariosDisp)
   }
 
@@ -145,10 +185,10 @@ const CadastroAluno = () => {
     const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
     //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
     const horariosDisp = querySnapshot.docs.map(doc => {
-      if(Object.keys(doc.data().alunos).length<MAX_ALUNOS){
+      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
         return doc.id
       }
-    }).filter(value => value!==undefined);
+    }).filter(value => value !== undefined);
     setHorDispProf2(horariosDisp)
   }
 
@@ -163,10 +203,10 @@ const CadastroAluno = () => {
     const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
     //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
     const horariosDisp = querySnapshot.docs.map(doc => {
-      if(Object.keys(doc.data().alunos).length<MAX_ALUNOS){
+      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
         return doc.id
       }
-    }).filter(value => value!==undefined);
+    }).filter(value => value !== undefined);
     setHorDispProf3(horariosDisp)
   }
 
@@ -250,27 +290,27 @@ const CadastroAluno = () => {
         qntAulas == '1aula' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
           </div> : null
       }
       {
         qntAulas == '2aulas' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2} />
           </div> : null
       }
       {
         qntAulas == '3aulas' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula::</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da terceira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} horDispProf={horDispProf3}/>
+            <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} horDispProf={horDispProf3} />
           </div> : null
       }
       <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
