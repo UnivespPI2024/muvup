@@ -33,8 +33,8 @@ const ReagendarAluno = () => {
     const [emailProf, setEmailProf] = useState('');
 
     const handleReagendar = async () => {
-        const diaAtual = diaHorSelecAtual.split(',')[0].replace(/\//g,'-')
-        console.log('diaAtual',diaAtual);
+        const diaAtual = diaHorSelecAtual.split(',')[0].replace(/\//g, '-')
+        console.log('diaAtual', diaAtual);
         const horAtual = 'hor' + diaHorSelecAtual.split(' ')[3].substring(0, 2)
         const diaRemarc = dataCalendarioRemarc.getDate() + '-' + (dataCalendarioRemarc.getMonth() + 1) + '-' + dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
@@ -65,7 +65,7 @@ const ReagendarAluno = () => {
         const aulasDesmarcREf = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'))
         const docSnapAulasDesmarc = await getDocs(aulasDesmarcREf)
         docSnapAulasDesmarc.forEach((doc) => {
-            console.log('doc.id',doc.id,'diaAtual',diaAtual);
+            console.log('doc.id', doc.id, 'diaAtual', diaAtual);
             if (doc.id == diaAtual) {
                 flagIdDesmarc = true
             }
@@ -133,39 +133,36 @@ const ReagendarAluno = () => {
     const onChangeDataCalendario = async (data) => {
         setDataCalendarioRemarc(data);
         setHorDispSelec('')
-
+        setListaHorDisp([''])
         const dia = diasDaSemana2[data.getDay()];
         const diaSelec = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear()
 
 
         const verificaQntAulas = async (docHor) => {
-            // console.log('horVerificados',docHor.id);
-            //consulta se no dia e horário selecionado já existem remarcações
+
             let qntAulasRemarc = 0
             let qntAulasDesmarc = 0
 
+            //consulta se no dia e horário selecionado já existem remarcações
             const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
             const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
             querySnapshotHorRemarc.forEach((docDia) => {
                 if (docDia.id == diaSelec) {
                     if (Object.keys(docDia.data()).includes(docHor.id)) {
                         const idx = Object.keys(docDia.data()).indexOf(docHor.id)
-                        // console.log('diaSelec', diaSelec, 'hor', docHor.id, 'docDia.data().length', Object.values(docDia.data())[idx].length);
                         qntAulasRemarc = Object.values(docDia.data())[idx].length
-                        // console.log('qntAulasRemarc',qntAulasRemarc);
                     }
                 }
             })
 
+            //consulta se no dia e horário selecionado existem desistências
             const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
             const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
             querySnapshotHorDesmarc.forEach((docDia) => {
                 if (docDia.id == diaSelec) {
                     if (Object.keys(docDia.data()).includes(docHor.id)) {
                         const idx = Object.keys(docDia.data()).indexOf(docHor.id)
-                        // console.log('diaSelec', diaSelec, 'hor', docHor.id, 'docDia.data().length', Object.values(docDia.data())[idx].length);
                         qntAulasDesmarc = Object.values(docDia.data())[idx].length
-                        // console.log('qntAulasDesmarc',qntAulasDesmarc);
                     }
                 }
             })
@@ -182,7 +179,6 @@ const ReagendarAluno = () => {
             return await verificaQntAulas(docHor)
         }))
         setListaHorDisp(horariosDisp.filter(value => value !== undefined))
-        // console.log('horariosDisp',horariosDisp);
     }
 
     useEffect(() => {
@@ -279,19 +275,22 @@ const ReagendarAluno = () => {
                     </option>
                 ))}
             </select>
-            <div>
-                <select
-                    style={styleViews.select}
-                    value={profSelec}
-                    onChange={handleSelectProf}>
-                    <option value="">Escolha um professor</option>
-                    {nomesProf.map((item, index) => (
-                        <option key={index} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            {
+                diaHorSelecAtual !== '' ?
+                    <div>
+                        <select
+                            style={styleViews.select}
+                            value={profSelec}
+                            onChange={handleSelectProf}>
+                            <option value="">Escolha um professor</option>
+                            {nomesProf.map((item, index) => (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
+                    </div> : null
+            }
             {
                 profSelec !== '' ?
                     <div>
