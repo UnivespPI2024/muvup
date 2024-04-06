@@ -52,11 +52,11 @@ const ReagendarAluno = () => {
         // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
         if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno70@gmail.com')
+                [horRemarc]: arrayUnion('aluno74@gmail.com')
             })
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno70@gmail.com')
+                [horRemarc]: arrayUnion('aluno74@gmail.com')
             })
         }
 
@@ -133,46 +133,38 @@ const ReagendarAluno = () => {
 
         const dia = diasDaSemana2[data.getDay()];
         const diaSelec = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear()
-        const qntMaxAlunosMaisUm = 0
-        const qntMaxAlunosMenosUm = 0
+        
 
-        const verificaQntAulasRemarcadas = async (hor) => {
-            // console.log('horVerificados',hor);
+        const verificaQntAulas = async (docHor) => {
+            console.log('horVerificados',docHor.id);
             //consulta se no dia e horário selecionado já existem remarcações
             let qntAulasRemarc = 0
             const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
             const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
-            const retorno  = querySnapshotHorRemarc.forEach((docDia) => {
+            querySnapshotHorRemarc.forEach((docDia) => {
                 if (docDia.id == diaSelec) {
-                    if(Object.keys(docDia.data()).includes(hor)){
-                        // console.log('diaSelec',diaSelec,'hor',hor,'docDia.data().length',Object.values(docDia.data())[0].length);
+                    if (Object.keys(docDia.data()).includes(docHor.id)) {
+                        console.log('diaSelec',diaSelec,'hor',docHor.id,'docDia.data().length',Object.values(docDia.data()));
                         qntAulasRemarc = Object.values(docDia.data())[0].length
+                        console.log('qntAulasRemarc',qntAulasRemarc);
                     }
                 }
             })
-            return qntAulasRemarc
+            if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS - qntAulasRemarc) {
+                return docHor.id
+            }
         }
-
-
-
 
         //consulta dos horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
         const qHorarios = query(collection(db, 'Professores', emailProf, dia));
         const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
-        const horariosDisp = querySnapshot.docs.map(docHor => {
-            const qntAulasRemarc = verificaQntAulasRemarcadas(docHor.id)
-            qntAulasRemarc.then(result=>{
-                console.log('result',result);
-            })
-            
-            if (Object.keys(docHor.data().alunos).length < MAX_ALUNOS) {
-                return docHor.id
-            }
-        }).filter(value => value !== undefined);
-        setListaHorDisp(horariosDisp)
+        const horariosDisp = await Promise.all(querySnapshot.docs.map(async docHor => {
+            return await verificaQntAulas(docHor)
+             
+        }))
+        setListaHorDisp(horariosDisp.filter(value => value !== undefined))
+        console.log('horariosDisp',horariosDisp);
     }
-
-
 
     useEffect(() => {
         (async () => {
