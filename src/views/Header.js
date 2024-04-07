@@ -1,14 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 import '../estilos/header.css';
 
-const Header = ({ onLogout }) => {
+const Header = ({ logOut }) => {
   return (
     <header className="header">
-      <h1 className="header__title">Meu Aplicativo</h1>
-      <button className="header__logout" onClick={onLogout}>
-        <FontAwesomeIcon icon={faPenToSquare} style={{color:'white'}}/>
+      <button className="header__logout" onClick={logOut}>
+        <FontAwesomeIcon icon={faSignOut}/>
       </button>
     </header>
   );

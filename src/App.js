@@ -10,6 +10,8 @@ import ProcurarAluno from './views/ProcurarAluno';
 import MenuLateral from './views/MenuLateral';
 import ReagendarAluno from './views/ReagendarAluno';
 
+import { getAuth, signOut } from "firebase/auth";
+
 function App() {
   const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
 
@@ -17,9 +19,19 @@ function App() {
     setComponenteAtual(component);
   };
 
+  const handleLogOut = () => {
+    console.log('entrouSignOut');
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      console.log('deslogado com sucesso');
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   return (
     <div>
-      <Header></Header>
+      <Header logOut={handleLogOut}></Header>
       <MenuLateral onItemClick={handleItemClick}></MenuLateral>
       <div style={styles.container}>
         <div style={styles.containerConteudo}>
@@ -50,7 +62,7 @@ const styles = {
   containerConteudo: {
     width: '85%',
   },
-  containerCadastro:{
+  containerCadastro: {
     display: 'flex',
     justifyContent: 'center',
   },
@@ -59,6 +71,7 @@ const styles = {
     justifyContent: 'center',
   },
   logo: {
+    marginTop: '120px',
     height: '350px',
     textAlign: 'center'
   }

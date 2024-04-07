@@ -1,11 +1,12 @@
 .header {
-    background-color: #333;
+    background-color: #8F6DA0;
     color: #fff;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 10px 20px;
     width: 85%;
+    min-height: 60px;
     position: fixed;
     right: 0;
     top: 0;
@@ -19,7 +20,7 @@
     background: none;
     border: none;
     color: #fff;
-    font-size: 16px;
+    font-size: 28px;
     cursor: pointer;
     display: flex;
     align-items: center;
