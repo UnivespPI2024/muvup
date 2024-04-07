@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 import '../estilos/login.css'
 
+
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 
 
@@ -22,6 +23,7 @@ function Login() {
       if (user) {
         const uid = user.uid;
         setLogado(true)
+        console.log('logado');
       }else{
         setLogado(false)
       }
@@ -49,6 +51,7 @@ function Login() {
 
   //faz a entrada através de login e senha
   const autenticacaoUsuario = (e) => {
+    e.preventDefault()
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredential) => {
         const user = userCredential.user;

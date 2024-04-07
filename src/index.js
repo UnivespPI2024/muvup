@@ -5,23 +5,21 @@ import './index.css';
 import Login from './views/Login'
 import App from './App'
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element:<Login />
-  },
-  {
-    path:'/app',
-    element:<App />
-  }
-])
+
+export default function App2() {
+  return (
+    <BrowserRouter>
+      <Routes>
+          <Route path='/' index element={<Login />} />
+          <Route path='/app' index element={<App />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+root.render(<App2/>);
 
 reportWebVitals();

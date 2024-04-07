@@ -11,9 +11,12 @@ import MenuLateral from './views/MenuLateral';
 import ReagendarAluno from './views/ReagendarAluno';
 
 import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
+
+  const navigate = useNavigate();
 
   const handleItemClick = (component) => {
     setComponenteAtual(component);
@@ -24,6 +27,7 @@ function App() {
     const auth = getAuth();
     signOut(auth).then(() => {
       console.log('deslogado com sucesso');
+      navigate('/')
     }).catch((error) => {
       console.log(error);
     });
