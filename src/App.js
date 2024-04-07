@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import logo from './images/logo.png';
+import Header from './views/Header';
 import CadastroAluno from './views/CadastroAluno';
 import CadastroProfessor from './views/CadastroProfessor';
 import ProcurarTodosAlunos from './views/ProcurarTodosAlunos';
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <div>
+      <Header></Header>
       <MenuLateral onItemClick={handleItemClick}></MenuLateral>
       <div style={styles.container}>
         <div style={styles.containerConteudo}>

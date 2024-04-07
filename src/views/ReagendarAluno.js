@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import styleViews from '../estilos/styleViews'
 import Calendar from 'react-calendar';
-import { MAX_DIAS_REMARC, MAX_ALUNOS } from './constantes';
+import { MAX_DIAS_REMARC, MAX_ALUNOS } from '../constantes';
 
 import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';

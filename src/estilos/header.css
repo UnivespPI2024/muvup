@@ -1,0 +1,30 @@
+.header {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 85%;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+  
+  .header__title {
+    margin: 0;
+  }
+  
+  .header__logout {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header__logout svg {
+    margin-right: 5px;
+  }

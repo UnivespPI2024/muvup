@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
-import { MAX_ALUNOS } from './constantes';
+import { MAX_ALUNOS } from '../constantes';
 
 import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { db } from '../firebase'
