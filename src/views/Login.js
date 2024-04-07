@@ -1,17 +1,40 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 import '../estilos/login.css'
 
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 
 
 function Login() {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [logado, setLogado] = useState(false);
 
   const auth = getAuth();
+  const navigate = useNavigate();
 
+  //verifica se o usuário já está logado
+  useEffect(() => {
+    console.log('entrouAAqui');
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setLogado(true)
+      }else{
+        setLogado(false)
+      }
+    });
+    if(logado){
+      navigate('/app')
+      console.log('logado');
+    }else{
+      navigate('/')
+    }
+  }, [logado])
+
+  // redefinição de senha através de link no email
   const enviarEmailRedefSenha = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
@@ -24,11 +47,12 @@ function Login() {
       });
   }
 
-  const autenticacaoUsuario = () => {
+  //faz a entrada através de login e senha
+  const autenticacaoUsuario = (e) => {
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('user',user);
+        console.log('user', user);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -49,7 +73,7 @@ function Login() {
           <input type="password" name="password" placeholder="Password" onChange={(e) => setSenha(e.target.value)} />
           <input type="submit" value="Entrar" />
         </form>
-        <a  href="#" onClick={enviarEmailRedefSenha} className="forgot-password">Esqueci minha senha</a>
+        <a href="#" onClick={enviarEmailRedefSenha} className="forgot-password">Esqueci minha senha</a>
       </div>
     </div>
   );
