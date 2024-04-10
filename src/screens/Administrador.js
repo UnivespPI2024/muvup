@@ -4,6 +4,7 @@ import logo from '../images/logo.png';
 import Header from '../views/Header';
 import CadastroAluno from '../views/CadastroAluno';
 import CadastroProfessor from '../views/CadastroProfessor';
+import CadastroAdministrador from '../views/CadastroAdministrador';
 import ProcurarTodosAlunos from '../views/ProcurarTodosAlunos';
 import ProcurarTodosProf from '../views/ProcurarTodosProf';
 import ProcurarAluno from '../views/ProcurarAluno';
@@ -45,6 +46,7 @@ function Administrador() {
           <div style={styles.containerCadastro}>
             {componenteAtual === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
             {componenteAtual === 'cadastroProfessor' && <CadastroProfessor></CadastroProfessor>}
+            {componenteAtual === 'cadastroAdministrador' && <CadastroAdministrador></CadastroAdministrador>}
             {componenteAtual === 'todosAlunos' && <ProcurarTodosAlunos></ProcurarTodosAlunos>}
             {componenteAtual === 'todosProfessores' && <ProcurarTodosProf></ProcurarTodosProf>}
             {componenteAtual === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}

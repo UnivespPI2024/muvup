@@ -34,6 +34,13 @@ function Login() {
           setPerfil(doc.data().perfil)
         })
       }
+      const qAdmin = query(collection(db, 'Administradores'), where('email', '==', email))
+      const qSnapDocAdmin= await getDocs(qAdmin)
+      if(!qSnapDocAdmin.empty){
+        qSnapDocAdmin.forEach(doc => {
+          setPerfil(doc.data().perfil)
+        })
+      }
     })()
 
   }, [email])
