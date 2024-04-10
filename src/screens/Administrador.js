@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 
-import logo from './images/logo.png';
-import Header from './views/Header';
-import CadastroAluno from './views/CadastroAluno';
-import CadastroProfessor from './views/CadastroProfessor';
-import ProcurarTodosAlunos from './views/ProcurarTodosAlunos';
-import ProcurarTodosProf from './views/ProcurarTodosProf';
-import ProcurarAluno from './views/ProcurarAluno';
-import MenuLateral from './views/MenuLateral';
-import ReagendarAluno from './views/ReagendarAluno';
+import logo from '../images/logo.png';
+import Header from '../views/Header';
+import CadastroAluno from '../views/CadastroAluno';
+import CadastroProfessor from '../views/CadastroProfessor';
+import ProcurarTodosAlunos from '../views/ProcurarTodosAlunos';
+import ProcurarTodosProf from '../views/ProcurarTodosProf';
+import ProcurarAluno from '../views/ProcurarAluno';
+import MenuLateral from '../views/MenuLateral';
+import ReagendarAluno from '../views/ReagendarAluno';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
-function App() {
+function Administrador() {
   const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
 
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ function App() {
   );
 }
 
-export default App;
+export default Administrador;
 
 const styles = {
   container: {

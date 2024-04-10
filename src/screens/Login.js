@@ -29,7 +29,7 @@ function Login() {
       }
     });
     if(logado){
-      navigate('/app')
+      navigate('/admin')
       console.log('logado');
     }else{
       navigate('/')
