@@ -5,6 +5,8 @@ import SelHorAulaProf from '../componentes/SelHorAulaProf';
 
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+
 
 const CadastroProfessor = () => {
 
@@ -27,11 +29,52 @@ const CadastroProfessor = () => {
           nome: nome,
           email: email,
           telefone: telefone,
+          perfil: 'professor'
         }).then([
           window.alert('Professor cadastrado com sucesso!'),
           setNome(''), setEmail(''),
           setTelefone('')
         ])
+
+        //gerador de senha aleatória
+        function gerarSenha(tamanho) {
+          var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+          var senha = "";
+          for (var i = 0; i < tamanho; i++) {
+            var indiceCaractere = Math.floor(Math.random() * caracteres.length);
+            senha += caracteres[indiceCaractere];
+          }
+          return senha;
+        }
+
+        let novaSenha = gerarSenha(6);
+
+        //criar novo usuário com senha aleatória
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, novaSenha)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log('UserProf criado')
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log('erro', errorCode, errorMessage);
+          });
+
+
+        //envio de email para redefinição de senha
+        sendPasswordResetEmail(auth, email)
+          .then(() => {
+            console.log('email de redefinição de senha foi enviado');
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log('erro', errorCode, errorMessage);
+          });
+
+
       } else {
         window.alert('Confirme todos dias da semana!')
       }
@@ -46,7 +89,7 @@ const CadastroProfessor = () => {
     console.log('horarios', horarios);
     horarios.forEach((hor) => {
       setDoc(doc(db, 'Professores', email, 'segunda', hor), {
-        alunos:[]
+        alunos: []
       })
     })
     // setHorSegunda(horarios)
@@ -55,7 +98,7 @@ const CadastroProfessor = () => {
   const cboxChangeTerca = (horarios) => {
     horarios.forEach((hor) => {
       setDoc(doc(db, 'Professores', email, 'terça', hor), {
-        alunos:[]
+        alunos: []
       })
     })
     // setHorTerca(horarios)
@@ -64,7 +107,7 @@ const CadastroProfessor = () => {
   const cboxChangeQuarta = (horarios) => {
     horarios.forEach((hor) => {
       setDoc(doc(db, 'Professores', email, 'quarta', hor), {
-        alunos:[]
+        alunos: []
       })
     })
     // setHorQuarta(horarios)
@@ -73,7 +116,7 @@ const CadastroProfessor = () => {
   const cboxChangeQuinta = (horarios) => {
     horarios.forEach((hor) => {
       setDoc(doc(db, 'Professores', email, 'quinta', hor), {
-        alunos:[]
+        alunos: []
       })
     })
     // setHorQuinta(horarios)
@@ -82,7 +125,7 @@ const CadastroProfessor = () => {
   const cboxChangeSexta = (horarios) => {
     horarios.forEach((hor) => {
       setDoc(doc(db, 'Professores', email, 'sexta', hor), {
-        alunos:[]
+        alunos: []
       })
     })
     // setHorSexta(horarios)

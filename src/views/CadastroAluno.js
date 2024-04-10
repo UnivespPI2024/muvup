@@ -55,6 +55,7 @@ const CadastroAluno = () => {
         endereco: endereco,
         cidade: cidade,
         qntAulas: qntAulas,
+        perfil: 'aluno',
         diaHorAula: {
           diaAula1: diaAula1,
           horaAula1: horaAula1,
@@ -119,15 +120,6 @@ const CadastroAluno = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log('erro', errorCode, errorMessage);
-        });
-
-       
-        updateProfile(auth.currentUser,{
-          displayName:'aluno'
-        }).then(() => {
-          console.log("Perfil do usuário atualizado com sucesso",auth.currentUser);
-        }).catch((error) => {
-          console.error("Erro ao atualizar perfil do usuário durante a criação:", error);
         });
 
       //envio de email para redefinição de senha

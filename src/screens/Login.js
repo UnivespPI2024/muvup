@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 import '../estilos/login.css'
 
+import { db } from '../firebase'
+import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 
 function Login() {
@@ -15,14 +17,33 @@ function Login() {
   const auth = getAuth();
   const navigate = useNavigate();
 
+  useEffect(() =>{
+    (async () => {
+      console.log('email',email);
+      const qAlunos = query(collection(db, 'Alunos'), where('email', '==', email))
+      const qSnapDocAlunos = await getDocs(qAlunos)
+      if(!qSnapDocAlunos.empty){
+        qSnapDocAlunos.forEach(doc => {
+          setPerfil(doc.data().perfil)
+        })
+      }
+      const qProf = query(collection(db, 'Professores'), where('email', '==', email))
+      const qSnapDocProf= await getDocs(qProf)
+      if(!qSnapDocProf.empty){
+        qSnapDocProf.forEach(doc => {
+          setPerfil(doc.data().perfil)
+        })
+      }
+    })()
+
+  }, [email])
+
   //verifica se o usuário já está logado
   useEffect(() => {
     console.log('entrouAAqui');
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
         setLogado(true)
-        setPerfil(user.displayName)
       } else {
         setLogado(false)
       }
@@ -34,7 +55,7 @@ function Login() {
     } else {
       navigate('/')
     }
-  }, [logado])
+  }, [logado, perfil])
 
   // redefinição de senha através de link no email
   const enviarEmailRedefSenha = () => {
