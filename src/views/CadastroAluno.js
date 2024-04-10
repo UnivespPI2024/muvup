@@ -4,7 +4,7 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import styleViews from '../estilos/styleViews'
 import { MAX_ALUNOS } from '../constantes';
 
-import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, updateEmail, updateDisplayName, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
@@ -114,12 +114,20 @@ const CadastroAluno = () => {
       createUserWithEmailAndPassword(auth, email, novaSenha)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log('user', user);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log('erro', errorCode, errorMessage);
+        });
+
+       
+        updateProfile(auth.currentUser,{
+          displayName:'aluno'
+        }).then(() => {
+          console.log("Perfil do usuário atualizado com sucesso",auth.currentUser);
+        }).catch((error) => {
+          console.error("Erro ao atualizar perfil do usuário durante a criação:", error);
         });
 
       //envio de email para redefinição de senha

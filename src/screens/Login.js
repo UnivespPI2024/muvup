@@ -3,15 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../images/logo.png'
 import '../estilos/login.css'
 
-
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
-
 
 function Login() {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [logado, setLogado] = useState(false);
+  const [perfil, setPerfil] = useState('');
 
   const auth = getAuth();
   const navigate = useNavigate();
@@ -23,15 +22,16 @@ function Login() {
       if (user) {
         const uid = user.uid;
         setLogado(true)
-        console.log('logado');
-      }else{
+        setPerfil(user.displayName)
+      } else {
         setLogado(false)
       }
     });
-    if(logado){
-      navigate('/admin')
-      console.log('logado');
-    }else{
+    if (logado) {
+      perfil == 'aluno' ? navigate('/aluno') : null
+      perfil == 'professor' ? navigate('/professor') : null
+      perfil == 'administrador' ? navigate('/admin') : null
+    } else {
       navigate('/')
     }
   }, [logado])
@@ -55,7 +55,7 @@ function Login() {
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('user', user);
+        // console.log('user', user);
       })
       .catch((error) => {
         const errorCode = error.code;
