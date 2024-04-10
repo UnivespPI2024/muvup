@@ -19,6 +19,7 @@ function Login() {
 
   useEffect(() =>{
     (async () => {
+      //as verificações abaixo são para determinar se o usuário é aluno, professor ou administrador.
       console.log('email',email);
       const qAlunos = query(collection(db, 'Alunos'), where('email', '==', email))
       const qSnapDocAlunos = await getDocs(qAlunos)
@@ -55,10 +56,11 @@ function Login() {
         setLogado(false)
       }
     });
-    if (logado) {
-      perfil == 'aluno' ? navigate('/aluno') : null
-      perfil == 'professor' ? navigate('/professor') : null
-      perfil == 'administrador' ? navigate('/admin') : null
+    // navega até a página correspondente
+    if (logado && perfil!=='') {
+      if(perfil === 'aluno') navigate('/aluno')
+      if(perfil === 'professor') navigate('/professor')
+      if(perfil === 'administrador') navigate('/admin')
     } else {
       navigate('/')
     }

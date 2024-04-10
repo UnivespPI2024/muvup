@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 
 import logo from '../images/logo.png';
 import Header from '../views/Header';
-import MenuLateralAluno from '../views/MenuLateralAluno';
-import ReagendarAluno from '../views/ReagendarAluno';
+import MenuLateralProfessor from '../views/MenuLateralProfessor';
+import ListarAulasProfessor from '../views/ListarAulasProfessor';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 function Professor() {
-  const [componenteAtual, setComponenteAtual] = useState('reagendarAluno');
+  const [componenteAtual, setComponenteAtual] = useState('listarAulasProfessor');
 
   const navigate = useNavigate();
 
@@ -31,14 +31,14 @@ function Professor() {
   return (
     <div>
       <Header logOut={handleLogOut}></Header>
-      <MenuLateralAluno onItemClick={handleItemClick}></MenuLateralAluno>
+      <MenuLateralProfessor onItemClick={handleItemClick}></MenuLateralProfessor>
       <div style={styles.container}>
         <div style={styles.containerConteudo}>
           <div style={styles.logoContainer}>
             <img src={logo} style={styles.logo}></img>
           </div>
           <div style={styles.containerCadastro}>
-            {componenteAtual === 'reagendarAluno' && <ReagendarAluno></ReagendarAluno>}
+            {componenteAtual === 'listarAulasProfessor' && <ListarAulasProfessor></ListarAulasProfessor>}
           </div>
         </div>
       </div>

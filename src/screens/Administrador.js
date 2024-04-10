@@ -8,7 +8,7 @@ import CadastroAdministrador from '../views/CadastroAdministrador';
 import ProcurarTodosAlunos from '../views/ProcurarTodosAlunos';
 import ProcurarTodosProf from '../views/ProcurarTodosProf';
 import ProcurarAluno from '../views/ProcurarAluno';
-import MenuLateral from '../views/MenuLateral';
+import MenuLateral from '../views/MenuLateralAdministrador';
 import ReagendarAluno from '../views/ReagendarAluno';
 
 import { getAuth, signOut } from "firebase/auth";
