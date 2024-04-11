@@ -8,6 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
 
 import { db } from '../firebase'
+import { getAuth } from "firebase/auth";
 import { collection, getDocs, query, where, doc, arrayUnion, updateDoc, setDoc } from 'firebase/firestore/lite';
 
 const ReagendarAluno = () => {
@@ -27,10 +28,17 @@ const ReagendarAluno = () => {
     const [diaHorSelecAtual, setDiaHorSelecAtual] = useState('')
     const [dataCalendarioRemarc, setDataCalendarioRemarc] = useState('')
     const [horDispSelec, setHorDispSelec] = useState('')
+    
+    const auth = getAuth()
 
     const [nomesProf, setNomesProf] = useState([])
     const [profSelec, setprofSelec] = useState('')
     const [emailProf, setEmailProf] = useState('');
+    const [emailAluno, setEmailAluno] = useState('');
+
+    useEffect(()=>{
+        setEmailAluno(auth.currentUser.email)
+    },[])
 
     const handleReagendar = async () => {
         const diaAtual = diaHorSelecAtual.split(',')[0].replace(/\//g, '-')
@@ -53,11 +61,11 @@ const ReagendarAluno = () => {
         // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
         if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno85@gmail.com')
+                [horRemarc]: arrayUnion(emailProf)
             })
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion('aluno74@gmail.com')
+                [horRemarc]: arrayUnion(emailProf)
             })
         }
 
@@ -75,13 +83,13 @@ const ReagendarAluno = () => {
         if (flagIdDesmarc) {
             console.log('entrou aqui');
             updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
-                [horAtual]: arrayUnion('aluno70@gmail.com')
+                [horAtual]: arrayUnion(emailProf)
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
-                [horAtual]: arrayUnion('aluno70@gmail.com')
+                [horAtual]: arrayUnion(emailProf)
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
@@ -205,7 +213,7 @@ const ReagendarAluno = () => {
             }
 
             //consulta no BD dos dias e horários de um aluno
-            const q = query(collection(db, 'Alunos'), where('email', '==', 'aluno2@gmail.com'))
+            const q = query(collection(db, 'Alunos'), where('email', '==', emailAluno))
             const diaHorAlunoSnapshot = await getDocs(q)
             const listahorarios = diaHorAlunoSnapshot.docs.map(doc => doc.data().diaHorAula);
             const listaNormalizada = listahorarios[0]
