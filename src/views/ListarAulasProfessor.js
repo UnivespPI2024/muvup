@@ -17,7 +17,7 @@ const ListarAulasProfessor = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log('verificação logad');
+      console.log('verificação logado');
       if (user) {
         setEmailProf(user.email)
       } else {
@@ -27,19 +27,19 @@ const ListarAulasProfessor = () => {
   }, [])
 
   useEffect(() => {
-    (async () => {
-      diasDaSemana.forEach(dia => {
-
-      })
-      const qHorarios = query(collection(db, 'Professores', 'jtiagotoledo@hotmail.com', 'segunda'));
-      const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
-      const horariosDispSemana = querySnapshot.docs.map(doc => {
-        if (Object.values(doc.data().alunos).length !== 0) {
-          return {[doc.id]:doc.data().alunos}
-        }
-      })
-      console.log('horariosDispSemana',horariosDispSemana);
-    })()
+    diasDaSemana.forEach(dia => {
+      (async () => {
+        const qHorarios = query(collection(db, 'Professores', 'jtiagotoledo@hotmail.com', dia));
+        const querySnapshot = await getDocs(qHorarios).catch((error) => { console.log('erro', error); })
+        const horariosDispSemana = querySnapshot.docs.map(doc => {
+          if (Object.values(doc.data().alunos).length !== 0) {
+            return {[dia]:{[doc.id]:doc.data().alunos}}
+          }
+        })
+        console.log('horariosDispSemana',horariosDispSemana);
+      })()
+    })
+    
   }, [])
 
   return (
