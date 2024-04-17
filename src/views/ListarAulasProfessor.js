@@ -28,13 +28,12 @@ const ListarAulasProfessor = () => {
 
     // Verifica se hoje está entre segunda-feira e sexta-feira
     if (hoje.getDay() >= 1 && hoje.getDay() <= 5) {
-      let proximaSegunda = new Date(hoje);
-      proximaSegunda.setDate(hoje.getDate() - hoje.getDay() + 1); // Volta para a segunda-feira atual
+      let diaAtual = new Date(hoje);
+      diaAtual.setDate(hoje.getDate()); 
+      const proximaSexta = new Date(diaAtual);
+      proximaSexta.setDate(diaAtual.getDate() + 5 - diaAtual.getDay() );
 
-      const proximaSexta = new Date(proximaSegunda);
-      proximaSexta.setDate(proximaSegunda.getDate() + 4);
-
-      const semanaStr = 'Semana de: ' + proximaSegunda.toLocaleDateString("pt-BR") +
+      const semanaStr = 'Semana de: ' + diaAtual.toLocaleDateString("pt-BR") +
         ' até ' + proximaSexta.toLocaleDateString("pt-BR")
 
       gruposSemana.push(semanaStr);
@@ -102,9 +101,9 @@ const ListarAulasProfessor = () => {
       const dataInicio = new Date(inicioSemana[2], inicioSemana[1] - 1, inicioSemana[0])
       const fimSemana = semana.split(' ')[4].split('/')
       const dataFim = new Date(fimSemana[2], fimSemana[1] - 1, fimSemana[0])
+      console.log('listaDatas', diasEntreDatas(dataInicio, dataFim));
+      console.log('inicioSemana', dataInicio, 'fimSemana', dataFim);
     }
-    // console.log('listaDatas', diasEntreDatas(dataInicio, dataFim));
-    // console.log('inicioSemana', dataInicio, 'fimSemana', dataFim);
 
     let aulasRegulares = []
     const dias = ['segunda','terça','quarta','quinta','sexta']
@@ -114,7 +113,6 @@ const ListarAulasProfessor = () => {
     const aulasNormaliz = aulasRegulares.filter(arr =>arr.length>0) //retira itens vazios
     const uniaoAulas = [].concat(...aulasNormaliz)
     setListaAulasSemanaProf(uniaoAulas)
-    console.log('testeAulas', uniaoAulas);
   }
 
   return (
