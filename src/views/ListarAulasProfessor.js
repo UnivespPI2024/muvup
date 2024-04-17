@@ -15,7 +15,6 @@ const ListarAulasProfessor = () => {
   const [listaAulasSemanaProf, setListaAulasSemanaProf] = useState([{}]);
   const [gruposDiasSemana, setGruposDiasSemana] = useState([]);
   const [semanaSelec, setSemanaSelec] = useState([]);
-  const diasDaSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta']
 
   const handleSelectSemana = (event) => {
     setSemanaSelec(event.target.value)
@@ -85,35 +84,38 @@ const ListarAulasProfessor = () => {
     return listaDias;
   }
 
-  const buscarAulasSemanaProf = async (semana) => {
-    const listaAulas = []
-    const inicioSemana = semana.split(' ')[2].split('/')
-    const dataInicio = new Date(inicioSemana[2],inicioSemana[1]-1,inicioSemana[0])
-    const fimSemana = semana.split(' ')[4].split('/')
-    const dataFim = new Date(fimSemana[2],fimSemana[1]-1,fimSemana[0])
-    console.log('listaDatas',diasEntreDatas(dataInicio,dataFim));
-    console.log('inicioSemana', dataInicio, 'fimSemana', dataFim);
-
-    console.log('chamou');
-    diasDaSemana.forEach(async (dia) => {
-      const qAulas = query(collection(db, 'Professores', emailProf, dia));
-      const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
-      await querySnapshot.docs.forEach(doc => {
-        if (Object.values(doc.data().alunos).length !== 0) {
-          listaAulas.push({
-            dia: dia,
-            horario: doc.id,
-            alunos: doc.data().alunos
-          })
-        }
-      })
+  const buscarAulasRegulares = async (dia) => {
+    let aulas = []
+    const qAulas = query(collection(db, 'Professores', emailProf, dia));
+    const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
+    querySnapshot.forEach(doc => {
+      if (Object.values(doc.data().alunos).length !== 0) {
+        aulas.push({ dia: dia, horario: doc.id, alunos: doc.data().alunos })
+      }
     })
-    setTimeout(() => {
-      console.log('listaAulas', listaAulas);
-      setListaAulasSemanaProf(listaAulas)
-    }, 1500)
+    return aulas
   }
 
+  const buscarAulasSemanaProf = async (semana) => {
+    if(semana!==''){
+      const inicioSemana = semana.split(' ')[2].split('/')
+      const dataInicio = new Date(inicioSemana[2], inicioSemana[1] - 1, inicioSemana[0])
+      const fimSemana = semana.split(' ')[4].split('/')
+      const dataFim = new Date(fimSemana[2], fimSemana[1] - 1, fimSemana[0])
+    }
+    // console.log('listaDatas', diasEntreDatas(dataInicio, dataFim));
+    // console.log('inicioSemana', dataInicio, 'fimSemana', dataFim);
+
+    let aulasRegulares = []
+    const dias = ['segunda','terça','quarta','quinta','sexta']
+    aulasRegulares = await Promise.all(dias.map( async dia=>{
+      return await buscarAulasRegulares(dia)
+    }))
+    const aulasNormaliz = aulasRegulares.filter(arr =>arr.length>0) //retira itens vazios
+    const uniaoAulas = [].concat(...aulasNormaliz)
+    setListaAulasSemanaProf(uniaoAulas)
+    console.log('testeAulas', uniaoAulas);
+  }
 
   return (
     <div style={styleListas.container}>
