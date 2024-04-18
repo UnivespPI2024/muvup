@@ -90,14 +90,14 @@ const ListarAulasProfessor = () => {
   const buscarAulas = async (dia) => {
     let aulas = []
     const diaDaSemana = diasDaSemana[dia.getDay()]
-    const diaDoMesFormat = dia.toLocaleDateString("pt-BR") 
+    const diaDoMesFormat = dia.toLocaleDateString("pt-BR")
     let diaDoMes = dia.toLocaleDateString("pt-BR").split('/')
     const mesNormal = parseInt(diaDoMes[1])
-    diaDoMes[1] = mesNormal+''
-    const diaData = diaDoMes[0] 
-    const mesData = diaDoMes[1] 
+    diaDoMes[1] = mesNormal + ''
+    const diaData = diaDoMes[0]
+    const mesData = diaDoMes[1]
     const anoData = diaDoMes[2]
-    diaDoMes = `${diaData}-${mesData}-${anoData}` 
+    diaDoMes = `${diaData}-${mesData}-${anoData}`
 
     // console.log('diaDoMes', diaDoMes);
     // console.log('diaDoMesFormat', diaDoMesFormat);
@@ -107,7 +107,7 @@ const ListarAulasProfessor = () => {
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
-        aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat ,horario: doc.id, alunos: doc.data().alunos })
+        aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: doc.id, alunos: doc.data().alunos })
       }
     })
 
@@ -116,7 +116,10 @@ const ListarAulasProfessor = () => {
     const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
     querySnapshotHorRemarc.forEach((docDia) => {
       if (docDia.id == diaDoMes) {
-        console.log('docDia.data()',Object.keys(docDia.data()));
+        Object.keys(docDia.data()).forEach((horario, idx) => {
+          console.log('docDia.data()', Object.values(docDia.data())[idx]);
+          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
+        })
         /* if (Object.keys(docDia.data()).includes(docHor.id)) {
           const idx = Object.keys(docDia.data()).indexOf(docHor.id)
           qntAulasRemarc = Object.values(docDia.data())[idx].length
