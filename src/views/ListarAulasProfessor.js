@@ -90,15 +90,24 @@ const ListarAulasProfessor = () => {
   const buscarAulas = async (dia) => {
     let aulas = []
     const diaDaSemana = diasDaSemana[dia.getDay()]
-    const diaDoMes = dia.toLocaleDateString("pt-BR").replaceAll('/','-')
-    // console.log('dia', diaDoMes);
+    const diaDoMesFormat = dia.toLocaleDateString("pt-BR") 
+    let diaDoMes = dia.toLocaleDateString("pt-BR").split('/')
+    const mesNormal = parseInt(diaDoMes[1])
+    diaDoMes[1] = mesNormal+''
+    const diaData = diaDoMes[0] 
+    const mesData = diaDoMes[1] 
+    const anoData = diaDoMes[2]
+    diaDoMes = `${diaData}-${mesData}-${anoData}` 
+
+    // console.log('diaDoMes', diaDoMes);
+    // console.log('diaDoMesFormat', diaDoMesFormat);
 
     //consulta de aulas regulares do professor
     const qAulas = query(collection(db, 'Professores', emailProf, diaDaSemana));
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
-        aulas.push({ dia: diaDaSemana, horario: doc.id, alunos: doc.data().alunos })
+        aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat ,horario: doc.id, alunos: doc.data().alunos })
       }
     })
 
@@ -106,11 +115,8 @@ const ListarAulasProfessor = () => {
     const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
     const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
     querySnapshotHorRemarc.forEach((docDia) => {
-      console.log('docDia.id',docDia.id);
-      console.log('diaDoMes',diaDoMes);
-
       if (docDia.id == diaDoMes) {
-        console.log('docDia.id',docDia.id);
+        console.log('docDia.data()',Object.keys(docDia.data()));
         /* if (Object.keys(docDia.data()).includes(docHor.id)) {
           const idx = Object.keys(docDia.data()).indexOf(docHor.id)
           qntAulasRemarc = Object.values(docDia.data())[idx].length
@@ -159,7 +165,7 @@ const ListarAulasProfessor = () => {
           {(listaAulasSemanaProf.map(item => (
             <div>
               <div key={item.dia} style={styleListas.item}>
-                <span style={styleListas.divider}>Dia: {item.dia} </span>
+                <span style={styleListas.divider}>Dia: {item.diaSemana} {item.diaMes} </span>
                 <span style={styleListas.divider}>Horário: {item.horario} </span>
                 <span style={styleListas.divider}>Alunos: {item.alunos} </span>
 
