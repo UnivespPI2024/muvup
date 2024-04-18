@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styleListas from '../estilos/styleListas'
 import styleViews from '../estilos/styleViews'
 
-import { getDocs, collection, doc, query } from 'firebase/firestore/lite';
+import { getDocs, collection, arrayUnion, query } from 'firebase/firestore/lite';
 import { db } from '../firebase'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -108,8 +108,10 @@ const ListarAulasProfessor = () => {
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
         let valores = aulas.map(objeto => objeto['diaMes']);
-        if(!valores.includes(diaDoMesFormat)){
-          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: doc.id, alunos: doc.data().alunos })
+        if (!valores.includes(diaDoMesFormat)) {
+          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ [doc.id]: doc.data().alunos }] })
+        } else {
+          aulas[0].horarios.push({ [doc.id]: doc.data().alunos })
         }
       }
     })
@@ -120,7 +122,7 @@ const ListarAulasProfessor = () => {
     querySnapshotHorRemarc.forEach((docDia) => {
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
-          console.log('docDia.data()', Object.values(docDia.data())[idx]);
+          // console.log('docDia.data()', Object.values(docDia.data())[idx]);
           // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
         })
         /* if (Object.keys(docDia.data()).includes(docHor.id)) {
@@ -129,6 +131,7 @@ const ListarAulasProfessor = () => {
         } */
       }
     })
+    console.log('aulas', aulas);
     return aulas
   }
 
