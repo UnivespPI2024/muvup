@@ -107,7 +107,10 @@ const ListarAulasProfessor = () => {
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
-        aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: doc.id, alunos: doc.data().alunos })
+        let valores = aulas.map(objeto => objeto['diaMes']);
+        if(!valores.includes(diaDoMesFormat)){
+          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: doc.id, alunos: doc.data().alunos })
+        }
       }
     })
 
@@ -118,7 +121,7 @@ const ListarAulasProfessor = () => {
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
           console.log('docDia.data()', Object.values(docDia.data())[idx]);
-          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
+          // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
         })
         /* if (Object.keys(docDia.data()).includes(docHor.id)) {
           const idx = Object.keys(docDia.data()).indexOf(docHor.id)
