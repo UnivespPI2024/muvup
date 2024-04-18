@@ -8,6 +8,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const ListarAulasProfessor = () => {
 
+  const diasDaSemana = {
+    0: 'domingo', 1: 'segunda', 2: 'terça', 3: 'quarta',
+    4: 'quinta', 5: 'sexta', 6: 'sabado',
+  };
 
   const auth = getAuth()
 
@@ -29,9 +33,9 @@ const ListarAulasProfessor = () => {
     // Verifica se hoje está entre segunda-feira e sexta-feira
     if (hoje.getDay() >= 1 && hoje.getDay() <= 5) {
       let diaAtual = new Date(hoje);
-      diaAtual.setDate(hoje.getDate()); 
+      diaAtual.setDate(hoje.getDate());
       const proximaSexta = new Date(diaAtual);
-      proximaSexta.setDate(diaAtual.getDate() + 5 - diaAtual.getDay() );
+      proximaSexta.setDate(diaAtual.getDate() + 5 - diaAtual.getDay());
 
       const semanaStr = 'Semana de: ' + diaAtual.toLocaleDateString("pt-BR") +
         ' até ' + proximaSexta.toLocaleDateString("pt-BR")
@@ -63,7 +67,7 @@ const ListarAulasProfessor = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log('verificação logado');
+      // console.log('verificação logado');
       if (user) {
         setEmailProf(user.email)
       } else {
@@ -83,34 +87,55 @@ const ListarAulasProfessor = () => {
     return listaDias;
   }
 
-  const buscarAulasRegulares = async (dia) => {
+  const buscarAulas = async (dia) => {
     let aulas = []
-    const qAulas = query(collection(db, 'Professores', emailProf, dia));
+    const diaDaSemana = diasDaSemana[dia.getDay()]
+    const diaDoMes = dia.toLocaleDateString("pt-BR").replaceAll('/','-')
+    // console.log('dia', diaDoMes);
+
+    //consulta de aulas regulares do professor
+    const qAulas = query(collection(db, 'Professores', emailProf, diaDaSemana));
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
-        aulas.push({ dia: dia, horario: doc.id, alunos: doc.data().alunos })
+        aulas.push({ dia: diaDaSemana, horario: doc.id, alunos: doc.data().alunos })
+      }
+    })
+
+    //consulta de aulas remarcadas do professor
+    const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
+    const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
+    querySnapshotHorRemarc.forEach((docDia) => {
+      console.log('docDia.id',docDia.id);
+      console.log('diaDoMes',diaDoMes);
+
+      if (docDia.id == diaDoMes) {
+        console.log('docDia.id',docDia.id);
+        /* if (Object.keys(docDia.data()).includes(docHor.id)) {
+          const idx = Object.keys(docDia.data()).indexOf(docHor.id)
+          qntAulasRemarc = Object.values(docDia.data())[idx].length
+        } */
       }
     })
     return aulas
   }
 
   const buscarAulasSemanaProf = async (semana) => {
-    if(semana!==''){
+    let datas = []
+    if (semana !== '') {
       const inicioSemana = semana.split(' ')[2].split('/')
       const dataInicio = new Date(inicioSemana[2], inicioSemana[1] - 1, inicioSemana[0])
       const fimSemana = semana.split(' ')[4].split('/')
       const dataFim = new Date(fimSemana[2], fimSemana[1] - 1, fimSemana[0])
-      console.log('listaDatas', diasEntreDatas(dataInicio, dataFim));
-      console.log('inicioSemana', dataInicio, 'fimSemana', dataFim);
+      datas = diasEntreDatas(dataInicio, dataFim)
+      // console.log('listaDatas', datas);
     }
 
     let aulasRegulares = []
-    const dias = ['segunda','terça','quarta','quinta','sexta']
-    aulasRegulares = await Promise.all(dias.map( async dia=>{
-      return await buscarAulasRegulares(dia)
+    aulasRegulares = await Promise.all(datas.map(async dia => {
+      return await buscarAulas(dia)
     }))
-    const aulasNormaliz = aulasRegulares.filter(arr =>arr.length>0) //retira itens vazios
+    const aulasNormaliz = aulasRegulares.filter(arr => arr.length > 0) //retira itens vazios
     const uniaoAulas = [].concat(...aulasNormaliz)
     setListaAulasSemanaProf(uniaoAulas)
   }
