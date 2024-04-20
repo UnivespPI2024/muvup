@@ -107,8 +107,8 @@ const ListarAulasProfessor = () => {
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
     querySnapshot.forEach(doc => {
       if (Object.values(doc.data().alunos).length !== 0) {
-        let valores = aulas.map(objeto => objeto['diaMes']);
-        if (!valores.includes(diaDoMesFormat)) {
+        let valoresDias = aulas.map(objeto => objeto['diaMes']);
+        if (!valoresDias.includes(diaDoMesFormat)) {
           aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario: doc.id, alunos: doc.data().alunos }] })
         } else {
           aulas[0].horarios.push({ horario: doc.id, alunos: doc.data().alunos })
@@ -122,6 +122,12 @@ const ListarAulasProfessor = () => {
     querySnapshotHorRemarc.forEach((docDia) => {
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
+          let valoresDias = aulas.map(objeto => objeto['diaMes']);
+          if (!valoresDias.includes(diaDoMesFormat)) {
+            // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario, alunos: doc.data().alunos }] })
+          } else {
+            aulas[0].horarios.push({ horario, alunos: Object.values(docDia.data())[idx] })
+          }
           // console.log('docDia.data()', Object.values(docDia.data())[idx]);
           // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
         })
@@ -162,7 +168,7 @@ const ListarAulasProfessor = () => {
         {
           items ?
             items.map((item, idx) => (
-              <li key={idx} style={styleListas.divider}>Alunos: {item.nomeAluno}</li>
+              <li key={idx} style={styleListas.divider}>{item.nomeAluno}</li>
             )) : null
         }
       </ul>
@@ -176,7 +182,7 @@ const ListarAulasProfessor = () => {
         {
           items ?
             items.map((item, idx) => (
-              <li key={idx} style={styleListas.divider}>Horário: {item.horario}
+              <li key={idx} style={styleListas.divider}>Horário: {item.horario.substring(3, 5) + ':00 h'}
                 <RenderNomeAluno items={item.alunos} />
               </li>
             )) : null
@@ -205,7 +211,7 @@ const ListarAulasProfessor = () => {
             listaAulasSemanaProf.map((item, idx) => (
               <div>
                 <div key={idx} style={styleListas.item}>
-                  <span style={styleListas.divider}>{item.diaSemana} {item.diaMes} </span>
+                  <span style={styleListas.divider}>{item.diaSemana + ' - '} {item.diaMes} </span>
                   <RenderHorario items={item.horarios} />
                 </div>
               </div>
