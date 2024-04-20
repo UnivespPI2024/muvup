@@ -153,7 +153,7 @@ const ListarAulasProfessor = () => {
     const aulasNormaliz = aulasRegulares.filter(arr => arr.length > 0) //retira itens vazios
     const uniaoAulas = [].concat(...aulasNormaliz)
     setListaAulasSemanaProf(uniaoAulas)
-    console.log('uniaoAulas',uniaoAulas);
+    console.log('uniaoAulas', uniaoAulas);
   }
 
   return (
@@ -172,22 +172,23 @@ const ListarAulasProfessor = () => {
           ))}
         </select>
         <div style={styleListas.listContainer}>
-          {listaAulasSemanaProf.map(item => (
-            <div>
-              <div key={item.dia} style={styleListas.item}>
-                <span style={styleListas.divider}>Dia: {item.diaSemana} {item.diaMes} </span>
-                <ul>
-                {item.horarios.map((i) => {
-                    console.log('i',Object.keys(i)[0]);
-                    <li style={styleListas.divider}>Horário: {Object.keys(i)[0]} </li>
-                  })}
-
-                </ul>
-                {/* <span style={styleListas.divider}>Alunos: {item.alunos} </span> */}
-
+          {
+            listaAulasSemanaProf.map((itemE, idxE) => (
+              <div>
+                <div key={idxE} style={styleListas.item}>
+                  <span style={styleListas.divider}>{itemE.diaSemana} {itemE.diaMes} </span>
+                  <ul>
+                    {
+                      itemE.horarios ?
+                        itemE.horarios.map((itemI, idxI) => (
+                          <li key={idxI} style={styleListas.divider}>Horário: {Object.keys(itemI)[0]}  {(Object.values(itemI)[0])} </li>
+                        )) : null
+                    }
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </div>
