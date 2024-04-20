@@ -109,9 +109,9 @@ const ListarAulasProfessor = () => {
       if (Object.values(doc.data().alunos).length !== 0) {
         let valores = aulas.map(objeto => objeto['diaMes']);
         if (!valores.includes(diaDoMesFormat)) {
-          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ [doc.id]: doc.data().alunos }] })
+          aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario: doc.id, alunos: doc.data().alunos }] })
         } else {
-          aulas[0].horarios.push({ [doc.id]: [doc.data().alunos] })
+          aulas[0].horarios.push({ horario: doc.id, alunos: doc.data().alunos })
         }
       }
     })
@@ -156,6 +156,35 @@ const ListarAulasProfessor = () => {
     console.log('uniaoAulas', uniaoAulas);
   }
 
+  function RenderNomeAluno({ items }) {
+    return (
+      <ul>
+        {
+          items ?
+            items.map((item, idx) => (
+              <li key={idx} style={styleListas.divider}>Alunos: {item.nomeAluno}</li>
+            )) : null
+        }
+      </ul>
+
+    );
+  }
+
+  function RenderHorario({ items }) {
+    return (
+      <ul>
+        {
+          items ?
+            items.map((item, idx) => (
+              <li key={idx} style={styleListas.divider}>Horário: {item.horario}
+                <RenderNomeAluno items={item.alunos} />
+              </li>
+            )) : null
+        }
+      </ul>
+    );
+  }
+
   return (
     <div style={styleListas.container}>
       <div style={styleListas.containerLista}>
@@ -173,18 +202,11 @@ const ListarAulasProfessor = () => {
         </select>
         <div style={styleListas.listContainer}>
           {
-            listaAulasSemanaProf.map((itemE, idxE) => (
+            listaAulasSemanaProf.map((item, idx) => (
               <div>
-                <div key={idxE} style={styleListas.item}>
-                  <span style={styleListas.divider}>{itemE.diaSemana} {itemE.diaMes} </span>
-                  <ul>
-                    {
-                      itemE.horarios ?
-                        itemE.horarios.map((itemI, idxI) => (
-                          <li key={idxI} style={styleListas.divider}>Horário: {Object.keys(itemI)[0]}  {/* {(Object.values(itemI.nomeAluno)[0])} */} </li>
-                        )) : null
-                    }
-                  </ul>
+                <div key={idx} style={styleListas.item}>
+                  <span style={styleListas.divider}>{item.diaSemana} {item.diaMes} </span>
+                  <RenderHorario items={item.horarios} />
                 </div>
               </div>
             ))
