@@ -111,7 +111,7 @@ const ListarAulasProfessor = () => {
         if (!valores.includes(diaDoMesFormat)) {
           aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ [doc.id]: doc.data().alunos }] })
         } else {
-          aulas[0].horarios.push({ [doc.id]: doc.data().alunos })
+          aulas[0].horarios.push({ [doc.id]: [doc.data().alunos] })
         }
       }
     })
@@ -181,7 +181,7 @@ const ListarAulasProfessor = () => {
                     {
                       itemE.horarios ?
                         itemE.horarios.map((itemI, idxI) => (
-                          <li key={idxI} style={styleListas.divider}>Horário: {Object.keys(itemI)[0]}  {(Object.values(itemI)[0])} </li>
+                          <li key={idxI} style={styleListas.divider}>Horário: {Object.keys(itemI)[0]}  {/* {(Object.values(itemI.nomeAluno)[0])} */} </li>
                         )) : null
                     }
                   </ul>

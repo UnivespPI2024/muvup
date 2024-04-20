@@ -74,26 +74,26 @@ const CadastroAluno = () => {
 
       if (qntAulas == '1aula') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
       }
       if (qntAulas == '2aulas') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
       }
       if (qntAulas == '3aulas') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
-          alunos: arrayUnion(email)
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
         })
       }
 
