@@ -124,20 +124,24 @@ const ListarAulasProfessor = () => {
         Object.keys(docDia.data()).forEach((horario, idx) => {
           let valoresDias = aulas.map(objeto => objeto['diaMes']);
           if (!valoresDias.includes(diaDoMesFormat)) {
-            // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario, alunos: doc.data().alunos }] })
+            aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario, alunos: Object.values(docDia.data())[idx] }] })
           } else {
             aulas[0].horarios.push({ horario, alunos: Object.values(docDia.data())[idx] })
           }
-          // console.log('docDia.data()', Object.values(docDia.data())[idx]);
-          // aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horario: horario, alunos: Object.values(docDia.data())[idx] })
         })
-        /* if (Object.keys(docDia.data()).includes(docHor.id)) {
-          const idx = Object.keys(docDia.data()).indexOf(docHor.id)
-          qntAulasRemarc = Object.values(docDia.data())[idx].length
-        } */
       }
     })
-    // console.log('aulas', aulas);
+
+    //consulta de aulas desmarcadas do professor
+    const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
+    const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
+    querySnapshotHorDesmarc.forEach((docDia) => {
+      if (docDia.id == diaDoMes) {
+        Object.keys(docDia.data()).forEach((hor, idx) => {
+          aulas[0].horarios.forEach(item=>{console.log('item',item);})
+        })
+      }
+    })
     return aulas
   }
 
@@ -168,7 +172,10 @@ const ListarAulasProfessor = () => {
         {
           items ?
             items.map((item, idx) => (
-              <li key={idx} style={item.status==='Remarcada'?{color:'red'}:{color:'wite'}}>{item.nomeAluno}</li>
+              <li key={idx} style={{
+                color: item.status === 'Remarcada' ? 'blue' :
+                  item.status === 'Desmarcada' ? 'red' : 'black'
+              }}>{item.nomeAluno}</li>
             )) : null
         }
       </ul>
@@ -211,7 +218,7 @@ const ListarAulasProfessor = () => {
             listaAulasSemanaProf.map((item, idx) => (
               <div>
                 <div key={idx} style={styleListas.item}>
-                  <span style={styleListas.divider}>{item.diaSemana? item.diaSemana + ' - ':null} {item.diaMes} </span>
+                  <span style={styleListas.divider}>{item.diaSemana ? item.diaSemana + ' - ' : null} {item.diaMes} </span>
                   <RenderHorario items={item.horarios} />
                 </div>
               </div>
@@ -219,7 +226,23 @@ const ListarAulasProfessor = () => {
           }
         </div>
       </div>
+      <div>
+        <h2 >Legenda:</h2>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+          <div style={{ width: '20px', height: '20px', backgroundColor: 'black', marginRight: '10px' }}></div>
+          <span>Aulas Regulares</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+          <div style={{ width: '20px', height: '20px', backgroundColor: 'blue', marginRight: '10px' }}></div>
+          <span>Aulas Remarcadas</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+          <div style={{ width: '20px', height: '20px', backgroundColor: 'red', marginRight: '10px' }}></div>
+          <span>Aulas Desmarcadas</span>
+        </div>
+      </div>
     </div>
+
   );
 };
 
