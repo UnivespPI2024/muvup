@@ -168,7 +168,7 @@ const ListarAulasProfessor = () => {
         {
           items ?
             items.map((item, idx) => (
-              <li key={idx} style={styleListas.divider}>{item.nomeAluno}</li>
+              <li key={idx} style={item.status==='Remarcada'?{color:'red'}:{color:'wite'}}>{item.nomeAluno}</li>
             )) : null
         }
       </ul>
@@ -211,7 +211,7 @@ const ListarAulasProfessor = () => {
             listaAulasSemanaProf.map((item, idx) => (
               <div>
                 <div key={idx} style={styleListas.item}>
-                  <span style={styleListas.divider}>{item.diaSemana + ' - '} {item.diaMes} </span>
+                  <span style={styleListas.divider}>{item.diaSemana? item.diaSemana + ' - ':null} {item.diaMes} </span>
                   <RenderHorario items={item.horarios} />
                 </div>
               </div>

@@ -24,7 +24,7 @@ const styleListas = {
   item: {
     padding: '10px 15px',
     borderBottom: '1px solid #ccc',
-    color: 'white',
+    
     cursor: 'pointer',
     transition: 'background-color 0.3s',
     justifyContent: 'space-around',
