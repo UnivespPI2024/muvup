@@ -116,6 +116,7 @@ const ListarAulasProfessor = () => {
     //consulta de aulas remarcadas do professor
     const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
     const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
+    const objRemarc = []
     querySnapshotHorRemarc.forEach((docDia) => {
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
@@ -128,7 +129,10 @@ const ListarAulasProfessor = () => {
               aulas[0].horarios.push({ horario, alunos: Object.values(docDia.data())[idx] })
             } else {
               const idxHor = aulas[0].horarios.findIndex(objeto => objeto.horario === horario)
-              aulas[0].horarios[idxHor].alunos.push(Object.values(docDia.data())[idx][0])
+              Object.values(docDia.data())[idx].forEach(itemAluno=>{
+                console.log('item',itemAluno);
+                aulas[0].horarios[idxHor].alunos.push(itemAluno)
+              })
             }
           }
         })
@@ -138,10 +142,10 @@ const ListarAulasProfessor = () => {
     //consulta de aulas desmarcadas do professor
     const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
     const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
+    const objDesmarc = []
     querySnapshotHorDesmarc.forEach((docDia) => {
-      const objDesmarc = []
       if (docDia.id == diaDoMes) {
-        Object.keys(docDia.data()).forEach((hor, idx) => {
+        Object.keys(docDia.data()).forEach((hor) => {
           console.log('hor', docDia.data()[hor]);
           docDia.data()[hor].forEach(alunos => {
             objDesmarc.push({
