@@ -112,7 +112,8 @@ const CadastroAluno = () => {
 
       //criar novo usuário com senha aleatória
       const auth = getAuth();
-      createUserWithEmailAndPassword(auth, email, novaSenha)
+      // TODO: ativar gerar senha
+      createUserWithEmailAndPassword(auth, email, '12345678')
         .then((userCredential) => {
           const user = userCredential.user;
         })

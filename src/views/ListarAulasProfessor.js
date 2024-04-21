@@ -99,9 +99,6 @@ const ListarAulasProfessor = () => {
     const anoData = diaDoMes[2]
     diaDoMes = `${diaData}-${mesData}-${anoData}`
 
-    // console.log('diaDoMes', diaDoMes);
-    // console.log('diaDoMesFormat', diaDoMesFormat);
-
     //consulta de aulas regulares do professor
     const qAulas = query(collection(db, 'Professores', emailProf, diaDaSemana));
     const querySnapshot = await getDocs(qAulas).catch((error) => { console.log('erro', error); })
@@ -123,10 +120,16 @@ const ListarAulasProfessor = () => {
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
           let valoresDias = aulas.map(objeto => objeto['diaMes']);
+          let valoresHorarios = aulas[0].horarios.map(objeto => objeto['horario']);
           if (!valoresDias.includes(diaDoMesFormat)) {
             aulas.push({ diaSemana: diaDaSemana, diaMes: diaDoMesFormat, horarios: [{ horario, alunos: Object.values(docDia.data())[idx] }] })
           } else {
-            aulas[0].horarios.push({ horario, alunos: Object.values(docDia.data())[idx] })
+            if (!valoresHorarios.includes(horario)) {
+              aulas[0].horarios.push({ horario, alunos: Object.values(docDia.data())[idx] })
+            } else {
+              const idxHor = aulas[0].horarios.findIndex(objeto => objeto.horario === horario)
+              aulas[0].horarios[idxHor].alunos.push(Object.values(docDia.data())[idx][0])
+            }
           }
         })
       }
@@ -136,9 +139,27 @@ const ListarAulasProfessor = () => {
     const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
     const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
     querySnapshotHorDesmarc.forEach((docDia) => {
+      const objDesmarc = []
       if (docDia.id == diaDoMes) {
         Object.keys(docDia.data()).forEach((hor, idx) => {
-          aulas[0].horarios.forEach(item=>{console.log('item',item);})
+          console.log('hor', docDia.data()[hor]);
+          docDia.data()[hor].forEach(alunos => {
+            objDesmarc.push({
+              nomeAluno: alunos.nomeAluno,
+              horario: hor
+            })
+          })
+        })
+        objDesmarc.forEach(itemObj => {
+          aulas[0].horarios.forEach((itemHor, idxHor) => {
+            if (itemObj.horario === itemHor.horario) {
+              aulas[0].horarios[idxHor].alunos.forEach((itemNome, idxNome) => {
+                if (itemObj.nomeAluno === itemNome.nomeAluno) {
+                  aulas[0].horarios[idxHor].alunos[idxNome].status = 'Desmarcada'
+                }
+              })
+            }
+          })
         })
       }
     })
