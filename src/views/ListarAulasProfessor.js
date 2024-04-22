@@ -261,7 +261,7 @@ const ListarAulasProfessor = () => {
           <div style={{ width: '20px', height: '20px', backgroundColor: 'blue', marginRight: '10px' }}></div>
           <span>Aulas Remarcadas</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
           <div style={{ width: '20px', height: '20px', backgroundColor: 'red', marginRight: '10px' }}></div>
           <span>Aulas Desmarcadas</span>
         </div>

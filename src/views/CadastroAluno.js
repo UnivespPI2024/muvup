@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
+import {consultaAulasDispProf} from '../services/consultasBD'
 import styleViews from '../estilos/styleViews'
-import { MAX_ALUNOS } from '../constantes';
 
-import { getAuth, updateEmail, updateDisplayName, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
@@ -19,9 +19,9 @@ const CadastroAluno = () => {
 
   const [nomesProf, setNomesProf] = useState([])
   const [profSelec, setprofSelec] = useState('')
-  const [horDispProf1, setHorDispProf1] = useState([])
-  const [horDispProf2, setHorDispProf2] = useState([])
-  const [horDispProf3, setHorDispProf3] = useState([])
+  const [hor1DispProf, setHor1DispProf] = useState([])
+  const [hor2DispProf, setHor2DispProf] = useState([])
+  const [hor3DispProf, setHor3DispProf] = useState([])
 
 
   const [qntAulas, setQntAulas] = useState('');
@@ -55,6 +55,7 @@ const CadastroAluno = () => {
         endereco: endereco,
         cidade: cidade,
         qntAulas: qntAulas,
+        profDoAluno: emailProf,
         perfil: 'aluno',
         diaHorAula: {
           diaAula1: diaAula1,
@@ -162,16 +163,8 @@ const CadastroAluno = () => {
   // seleção de dia e hora para 3 aulas/semana
   const handleSelDia1 = async (dia) => {
     setDiaAula1(dia)
-
-    const q = query(collection(db, 'Professores', emailProf, dia));
-    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
-    //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
-    const horariosDisp = querySnapshot.docs.map(doc => {
-      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
-        return doc.id
-      }
-    }).filter(value => value !== undefined);
-    setHorDispProf1(horariosDisp)
+    const resultado = await consultaAulasDispProf(emailProf,dia)
+    setHor1DispProf(resultado)
   }
 
   const handleSelHora1 = (hora) => {
@@ -181,16 +174,8 @@ const CadastroAluno = () => {
 
   const handleSelDia2 = async (dia) => {
     setDiaAula2(dia)
-
-    const q = query(collection(db, 'Professores', emailProf, dia));
-    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
-    //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
-    const horariosDisp = querySnapshot.docs.map(doc => {
-      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
-        return doc.id
-      }
-    }).filter(value => value !== undefined);
-    setHorDispProf2(horariosDisp)
+    const resultado = await consultaAulasDispProf(emailProf,dia)
+    setHor2DispProf(resultado)
   }
 
   const handleSelHora2 = (hora) => {
@@ -199,16 +184,8 @@ const CadastroAluno = () => {
 
   const handleSelDia3 = async (dia) => {
     setDiaAula3(dia)
-
-    const q = query(collection(db, 'Professores', emailProf, dia));
-    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
-    //horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
-    const horariosDisp = querySnapshot.docs.map(doc => {
-      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
-        return doc.id
-      }
-    }).filter(value => value !== undefined);
-    setHorDispProf3(horariosDisp)
+    const resultado = await consultaAulasDispProf(emailProf,dia)
+    setHor3DispProf(resultado)
   }
 
   const handleSelHora3 = (hora) => {
@@ -291,27 +268,27 @@ const CadastroAluno = () => {
         qntAulas == '1aula' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
           </div> : null
       }
       {
         qntAulas == '2aulas' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2} />
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={hor2DispProf} />
           </div> : null
       }
       {
         qntAulas == '3aulas' ?
           <div>
             <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula::</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={horDispProf1} />
+            <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={horDispProf2} />
+            <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={hor2DispProf} />
             <text style={styleViews.textoPequeno}>Selecione dia e horário da terceira aula:</text>
-            <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} horDispProf={horDispProf3} />
+            <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} horDispProf={hor3DispProf} />
           </div> : null
       }
       <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>

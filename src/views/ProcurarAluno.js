@@ -41,21 +41,9 @@ const ProcurarAluno = () => {
         }
     }
 
-    const editAluno = async (item) => {
-        setDadosEditar({
-            nome:item.nome,
-            email:item.email,
-            telefone:item.telefone,
-            endereco:item.endereco,
-            cidade:item.cidade,
-            qntAulas:item.qntAulas,
-            diaAula1:item.diaHorAula.diaAula1,
-            horaAula1:item.diaHorAula.horaAula1,
-            diaAula2:item.diaHorAula.diaAula2,
-            horaAula2:item.diaHorAula.horaAula2,
-            diaAula3:item.diaHorAula.diaAula3,
-            horaAula3:item.diaHorAula.horaAula3,
-        })
+    const editAluno = (item) => {
+        console.log('item',item);
+        setDadosEditar(item)
         setVisibleEditar(true)
     }
 
