@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import {consultaAulasDispProf} from '../services/consultasBD'
+import {excluirAlunoDoHorarProf} from '../services/excluirBD'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { setDoc, doc } from 'firebase/firestore/lite';
+// import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
 const EditarAluno = (props) => {
   const [nome, setNome] = useState(props.dadosEditar.nome);
@@ -27,7 +29,7 @@ const EditarAluno = (props) => {
   const [hor3DispProf, setHor3DispProf] = useState([])
 
   // inclusão no DB de aluno
-  const handleEditarAluno = () => {
+  const handleEditarAluno = async () => {
     if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
@@ -36,6 +38,8 @@ const EditarAluno = (props) => {
         endereco: endereco,
         cidade: cidade,
         qntAulas: qntAulas,
+        profDoAluno: emailProf,
+        perfil: 'aluno',
         diaHorAula:{
           diaAula1: diaAula1,
           horaAula1: horaAula1,
@@ -51,6 +55,38 @@ const EditarAluno = (props) => {
         setTelefone(''),setEndereco(''),
         setCidade(''), setQntAulas('')]
       )
+
+      await excluirAlunoDoHorarProf(emailProf, email)
+      
+
+      if (qntAulas == '1aula') {
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+      }
+      if (qntAulas == '2aulas') {
+        console.log('emailProf',emailProf,'diaAula1',diaAula1,'horaAula1',horaAula1, 'qntAulas',qntAulas);
+
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+      }
+      if (qntAulas == '3aulas') {
+        console.log('emailProf',emailProf,'diaAula1',diaAula1,'horaAula1',horaAula1, 'qntAulas',qntAulas);
+        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+        updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
+          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
+        })
+      }
+
     }else{
         window.alert('Preencha todos os campos obrigatórios!')
     }
