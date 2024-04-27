@@ -1,7 +1,7 @@
 import { db } from '../firebase'
 import {  doc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
-export const incluirEdicaoAlunoDoHorarioProf = (emailProf, dadosAluno) => {
+export const incluirEdicaoAlunoDoHorarioProf = async (emailProf, dadosAluno) => {
     
     const nome = dadosAluno.nome
     const qntAulas = dadosAluno.qntAulas

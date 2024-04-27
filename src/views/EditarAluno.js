@@ -29,14 +29,8 @@ const EditarAluno = (props) => {
   const [hor3DispProf, setHor3DispProf] = useState([])
 
   // inclusão no DB de aluno
-  const handleEditarAluno = () => {
+  const handleEditarAluno = async () => {
     if (nome != '' && email != '' && telefone != '' && endereco != '' && cidade != '' && qntAulas != '') {
-      const dadosAluno ={
-        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
-      }
-      
-      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
-      
       updateDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
@@ -58,11 +52,17 @@ const EditarAluno = (props) => {
         window.alert('Aluno editado com sucesso!'),
         setNome(''), setEmail(''),
         setTelefone(''), setEndereco(''),
-        setCidade(''), setQntAulas('')]
+        setCidade(''), setQntAulas(''),
+        props.setVisibleEditar(false)]
       )
 
       // await excluirAlunoDoHorarProf(emailProf, email)
+
+      const dadosAluno ={
+        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+      }
       
+      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
 
     } else {
       window.alert('Preencha todos os campos obrigatórios!')

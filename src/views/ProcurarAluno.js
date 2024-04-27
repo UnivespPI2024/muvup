@@ -31,6 +31,7 @@ const ProcurarAluno = () => {
             }
         })
         setAlunosEncont(alunos)
+        setSearchNome('')
     };
 
     const deleteAluno = async (idAluno) => {
@@ -81,7 +82,7 @@ const ProcurarAluno = () => {
                     </div>
                 </div>
             </div>
-            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} />}
+            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} setVisibleEditar={setVisibleEditar}/>}
         </div>
     )
 
