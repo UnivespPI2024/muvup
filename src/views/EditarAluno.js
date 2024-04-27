@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
-import {consultaAulasDispProf} from '../services/consultasBD'
-import {excluirAlunoDoHorarProf} from '../services/excluirBD'
+import { consultaAulasDispProf } from '../services/consultasBD'
+import { excluirAlunoDoHorarProf } from '../services/excluirBD'
+import { incluirEdicaoAlunoDoHorarioProf } from '../services/incluirBD'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-// import { setDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
-import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { doc,  updateDoc,  } from 'firebase/firestore/lite';
 
 const EditarAluno = (props) => {
   const [nome, setNome] = useState(props.dadosEditar.nome);
@@ -29,9 +29,15 @@ const EditarAluno = (props) => {
   const [hor3DispProf, setHor3DispProf] = useState([])
 
   // inclusão no DB de aluno
-  const handleEditarAluno = async () => {
-    if(nome!='' && email!='' && telefone!='' && endereco!='' && cidade!='' && qntAulas!=''){
-      setDoc(doc(db, 'Alunos', email), {
+  const handleEditarAluno = () => {
+    if (nome != '' && email != '' && telefone != '' && endereco != '' && cidade != '' && qntAulas != '') {
+      const dadosAluno ={
+        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+      }
+      
+      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
+      
+      updateDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
         telefone: telefone,
@@ -40,7 +46,7 @@ const EditarAluno = (props) => {
         qntAulas: qntAulas,
         profDoAluno: emailProf,
         perfil: 'aluno',
-        diaHorAula:{
+        diaHorAula: {
           diaAula1: diaAula1,
           horaAula1: horaAula1,
           diaAula2: diaAula2,
@@ -50,45 +56,16 @@ const EditarAluno = (props) => {
         }
       }).then([
         window.alert('Aluno editado com sucesso!'),
-        window.location.reload(),
         setNome(''), setEmail(''),
-        setTelefone(''),setEndereco(''),
+        setTelefone(''), setEndereco(''),
         setCidade(''), setQntAulas('')]
       )
 
-      await excluirAlunoDoHorarProf(emailProf, email)
+      // await excluirAlunoDoHorarProf(emailProf, email)
       
 
-      if (qntAulas == '1aula') {
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
-      if (qntAulas == '2aulas') {
-        console.log('emailProf',emailProf,'diaAula1',diaAula1,'horaAula1',horaAula1, 'qntAulas',qntAulas);
-
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
-      if (qntAulas == '3aulas') {
-        console.log('emailProf',emailProf,'diaAula1',diaAula1,'horaAula1',horaAula1, 'qntAulas',qntAulas);
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
-
-    }else{
-        window.alert('Preencha todos os campos obrigatórios!')
+    } else {
+      window.alert('Preencha todos os campos obrigatórios!')
     }
   };
 
@@ -101,33 +78,33 @@ const EditarAluno = (props) => {
   };
 
   // seleção de dia e hora para 3 aulas/semana
-  const handleSelDia1 = async (dia) =>{
+  const handleSelDia1 = async (dia) => {
     setDiaAula1(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
+    const resultado = await consultaAulasDispProf(emailProf, dia)
     setHor1DispProf(resultado)
   }
 
-  const handleSelHora1 = (hora) =>{
+  const handleSelHora1 = (hora) => {
     setHoraAula1(hora)
   }
 
-  const handleSelDia2 = async (dia) =>{
+  const handleSelDia2 = async (dia) => {
     setDiaAula2(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
+    const resultado = await consultaAulasDispProf(emailProf, dia)
     setHor2DispProf(resultado)
   }
 
-  const handleSelHora2 = (hora) =>{
+  const handleSelHora2 = (hora) => {
     setHoraAula2(hora)
   }
 
-  const handleSelDia3 = async (dia) =>{
+  const handleSelDia3 = async (dia) => {
     setDiaAula3(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
+    const resultado = await consultaAulasDispProf(emailProf, dia)
     setHor3DispProf(resultado)
   }
 
-  const handleSelHora3 = (hora) =>{
+  const handleSelHora3 = (hora) => {
     setHoraAula3(hora)
   }
 
@@ -186,61 +163,61 @@ const EditarAluno = (props) => {
         </select>
       </div>
       {
-        qntAulas=='1aula'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno 
-            horaAulaSelec={props.dadosEditar.horaAula1}  
-            diaAulaSelec={props.dadosEditar.diaAula1}
-            onChangeDia={handleSelDia1} 
-            onChangeHora={handleSelHora1}
-            horDispProf={hor1DispProf}/>
-        </div>:null
+        qntAulas == '1aula' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula1}
+              diaAulaSelec={props.dadosEditar.diaAula1}
+              onChangeDia={handleSelDia1}
+              onChangeHora={handleSelHora1}
+              horDispProf={hor1DispProf} />
+          </div> : null
       }
       {
-        qntAulas=='2aulas'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno
-            horaAulaSelec={props.dadosEditar.horaAula1}  
-            diaAulaSelec={props.dadosEditar.diaAula1}
-            onChangeDia={handleSelDia1} 
-            onChangeHora={handleSelHora1}
-            horDispProf={hor1DispProf}/>
-          <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno
-            horaAulaSelec={props.dadosEditar.horaAula2}  
-            diaAulaSelec={props.dadosEditar.diaAula2}
-            onChangeDia={handleSelDia2} 
-            onChangeHora={handleSelHora2}
-            horDispProf={hor2DispProf}/>
-        </div>:null
+        qntAulas == '2aulas' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula1}
+              diaAulaSelec={props.dadosEditar.diaAula1}
+              onChangeDia={handleSelDia1}
+              onChangeHora={handleSelHora1}
+              horDispProf={hor1DispProf} />
+            <text>Selecione dia e horário da segunda aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula2}
+              diaAulaSelec={props.dadosEditar.diaAula2}
+              onChangeDia={handleSelDia2}
+              onChangeHora={handleSelHora2}
+              horDispProf={hor2DispProf} />
+          </div> : null
       }
       {
-        qntAulas=='3aulas'?
-        <div>
-          <text>Selecione dia e horário da primeira aula</text>
-          <SelHorAulaAluno
-            horaAulaSelec={props.dadosEditar.horaAula1}  
-            diaAulaSelec={props.dadosEditar.diaAula1}
-            onChangeDia={handleSelDia1} 
-            onChangeHora={handleSelHora1}
-            horDispProf={hor1DispProf}/>
-          <text>Selecione dia e horário da segunda aula</text>
-          <SelHorAulaAluno
-            horaAulaSelec={props.dadosEditar.horaAula2}  
-            diaAulaSelec={props.dadosEditar.diaAula2}
-            onChangeDia={handleSelDia2} 
-            onChangeHora={handleSelHora2}
-            horDispProf={hor2DispProf}/>
-          <text>Selecione dia e horário da terceira aula</text>
-          <SelHorAulaAluno
-            horaAulaSelec={props.dadosEditar.horaAula3}  
-            diaAulaSelec={props.dadosEditar.diaAula3}
-            onChangeDia={handleSelDia3} 
-            onChangeHora={handleSelHora3}
-            horDispProf={hor3DispProf}/>
-        </div>:null
+        qntAulas == '3aulas' ?
+          <div>
+            <text>Selecione dia e horário da primeira aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula1}
+              diaAulaSelec={props.dadosEditar.diaAula1}
+              onChangeDia={handleSelDia1}
+              onChangeHora={handleSelHora1}
+              horDispProf={hor1DispProf} />
+            <text>Selecione dia e horário da segunda aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula2}
+              diaAulaSelec={props.dadosEditar.diaAula2}
+              onChangeDia={handleSelDia2}
+              onChangeHora={handleSelHora2}
+              horDispProf={hor2DispProf} />
+            <text>Selecione dia e horário da terceira aula</text>
+            <SelHorAulaAluno
+              horaAulaSelec={props.dadosEditar.horaAula3}
+              diaAulaSelec={props.dadosEditar.diaAula3}
+              onChangeDia={handleSelDia3}
+              onChangeHora={handleSelHora3}
+              horDispProf={hor3DispProf} />
+          </div> : null
       }
       <button style={styleViews.btnCadastrar} onClick={handleEditarAluno}>Editar Aluno</button>
     </div>

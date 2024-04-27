@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import {consultaAulasDispProf} from '../services/consultasBD'
+import { incluirEdicaoAlunoDoHorarioProf } from '../services/incluirBD'
+
 import styleViews from '../estilos/styleViews'
 
 import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
@@ -23,7 +25,6 @@ const CadastroAluno = () => {
   const [hor2DispProf, setHor2DispProf] = useState([])
   const [hor3DispProf, setHor3DispProf] = useState([])
 
-
   const [qntAulas, setQntAulas] = useState('');
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
@@ -31,8 +32,6 @@ const CadastroAluno = () => {
   const [horaAula2, setHoraAula2] = useState('');
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
-
-
 
   useEffect(() => {
     (async () => {
@@ -47,7 +46,12 @@ const CadastroAluno = () => {
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if (nome !== '' && email !== '' && telefone !== '' && endereco !== '' && cidade !== '' && qntAulas !== '') {
-
+      const dadosAluno ={
+        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+      }
+      
+      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
+      
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
@@ -72,31 +76,6 @@ const CadastroAluno = () => {
         setCidade(''), setQntAulas(''),
         setprofSelec('')]
       )
-
-      if (qntAulas == '1aula') {
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
-      if (qntAulas == '2aulas') {
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
-      if (qntAulas == '3aulas') {
-        updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-        updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
-          alunos: arrayUnion({nomeAluno:nome,status:'Regular'})
-        })
-      }
 
       //gerador de senha aleatória
       function gerarSenha(tamanho) {
