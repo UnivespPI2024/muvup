@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
-import { incluirEdicaoAlunoDoHorarioProf } from '../services/incluirBD'
+import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
@@ -55,14 +55,13 @@ const EditarAluno = (props) => {
         setCidade(''), setQntAulas(''),
         props.setVisibleEditar(false)]
       )
-
-      // await excluirAlunoDoHorarProf(emailProf, email)
-
+      
       const dadosAluno ={
-        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+        nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
       }
       
-      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
+      excluirAlunoDoHorarProf(emailProf, dadosAluno)
+      incluirEdicaoAlunoNoHorarioProf(emailProf,dadosAluno)
 
     } else {
       window.alert('Preencha todos os campos obrigatórios!')

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import {consultaAulasDispProf} from '../services/consultasBD'
-import { incluirEdicaoAlunoDoHorarioProf } from '../services/incluirBD'
+import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
 
 import styleViews from '../estilos/styleViews'
 
@@ -46,12 +46,6 @@ const CadastroAluno = () => {
   // inclusão no DB de aluno
   const handleCadastro = () => {
     if (nome !== '' && email !== '' && telefone !== '' && endereco !== '' && cidade !== '' && qntAulas !== '') {
-      const dadosAluno ={
-        nome, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
-      }
-      
-      incluirEdicaoAlunoDoHorarioProf(emailProf,dadosAluno)
-      
       setDoc(doc(db, 'Alunos', email), {
         nome: nome,
         email: email,
@@ -76,6 +70,12 @@ const CadastroAluno = () => {
         setCidade(''), setQntAulas(''),
         setprofSelec('')]
       )
+
+      const dadosAluno ={
+        nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+      }
+      
+      incluirEdicaoAlunoNoHorarioProf(emailProf,dadosAluno)
 
       //gerador de senha aleatória
       function gerarSenha(tamanho) {

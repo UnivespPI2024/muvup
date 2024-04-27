@@ -51,6 +51,7 @@ const CadastroProfessor = () => {
 
         //criar novo usuário com senha aleatória
         const auth = getAuth();
+        console.log('novaSenha',novaSenha);
         createUserWithEmailAndPassword(auth, email, novaSenha)
           .then((userCredential) => {
             const user = userCredential.user;

@@ -1,9 +1,10 @@
 import { db } from '../firebase'
 import {  doc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
-export const incluirEdicaoAlunoDoHorarioProf = async (emailProf, dadosAluno) => {
+export const incluirEdicaoAlunoNoHorarioProf = async (emailProf, dadosAluno) => {
     
     const nome = dadosAluno.nome
+    const email = dadosAluno.email
     const qntAulas = dadosAluno.qntAulas
     const diaAula1 = dadosAluno.diaAula1
     const diaAula2 = dadosAluno.diaAula2
@@ -14,27 +15,27 @@ export const incluirEdicaoAlunoDoHorarioProf = async (emailProf, dadosAluno) => 
     
     if (qntAulas == '1aula') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
     }
     if (qntAulas == '2aulas') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
     }
 
     if (qntAulas == '3aulas') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula2, horaAula2), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
         updateDoc(doc(db, 'Professores', emailProf, diaAula3, horaAula3), {
-            alunos: arrayUnion({ nomeAluno: nome, status: 'Regular' })
+            alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
     }
 }

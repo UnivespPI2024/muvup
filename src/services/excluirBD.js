@@ -1,19 +1,27 @@
 import { db } from '../firebase'
-import {  collection, getDocs, query } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where, doc } from 'firebase/firestore/lite';
 import { MAX_ALUNOS } from '../constantes';
 
+export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
+  const nome = dadosAluno.nome
+  const email = dadosAluno.email
+  const qntAulas = dadosAluno.qntAulas
+  const diaAula1 = dadosAluno.diaAula1
+  const diaAula2 = dadosAluno.diaAula2
+  const diaAula3 = dadosAluno.diaAula3
+  const horaAula1 = dadosAluno.horaAula1
+  const horaAula2 = dadosAluno.horaAula2
+  const horaAula3 = dadosAluno.horaAula3
 
-export const excluirAlunoDoHorarProf = async (emailProf, emailAluno) =>{
-    console.log('emailProf',emailProf,'emailAluno',emailAluno)
-    /* const q = query(collection(db, 'Professores', emailProf, dia));
-    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
-    // horarios disponíveis por professor => limite de alunos por aula = MAX_ALUNOS
-    const horariosDisp = querySnapshot.docs.map(doc => {
-      if (Object.keys(doc.data().alunos).length < MAX_ALUNOS) {
-        return doc.id
-      }
-    }).filter(value => value !== undefined); */
-    return 'dsf'
+  console.log('emailProf', emailProf, 'dados', dadosAluno)
+  const q = query(doc(db, 'Professores', emailProf, diaAula1, horaAula1),where('emailAluno','==',email));
+  const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
+  
+
+  querySnapshot.forEach(doc => {
+    console.log('doc.data()',doc.data());
+  })
+  return 'dsf'
 }
 
 
