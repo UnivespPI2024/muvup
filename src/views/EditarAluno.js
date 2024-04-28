@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
@@ -7,17 +7,25 @@ import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { doc,  updateDoc,  } from 'firebase/firestore/lite';
+import { doc,  updateDoc, collection, getDocs, query, where  } from 'firebase/firestore/lite';
 
 const EditarAluno = (props) => {
   const [nome, setNome] = useState(props.dadosEditar.nome);
   const [email, setEmail] = useState(props.dadosEditar.email);
-  const [emailProf, setEmailProf] = useState(props.dadosEditar.profDoAluno);
+  const [emailProfAtual, setEmailProfAtual] = useState(props.dadosEditar.profDoAluno);
+  const [emailProf, setEmailProf] = useState('');
   const [telefone, setTelefone] = useState(props.dadosEditar.telefone);
   const [endereco, setEndereco] = useState(props.dadosEditar.endereco);
   const [cidade, setCidade] = useState(props.dadosEditar.cidade);
 
-  const [qntAulas, setQntAulas] = useState(props.dadosEditar.qntAulas);
+  const [qntAulasAtual, setQntAulasAtual] = useState(props.dadosEditar.qntAulas);
+  const [qntAulas, setQntAulas] = useState('');
+  const [diaAula1Atual, setDiaAula1Atual] = useState(props.dadosEditar.diaHorAula.diaAula1);
+  const [horaAula1Atual, setHoraAula1Atual] = useState(props.dadosEditar.diaHorAula.horaAula1);
+  const [diaAula2Atual, setDiaAula2Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
+  const [horaAula2Atual, setHoraAula2Atual] = useState(props.dadosEditar.diaHorAula.horaAula2);
+  const [diaAula3Atual, setDiaAula3Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
+  const [horaAula3Atual, setHoraAula3Atual] = useState(props.dadosEditar.diaHorAula.horaAula3);
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
   const [diaAula2, setDiaAula2] = useState('');
@@ -27,6 +35,19 @@ const EditarAluno = (props) => {
   const [hor1DispProf, setHor1DispProf] = useState([])
   const [hor2DispProf, setHor2DispProf] = useState([])
   const [hor3DispProf, setHor3DispProf] = useState([])
+
+  const [nomesProf, setNomesProf] = useState([])
+  const [profSelec, setprofSelec] = useState('')
+
+  useEffect(() => {
+    (async () => {
+      //consulta dos professores
+      const professores = collection(db, 'Professores');
+      const professoresSnapshot = await getDocs(professores);
+      const nomesProfessores = professoresSnapshot.docs.map(doc => doc.data().nome);
+      setNomesProf(nomesProfessores)
+    })()
+  }, [])
 
   // inclusão no DB de aluno
   const handleEditarAluno = async () => {
@@ -56,11 +77,14 @@ const EditarAluno = (props) => {
         props.setVisibleEditar(false)]
       )
       
+      const dadosAlunoAtual ={
+        nome, email, qntAulasAtual, diaAula1Atual, diaAula2Atual, diaAula3Atual, horaAula1Atual, horaAula2Atual, horaAula3Atual
+      }
       const dadosAluno ={
         nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
       }
       
-      excluirAlunoDoHorarProf(emailProf, dadosAluno)
+      excluirAlunoDoHorarProf(emailProfAtual, dadosAlunoAtual)
       incluirEdicaoAlunoNoHorarioProf(emailProf,dadosAluno)
 
     } else {
@@ -68,12 +92,24 @@ const EditarAluno = (props) => {
     }
   };
 
+  const handleSelectProf = (event) => {
+    setprofSelec(event.target.value);
+    setQntAulas('');
+  };
+
   // seleção qnt de aulas
-  const handleSelectQntAulas = (event) => {
+  const handleSelectQntAulas = async (event) => {
     setQntAulas(event.target.value);
     setDiaAula1(''); setHoraAula1('')
     setDiaAula2(''); setHoraAula2('')
     setDiaAula3(''); setHoraAula3('')
+
+    //consulta do email do professor
+    const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
+    const querySnapshot = await getDocs(q).catch((error) => { console.log('erro', error); })
+    querySnapshot.forEach(doc => {
+      setEmailProf(doc.data().email)
+    });
   };
 
   // seleção de dia e hora para 3 aulas/semana
@@ -149,6 +185,19 @@ const EditarAluno = (props) => {
           value={cidade}
           onChange={(e) => setCidade(e.target.value)}
         />
+      </div>
+      <div>
+        <select
+          style={styleViews.select}
+          value={profSelec}
+          onChange={handleSelectProf}>
+          <option value="">Escolha um professor</option>
+          {nomesProf.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <select

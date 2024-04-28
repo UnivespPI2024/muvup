@@ -13,12 +13,14 @@ export const incluirEdicaoAlunoNoHorarioProf = async (emailProf, dadosAluno) => 
     const horaAula2 = dadosAluno.horaAula2
     const horaAula3 = dadosAluno.horaAula3
     
-    if (qntAulas == '1aula') {
+    console.log('entrounoIncluir',emailProf, diaAula3, horaAula3);
+    
+    if (qntAulas === '1aula') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
             alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
     }
-    if (qntAulas == '2aulas') {
+    if (qntAulas === '2aulas') {
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
             alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
@@ -27,7 +29,8 @@ export const incluirEdicaoAlunoNoHorarioProf = async (emailProf, dadosAluno) => 
         })
     }
 
-    if (qntAulas == '3aulas') {
+    if (qntAulas === '3aulas') {
+        console.log('entrounoIncluir');
         updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {
             alunos: arrayUnion({ nomeAluno: nome, emailAluno: email, status: 'Regular' })
         })
