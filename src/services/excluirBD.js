@@ -1,6 +1,5 @@
 import { db } from '../firebase'
-import { collection, getDocs, query, where, doc, updateDoc, arrayRemove } from 'firebase/firestore/lite';
-import { MAX_ALUNOS } from '../constantes';
+import { doc, updateDoc, arrayRemove } from 'firebase/firestore/lite';
 
 export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
   const nome = dadosAluno.nome
@@ -12,7 +11,6 @@ export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
   const horaAula1 = dadosAluno.horaAula1Atual
   const horaAula2 = dadosAluno.horaAula2Atual
   const horaAula3 = dadosAluno.horaAula3Atual
-  let idxAluno = 0
 
   if (qntAulas === '1aula') {
     updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {

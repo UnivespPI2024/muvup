@@ -20,14 +20,22 @@ const ProcurarAluno = () => {
 
     // procurar por aluno no BD
     const searchAluno = async () => {
+        setVisibleEditar(false)
+        alunosEncont.splice(0, alunosEncont.length)
         const procuraNormaliz = searchNome.toLowerCase()
         const alunosCollec = collection(db, 'Alunos');
         const alunosSnapshot = await getDocs(alunosCollec);
         const alunos = []
-        alunosSnapshot.forEach((doc)=>{
+        alunosSnapshot.forEach((doc) => {
             const nomeNormalizado = doc.data().nome.toLowerCase()
-            if(nomeNormalizado.includes(procuraNormaliz)){
-                alunos.push(doc.data())
+            if (procuraNormaliz !== '') {
+                if (nomeNormalizado.includes(procuraNormaliz)) {
+                    alunos.push(doc.data())
+                }else{
+                    window.alert('Nenhum aluno encontrado!')
+                }
+            }else{
+                window.alert('O campo de pesquisa não pode estar em branco!')
             }
         })
         setAlunosEncont(alunos)
@@ -43,7 +51,7 @@ const ProcurarAluno = () => {
     }
 
     const editAluno = (item) => {
-        console.log('item',item);
+        console.log('item', item);
         setDadosEditar(item)
         setVisibleEditar(true)
     }
@@ -82,7 +90,7 @@ const ProcurarAluno = () => {
                     </div>
                 </div>
             </div>
-            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} setVisibleEditar={setVisibleEditar}/>}
+            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} setVisibleEditar={setVisibleEditar} />}
         </div>
     )
 

@@ -24,7 +24,7 @@ const EditarAluno = (props) => {
   const [horaAula1Atual, setHoraAula1Atual] = useState(props.dadosEditar.diaHorAula.horaAula1);
   const [diaAula2Atual, setDiaAula2Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
   const [horaAula2Atual, setHoraAula2Atual] = useState(props.dadosEditar.diaHorAula.horaAula2);
-  const [diaAula3Atual, setDiaAula3Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
+  const [diaAula3Atual, setDiaAula3Atual] = useState(props.dadosEditar.diaHorAula.diaAula3);
   const [horaAula3Atual, setHoraAula3Atual] = useState(props.dadosEditar.diaHorAula.horaAula3);
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
