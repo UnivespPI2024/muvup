@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import EditarAluno from './EditarAluno';
+import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 
 import styleViews from '../estilos/styleViews'
 import styleListas from '../estilos/styleListas'
@@ -56,6 +57,10 @@ const ProcurarAluno = () => {
         setVisibleEditar(true)
     }
 
+    const limparAlunosEncont = () =>{
+        alunosEncont.splice(0, alunosEncont.length)
+    }
+
 
     return (
         <div>
@@ -90,7 +95,7 @@ const ProcurarAluno = () => {
                     </div>
                 </div>
             </div>
-            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} setVisibleEditar={setVisibleEditar} />}
+            {visibleEditar && <EditarAluno dadosEditar={dadosEditar} setVisibleEditar={setVisibleEditar} limparAlunosEncont={limparAlunosEncont} />}
         </div>
     )
 

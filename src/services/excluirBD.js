@@ -2,15 +2,12 @@ import { db } from '../firebase'
 import { doc, updateDoc, arrayRemove } from 'firebase/firestore/lite';
 
 export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
-  const nome = dadosAluno.nome
-  const email = dadosAluno.email
-  const qntAulas = dadosAluno.qntAulasAtual
-  const diaAula1 = dadosAluno.diaAula1Atual
-  const diaAula2 = dadosAluno.diaAula2Atual
-  const diaAula3 = dadosAluno.diaAula3Atual
-  const horaAula1 = dadosAluno.horaAula1Atual
-  const horaAula2 = dadosAluno.horaAula2Atual
-  const horaAula3 = dadosAluno.horaAula3Atual
+  
+  const nome = dadosAluno.nome; const email = dadosAluno.email; const qntAulas = dadosAluno.qntAulas; 
+  const diaAula1 = dadosAluno.diaAula1; const diaAula2 = dadosAluno.diaAula2; const diaAula3 = dadosAluno.diaAula3;
+  const horaAula1 = dadosAluno.horaAula1; const horaAula2 = dadosAluno.horaAula2; const horaAula3 = dadosAluno.horaAula3;
+
+  console.log(emailProf,diaAula1,diaAula2,diaAula3,horaAula1,horaAula2,horaAula3);
 
   if (qntAulas === '1aula') {
     updateDoc(doc(db, 'Professores', emailProf, diaAula1, horaAula1), {

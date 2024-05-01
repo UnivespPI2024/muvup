@@ -7,7 +7,7 @@ import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
 import styleViews from '../estilos/styleViews'
 
 import { db } from '../firebase'
-import { doc,  updateDoc, collection, getDocs, query, where  } from 'firebase/firestore/lite';
+import { doc, updateDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
 
 const EditarAluno = (props) => {
   const [nome, setNome] = useState(props.dadosEditar.nome);
@@ -51,42 +51,53 @@ const EditarAluno = (props) => {
 
   // inclusão no DB de aluno
   const handleEditarAluno = async () => {
+    console.log('entrouEditALuno');
     if (nome != '' && email != '' && telefone != '' && endereco != '' && cidade != '' && qntAulas != '') {
-      updateDoc(doc(db, 'Alunos', email), {
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        endereco: endereco,
-        cidade: cidade,
-        qntAulas: qntAulas,
-        profDoAluno: emailProf,
-        perfil: 'aluno',
-        diaHorAula: {
-          diaAula1: diaAula1,
-          horaAula1: horaAula1,
-          diaAula2: diaAula2,
-          horaAula2: horaAula2,
-          diaAula3: diaAula3,
-          horaAula3: horaAula3,
-        }
-      }).then([
-        window.alert('Aluno editado com sucesso!'),
-        setNome(''), setEmail(''),
-        setTelefone(''), setEndereco(''),
-        setCidade(''), setQntAulas(''),
-        props.setVisibleEditar(false)]
-      )
-      
-      const dadosAlunoAtual ={
-        nome, email, qntAulasAtual, diaAula1Atual, diaAula2Atual, diaAula3Atual, horaAula1Atual, horaAula2Atual, horaAula3Atual
-      }
-      const dadosAluno ={
-        nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
-      }
-      
-      excluirAlunoDoHorarProf(emailProfAtual, dadosAlunoAtual)
-      incluirEdicaoAlunoNoHorarioProf(emailProf,dadosAluno)
+      if ((qntAulas === '1aula' && horaAula1 !== '') ||
+        (qntAulas === '2aulas' && horaAula1 !== '' && horaAula2 !== '') ||
+        (qntAulas === '3aulas' && horaAula1 !== '' && horaAula2 !== '' && horaAula3 !== '')) {
+        console.log('entrouEditALuno');
+        updateDoc(doc(db, 'Alunos', email), {
+          nome: nome,
+          email: email,
+          telefone: telefone,
+          endereco: endereco,
+          cidade: cidade,
+          qntAulas: qntAulas,
+          profDoAluno: emailProf,
+          perfil: 'aluno',
+          diaHorAula: {
+            diaAula1: diaAula1,
+            horaAula1: horaAula1,
+            diaAula2: diaAula2,
+            horaAula2: horaAula2,
+            diaAula3: diaAula3,
+            horaAula3: horaAula3,
+          }
+        }).then([
+          window.alert('Aluno editado com sucesso!'),
+          setNome(''), setEmail(''),
+          setTelefone(''), setEndereco(''),
+          setCidade(''), setQntAulas(''),
+          props.setVisibleEditar(false)]
+        )
 
+        const dadosAlunoAtual = {
+          nome, email, qntAulas: qntAulasAtual,
+          diaAula1: diaAula1Atual, diaAula2: diaAula2Atual, diaAula3: diaAula3Atual,
+          horaAula1: horaAula1Atual, horaAula2: horaAula2Atual, horaAula3: horaAula3Atual
+        }
+        const dadosAluno = {
+          nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+        }
+
+        excluirAlunoDoHorarProf(emailProfAtual, dadosAlunoAtual)
+        incluirEdicaoAlunoNoHorarioProf(emailProf, dadosAluno)
+        props.limparAlunosEncont()
+
+      } else {
+        window.alert('Preencha todos os campos obrigatórios!')
+      }
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
@@ -103,6 +114,7 @@ const EditarAluno = (props) => {
     setDiaAula1(''); setHoraAula1('')
     setDiaAula2(''); setHoraAula2('')
     setDiaAula3(''); setHoraAula3('')
+    setHor1DispProf([]); setHor2DispProf([]); setHor3DispProf([])
 
     //consulta do email do professor
     const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
@@ -114,9 +126,12 @@ const EditarAluno = (props) => {
 
   // seleção de dia e hora para 3 aulas/semana
   const handleSelDia1 = async (dia) => {
-    setDiaAula1(dia)
-    const resultado = await consultaAulasDispProf(emailProf, dia)
-    setHor1DispProf(resultado)
+    setHor1DispProf([])
+    if(dia!==''){
+      setDiaAula1(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor1DispProf(resultado)
+    }
   }
 
   const handleSelHora1 = (hora) => {
@@ -124,9 +139,12 @@ const EditarAluno = (props) => {
   }
 
   const handleSelDia2 = async (dia) => {
-    setDiaAula2(dia)
-    const resultado = await consultaAulasDispProf(emailProf, dia)
-    setHor2DispProf(resultado)
+    setHor2DispProf([])
+    if(dia!==''){
+      setDiaAula2(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor2DispProf(resultado)
+    }
   }
 
   const handleSelHora2 = (hora) => {
@@ -134,9 +152,12 @@ const EditarAluno = (props) => {
   }
 
   const handleSelDia3 = async (dia) => {
-    setDiaAula3(dia)
-    const resultado = await consultaAulasDispProf(emailProf, dia)
-    setHor3DispProf(resultado)
+    setHor3DispProf([])
+    if(dia!==''){
+      setDiaAula3(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor3DispProf(resultado)
+    }
   }
 
   const handleSelHora3 = (hora) => {
@@ -199,17 +220,20 @@ const EditarAluno = (props) => {
           ))}
         </select>
       </div>
-      <div>
-        <select
-          style={styleViews.select}
-          value={qntAulas}
-          onChange={handleSelectQntAulas}>
-          <option value="">Quantidade de aulas na semana</option>
-          <option value="1aula">1 aula</option>
-          <option value="2aulas">2 aulas</option>
-          <option value="3aulas">3 aulas</option>
-        </select>
-      </div>
+      {
+        profSelec !== '' ?
+          <div>
+            <select
+              style={styleViews.select}
+              value={qntAulas}
+              onChange={handleSelectQntAulas}>
+              <option value="">Quantidade de aulas na semana</option>
+              <option value="1aula">1 aula</option>
+              <option value="2aulas">2 aulas</option>
+              <option value="3aulas">3 aulas</option>
+            </select>
+          </div> : null
+      }
       {
         qntAulas == '1aula' ?
           <div>
