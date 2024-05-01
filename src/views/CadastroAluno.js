@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
-import {consultaAulasDispProf} from '../services/consultasBD'
+import { consultaAulasDispProf } from '../services/consultasBD'
 import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
+import { criarUsuario } from '../services/loginBD'
 
 import styleViews from '../estilos/styleViews'
 
-import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
@@ -20,7 +20,7 @@ const CadastroAluno = () => {
   const [cidade, setCidade] = useState('');
 
   const [nomesProf, setNomesProf] = useState([])
-  const [profSelec, setprofSelec] = useState('')
+  const [profSelec, setProfSelec] = useState('')
   const [hor1DispProf, setHor1DispProf] = useState([])
   const [hor2DispProf, setHor2DispProf] = useState([])
   const [hor3DispProf, setHor3DispProf] = useState([])
@@ -44,83 +44,53 @@ const CadastroAluno = () => {
   }, [])
 
   // inclusão no DB de aluno
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     if (nome !== '' && email !== '' && telefone !== '' && endereco !== '' && cidade !== '' && qntAulas !== '') {
-      setDoc(doc(db, 'Alunos', email), {
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        endereco: endereco,
-        cidade: cidade,
-        qntAulas: qntAulas,
-        profDoAluno: emailProf,
-        perfil: 'aluno',
-        diaHorAula: {
-          diaAula1: diaAula1,
-          horaAula1: horaAula1,
-          diaAula2: diaAula2,
-          horaAula2: horaAula2,
-          diaAula3: diaAula3,
-          horaAula3: horaAula3,
+      if ((qntAulas === '1aula' && horaAula1 !== '') ||
+        (qntAulas === '2aulas' && horaAula1 !== '' && horaAula2 !== '') ||
+        (qntAulas === '3aulas' && horaAula1 !== '' && horaAula2 !== '' && horaAula3 !== '')) {
+        try {
+          await criarUsuario(email)
+
+          setDoc(doc(db, 'Alunos', email), {
+            nome: nome, email: email, telefone: telefone, endereco: endereco,
+            cidade: cidade, qntAulas: qntAulas, profDoAluno: emailProf,perfil: 'aluno',
+            diaHorAula: {
+              diaAula1: diaAula1, diaAula2: diaAula2, diaAula3: diaAula3,
+              horaAula1: horaAula1, horaAula2: horaAula2, horaAula3: horaAula3,
+            }})
+
+          const dadosAluno = {
+            nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+          }
+
+          incluirEdicaoAlunoNoHorarioProf(emailProf, dadosAluno)
+
+          window.alert('Aluno cadastrado com sucesso!')
+          setNome(''); setEmail('');
+          setTelefone(''); setEndereco('');
+          setCidade(''); setQntAulas('');
+          setProfSelec('')
+          
+        } catch(error) {
+          console.log('error.code',error.code);
+          if(error.code==='auth/email-already-in-use'){
+            window.alert('O e-mail já existe no cadastro')
+          }
+          if(error.code==='auth/invalid-email'){
+            window.alert('E-mail inválido')
+          }
         }
-      }).then([
-        window.alert('Aluno cadastrado com sucesso!'),
-        setNome(''), setEmail(''),
-        setTelefone(''), setEndereco(''),
-        setCidade(''), setQntAulas(''),
-        setprofSelec('')]
-      )
-
-      const dadosAluno ={
-        nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+      } else {
+        window.alert('Preencha todos os campos obrigatórios!')
       }
-      
-      incluirEdicaoAlunoNoHorarioProf(emailProf,dadosAluno)
-
-      //gerador de senha aleatória
-      function gerarSenha(tamanho) {
-        var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        var senha = "";
-        for (var i = 0; i < tamanho; i++) {
-          var indiceCaractere = Math.floor(Math.random() * caracteres.length);
-          senha += caracteres[indiceCaractere];
-        }
-        return senha;
-      }
-
-      let novaSenha = gerarSenha(6);
-
-      //criar novo usuário com senha aleatória
-      const auth = getAuth();
-      // TODO: ativar gerar senha
-      createUserWithEmailAndPassword(auth, email, '12345678')
-        .then((userCredential) => {
-          const user = userCredential.user;
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log('erro', errorCode, errorMessage);
-        });
-
-      //envio de email para redefinição de senha
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          console.log('email de redefinição de senha foi enviado');
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log('erro', errorCode, errorMessage);
-        });
-
     } else {
       window.alert('Preencha todos os campos obrigatórios!')
     }
   };
 
   const handleSelectProf = (event) => {
-    setprofSelec(event.target.value);
+    setProfSelec(event.target.value);
     setQntAulas('');
   };
 
@@ -130,6 +100,7 @@ const CadastroAluno = () => {
     setDiaAula1(''); setHoraAula1('')
     setDiaAula2(''); setHoraAula2('')
     setDiaAula3(''); setHoraAula3('')
+    setHor1DispProf([]); setHor2DispProf([]); setHor3DispProf([])
 
     //consulta do email do professor
     const q = query(collection(db, "Professores"), where("nome", "==", profSelec));
@@ -141,20 +112,25 @@ const CadastroAluno = () => {
 
   // seleção de dia e hora para 3 aulas/semana
   const handleSelDia1 = async (dia) => {
-    setDiaAula1(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
-    setHor1DispProf(resultado)
+    setHor1DispProf([])
+    if (dia !== '') {
+      setDiaAula1(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor1DispProf(resultado)
+    }
   }
 
   const handleSelHora1 = (hora) => {
-    console.log('horaAula1', hora);
     setHoraAula1(hora)
   }
 
   const handleSelDia2 = async (dia) => {
-    setDiaAula2(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
-    setHor2DispProf(resultado)
+    setHor2DispProf([])
+    if (dia !== '') {
+      setDiaAula2(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor2DispProf(resultado)
+    }
   }
 
   const handleSelHora2 = (hora) => {
@@ -162,9 +138,12 @@ const CadastroAluno = () => {
   }
 
   const handleSelDia3 = async (dia) => {
-    setDiaAula3(dia)
-    const resultado = await consultaAulasDispProf(emailProf,dia)
-    setHor3DispProf(resultado)
+    setHor3DispProf([])
+    if (dia !== '') {
+      setDiaAula3(dia)
+      const resultado = await consultaAulasDispProf(emailProf, dia)
+      setHor3DispProf(resultado)
+    }
   }
 
   const handleSelHora3 = (hora) => {
@@ -232,17 +211,20 @@ const CadastroAluno = () => {
           ))}
         </select>
       </div>
-      <div>
-        <select
-          style={styleViews.select}
-          value={qntAulas}
-          onChange={handleSelectQntAulas}>
-          <option value="">Quantidade de aulas na semana</option>
-          <option value="1aula">1 aula</option>
-          <option value="2aulas">2 aulas</option>
-          <option value="3aulas">3 aulas</option>
-        </select>
-      </div>
+      {
+        profSelec !== '' ?
+          <div>
+            <select
+              style={styleViews.select}
+              value={qntAulas}
+              onChange={handleSelectQntAulas}>
+              <option value="">Quantidade de aulas na semana</option>
+              <option value="1aula">1 aula</option>
+              <option value="2aulas">2 aulas</option>
+              <option value="3aulas">3 aulas</option>
+            </select>
+          </div> : null
+      }
       {
         qntAulas == '1aula' ?
           <div>
