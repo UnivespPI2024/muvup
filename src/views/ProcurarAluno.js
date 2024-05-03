@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import EditarAluno from './EditarAluno';
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
+import { excluirUsuario } from '../services/excluirBD'
 
 import styleViews from '../estilos/styleViews'
 import styleListas from '../estilos/styleListas'
@@ -49,6 +50,7 @@ const ProcurarAluno = () => {
             await deleteDoc(doc(db, 'Alunos', idAluno)).then(window.alert('Aluno excluído com sucesso'))
             window.location.reload()
         }
+        excluirUsuario()
     }
 
     const editAluno = (item) => {
