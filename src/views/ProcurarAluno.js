@@ -23,33 +23,34 @@ const ProcurarAluno = () => {
     // procurar por aluno no BD
     const searchAluno = async () => {
         setVisibleEditar(false)
-        alunosEncont.splice(0, alunosEncont.length)
         const procuraNormaliz = searchNome.toLowerCase()
-        const alunosCollec = collection(db, 'Alunos');
-        const alunosSnapshot = await getDocs(alunosCollec);
-        const alunos = []
-        alunosSnapshot.forEach((doc) => {
-            const nomeNormalizado = doc.data().nome.toLowerCase()
-            if (procuraNormaliz !== '') {
+
+        if (procuraNormaliz !== '') {
+            alunosEncont.splice(0, alunosEncont.length)
+            const alunosCollec = collection(db, 'Alunos');
+            const alunosSnapshot = await getDocs(alunosCollec);
+            const alunos = []
+
+            alunosSnapshot.forEach((doc) => {
+                const nomeNormalizado = doc.data().nome.toLowerCase()
                 if (nomeNormalizado.includes(procuraNormaliz)) {
                     alunos.push(doc.data())
-                }else{
-                    window.alert('Nenhum aluno encontrado!')
                 }
-            }else{
-                window.alert('O campo de pesquisa não pode estar em branco!')
-            }
-        })
-        setAlunosEncont(alunos)
+            })
+            alunos.length === 0 ? window.alert('Nenhum aluno encontrado!') : setAlunosEncont(alunos)
+
+        } else {
+            window.alert('O campo de pesquisa não pode estar em branco!')
+        }
         setSearchNome('')
     };
 
     const deleteAluno = async (idAluno) => {
         const result = window.confirm('Deseja realmente excluir o aluno? Essa ação é definitiva!')
-        if (result) {
+        /* if (result) {
             await deleteDoc(doc(db, 'Alunos', idAluno)).then(window.alert('Aluno excluído com sucesso'))
             window.location.reload()
-        }
+        } */
         excluirUsuario()
     }
 
@@ -59,7 +60,7 @@ const ProcurarAluno = () => {
         setVisibleEditar(true)
     }
 
-    const limparAlunosEncont = () =>{
+    const limparAlunosEncont = () => {
         alunosEncont.splice(0, alunosEncont.length)
     }
 

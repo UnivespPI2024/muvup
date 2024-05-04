@@ -85,7 +85,7 @@ function Login() {
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredential) => {
         const user = userCredential.user;
-        // console.log('user', user);
+        console.log('user', user);
       })
       .catch((error) => {
         const errorCode = error.code;

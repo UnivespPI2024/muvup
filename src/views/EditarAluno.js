@@ -92,7 +92,7 @@ const EditarAluno = (props) => {
         }
 
         excluirAlunoDoHorarProf(emailProfAtual, dadosAlunoAtual)
-        incluirEdicaoAlunoNoHorarioProf(emailProf, dadosAluno)
+        incluirEdicaoAlunoNoHorarioProf(dadosAluno)
         props.limparAlunosEncont()
 
       } else {

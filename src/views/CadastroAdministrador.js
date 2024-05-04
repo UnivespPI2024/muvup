@@ -102,7 +102,7 @@ const CadastroAdministrador = () => {
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <button style={styleViews.btnCadastrar} onClick={handleCadastroProf}>Cadastrar Professor</button>
+      <button style={styleViews.btnCadastrar} onClick={handleCadastroProf}>Cadastrar Administrador</button>
     </div>
   )
 }

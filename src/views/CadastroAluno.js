@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
-import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
+import { incluirEdicaoAlunoNoHorarioProf, incluirAluno } from '../services/incluirBD'
 import { criarUsuario } from '../services/loginBD'
 
 import styleViews from '../estilos/styleViews'
@@ -33,6 +34,10 @@ const CadastroAluno = () => {
   const [diaAula3, setDiaAula3] = useState('');
   const [horaAula3, setHoraAula3] = useState('');
 
+  const dadosAluno = {
+    nome, email, telefone, endereco, cidade, emailProf, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
+  }
+
   useEffect(() => {
     (async () => {
       //consulta dos professores
@@ -50,34 +55,21 @@ const CadastroAluno = () => {
         (qntAulas === '2aulas' && horaAula1 !== '' && horaAula2 !== '') ||
         (qntAulas === '3aulas' && horaAula1 !== '' && horaAula2 !== '' && horaAula3 !== '')) {
         try {
+
           await criarUsuario(email)
-
-          setDoc(doc(db, 'Alunos', email), {
-            nome: nome, email: email, telefone: telefone, endereco: endereco,
-            cidade: cidade, qntAulas: qntAulas, profDoAluno: emailProf,perfil: 'aluno',
-            diaHorAula: {
-              diaAula1: diaAula1, diaAula2: diaAula2, diaAula3: diaAula3,
-              horaAula1: horaAula1, horaAula2: horaAula2, horaAula3: horaAula3,
-            }})
-
-          const dadosAluno = {
-            nome, email, qntAulas, diaAula1, diaAula2, diaAula3, horaAula1, horaAula2, horaAula3
-          }
-
-          incluirEdicaoAlunoNoHorarioProf(emailProf, dadosAluno)
+          incluirAluno(dadosAluno)
+          incluirEdicaoAlunoNoHorarioProf(dadosAluno)
 
           window.alert('Aluno cadastrado com sucesso!')
-          setNome(''); setEmail('');
-          setTelefone(''); setEndereco('');
-          setCidade(''); setQntAulas('');
-          setProfSelec('')
-          
-        } catch(error) {
-          console.log('error.code',error.code);
-          if(error.code==='auth/email-already-in-use'){
+          setNome(''); setEmail(''); setTelefone(''); setEndereco('');
+          setCidade(''); setQntAulas(''); setProfSelec('')
+
+        } catch (error) {
+          console.log('error.code', error.code);
+          if (error.code === 'auth/email-already-in-use') {
             window.alert('O e-mail já existe no cadastro')
           }
-          if(error.code==='auth/invalid-email'){
+          if (error.code === 'auth/invalid-email') {
             window.alert('E-mail inválido')
           }
         }

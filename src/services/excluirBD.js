@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from 'react';
+
 import { db } from '../firebase'
-import { doc, updateDoc, arrayRemove } from 'firebase/firestore/lite';
-import { getAuth, deleteUser } from "firebase/auth";
+import { doc, updateDoc, arrayRemove, getDoc, collection, getDocs } from 'firebase/firestore/lite';
+import { getAuth, deleteUser, getUser } from "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
-const auth = getAuth();
-const user = auth.currentUser;
-
+const auth = getAuth()
 export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
 
   const nome = dadosAluno.nome; const email = dadosAluno.email; const qntAulas = dadosAluno.qntAulas;
@@ -39,8 +41,9 @@ export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
   }
 }
 
-export const excluirUsuario = () => {
-  console.log('user', user);
+export const excluirUsuario = async () => {
+
+  
 }
 
 
