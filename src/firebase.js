@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore/lite';
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyB9n8pPUvrvA9TqZ1QODanC9ECIlxVFisg",
   authDomain: "muvup-c1683.firebaseapp.com",

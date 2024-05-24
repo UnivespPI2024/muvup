@@ -3,10 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase'
 import { doc, updateDoc, arrayRemove, getDoc, collection, getDocs } from 'firebase/firestore/lite';
 import { getAuth, deleteUser, getUser } from "firebase/auth";
-import firebase from 'firebase/app';
-import 'firebase/firestore';
 
-const auth = getAuth()
+
+
 export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
 
   const nome = dadosAluno.nome; const email = dadosAluno.email; const qntAulas = dadosAluno.qntAulas;
