@@ -45,13 +45,12 @@ const ProcurarAluno = () => {
         setSearchNome('')
     };
 
-    const deleteAluno = async (idAluno) => {
+    const deleteAluno = async (email) => {
         const result = window.confirm('Deseja realmente excluir o aluno? Essa ação é definitiva!')
-        /* if (result) {
-            await deleteDoc(doc(db, 'Alunos', idAluno)).then(window.alert('Aluno excluído com sucesso'))
-            window.location.reload()
-        } */
-        excluirUsuario()
+        if (result) {
+            await deleteDoc(doc(db, 'Alunos', email))
+            await excluirUsuario(email).then(window.alert('Aluno excluído com sucesso'), window.location.reload())
+        }
     }
 
     const editAluno = (item) => {

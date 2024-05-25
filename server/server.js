@@ -3,19 +3,20 @@ const admin = require('./firebaseAdmin');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(cors({
-  origin: 'http://localhost:3001', 
+  origin: 'http://localhost:3000', 
 }));
 
 app.use(express.json());
 
-app.delete('/deleteUser', async (req, res) => {
-  const { uid } = req.body;
+app.delete('/deleteUserByEmail', async (req, res) => {
+  const { email } = req.body;
 
   try {
-    await admin.auth().deleteUser(uid);
+    const userRecord = await admin.auth().getUserByEmail(email);
+    await admin.auth().deleteUser(userRecord.uid);
     res.status(200).send('Usuário excluído com sucesso');
   } catch (error) {
     res.status(500).send('Erro ao excluir usuário: ' + error.message);

@@ -40,11 +40,11 @@ export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
   }
 }
 
-export const excluirUsuario = async () => {
-  console.log('entrou no excluirUsuario')
+export const excluirUsuario = async (email) => {
+  console.log('entrou no excluirUsuario',email)
   try {
-    const response = await axios.delete('http://localhost:3000/deleteUser', {
-      data: { uid: "7k1obHH2SWhCswvJs7QoppC5DEC3" }
+    const response = await axios.delete('http://localhost:5000/deleteUserByEmail', {
+      data: { email }
     });
     console.log(response.data)
   } catch (error) {
