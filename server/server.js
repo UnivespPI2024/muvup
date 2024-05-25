@@ -1,13 +1,16 @@
 const express = require('express');
 const admin = require('./firebaseAdmin');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
-// Middleware para parsear JSON
+app.use(cors({
+  origin: 'http://localhost:3001', 
+}));
+
 app.use(express.json());
 
-// Rota para excluir usuário
 app.delete('/deleteUser', async (req, res) => {
   const { uid } = req.body;
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../firebase'
 import { doc, updateDoc, arrayRemove, getDoc, collection, getDocs } from 'firebase/firestore/lite';
 import { getAuth, deleteUser, getUser } from "firebase/auth";
-
+import axios from 'axios';
 
 
 export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
@@ -41,8 +41,15 @@ export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
 }
 
 export const excluirUsuario = async () => {
-
-  
+  console.log('entrou no excluirUsuario')
+  try {
+    const response = await axios.delete('http://localhost:3000/deleteUser', {
+      data: { uid: "7k1obHH2SWhCswvJs7QoppC5DEC3" }
+    });
+    console.log(response.data)
+  } catch (error) {
+    console.log(error.response.data)
+  }
 }
 
 
