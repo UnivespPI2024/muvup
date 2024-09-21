@@ -4,7 +4,7 @@ import logo from '../images/logo.png'
 import '../estilos/login.css'
 
 import { db } from '../firebase'
-import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where } from 'firebase/firestore/lite';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 
 function Login() {
@@ -17,27 +17,27 @@ function Login() {
   const auth = getAuth();
   const navigate = useNavigate();
 
-  useEffect(() =>{
+  useEffect(() => {
     (async () => {
       //as verificações abaixo são para determinar se o usuário é aluno, professor ou administrador.
-      console.log('email',email);
+      console.log('email', email);
       const qAlunos = query(collection(db, 'Alunos'), where('email', '==', email))
       const qSnapDocAlunos = await getDocs(qAlunos)
-      if(!qSnapDocAlunos.empty){
+      if (!qSnapDocAlunos.empty) {
         qSnapDocAlunos.forEach(doc => {
           setPerfil(doc.data().perfil)
         })
       }
       const qProf = query(collection(db, 'Professores'), where('email', '==', email))
-      const qSnapDocProf= await getDocs(qProf)
-      if(!qSnapDocProf.empty){
+      const qSnapDocProf = await getDocs(qProf)
+      if (!qSnapDocProf.empty) {
         qSnapDocProf.forEach(doc => {
           setPerfil(doc.data().perfil)
         })
       }
       const qAdmin = query(collection(db, 'Administradores'), where('email', '==', email))
-      const qSnapDocAdmin= await getDocs(qAdmin)
-      if(!qSnapDocAdmin.empty){
+      const qSnapDocAdmin = await getDocs(qAdmin)
+      if (!qSnapDocAdmin.empty) {
         qSnapDocAdmin.forEach(doc => {
           setPerfil(doc.data().perfil)
         })
@@ -57,10 +57,10 @@ function Login() {
       }
     });
     // navega até a página correspondente
-    if (logado && perfil!=='') {
-      if(perfil === 'aluno') navigate('/aluno')
-      if(perfil === 'professor') navigate('/professor')
-      if(perfil === 'administrador') navigate('/admin')
+    if (logado && perfil !== '') {
+      if (perfil === 'aluno') navigate('/aluno')
+      if (perfil === 'professor') navigate('/professor')
+      if (perfil === 'administrador') navigate('/admin')
     } else {
       navigate('/')
     }

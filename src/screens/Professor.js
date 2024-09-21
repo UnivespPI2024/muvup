@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Professor() {
   const [componenteAtual, setComponenteAtual] = useState('listarAulasProfessor');
+  const [escalaFonte, setEscalaFonte] = useState(1);
 
   const navigate = useNavigate();
 
@@ -28,9 +29,29 @@ function Professor() {
     });
   }
 
+  //altera escala diretamente no css
+  const alterarEscala = (novaEscala) => {
+    setEscalaFonte(novaEscala);
+    document.documentElement.style.setProperty('--escala-fonte', novaEscala);
+  };
+
+  //aumenta a fonte do menu em 10%
+  const handleAumFonte = () => {
+    if (escalaFonte < 1.5) { 
+      alterarEscala(escalaFonte + 0.1); 
+    }
+  }
+
+  //diminui a fonte do menu em 10%
+  const handleDimFonte = () => {
+    if (escalaFonte > 0.8) { 
+      alterarEscala(escalaFonte - 0.1); 
+    }
+  }
+
   return (
     <div>
-      <Header logOut={handleLogOut}></Header>
+      <Header logOut={handleLogOut} aumFonte ={handleAumFonte} dimFonte ={handleDimFonte}></Header>
       <MenuLateralProfessor onItemClick={handleItemClick}></MenuLateralProfessor>
       <div style={styles.container}>
         <div style={styles.containerConteudo}>
@@ -54,7 +75,7 @@ const styles = {
     justifyContent: 'right',
   },
   containerConteudo: {
-    width: '85%',
+    width: '80%',
   },
   containerCadastro: {
     display: 'flex',

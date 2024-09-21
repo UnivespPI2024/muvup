@@ -35,20 +35,23 @@ function Administrador() {
     });
   }
 
+  //altera escala diretamente no css
   const alterarEscala = (novaEscala) => {
     setEscalaFonte(novaEscala);
     document.documentElement.style.setProperty('--escala-fonte', novaEscala);
   };
 
+  //aumenta a fonte do menu em 10%
   const handleAumFonte = () => {
-    if (escalaFonte < 1.5) { // Limite máximo
-      alterarEscala(escalaFonte + 0.1); // Aumenta em 10%
+    if (escalaFonte < 1.5) { 
+      alterarEscala(escalaFonte + 0.1); 
     }
   }
 
+  //diminui a fonte do menu em 10%
   const handleDimFonte = () => {
-    if (escalaFonte > 0.5) { // Limite máximo
-      alterarEscala(escalaFonte - 0.1); // Aumenta em 10%
+    if (escalaFonte > 0.8) { 
+      alterarEscala(escalaFonte - 0.1); 
     }
   }
 
@@ -84,7 +87,7 @@ const styles = {
     justifyContent: 'right',
   },
   containerConteudo: {
-    width: '85%',
+    width: '80%',
   },
   containerCadastro: {
     display: 'flex',
