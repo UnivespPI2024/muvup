@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { db } from '../firebase'
-import { doc, updateDoc, arrayRemove, getDoc, collection, getDocs } from 'firebase/firestore/lite';
+import { doc, updateDoc, arrayRemove} from 'firebase/firestore/lite';
 import { getAuth, deleteUser, getUser } from "firebase/auth";
 import axios from 'axios';
 
@@ -43,7 +43,7 @@ export const excluirAlunoDoHorarProf = async (emailProf, dadosAluno) => {
 export const excluirUsuario = async (email) => {
   console.log('entrou no excluirUsuario',email)
   try {
-    const response = await axios.delete('http://localhost:5000/deleteUserByEmail', {
+    const response = await axios.delete('http://localhost:3000/deleteUserByEmail', {
       data: { email }
     });
     console.log(response.data)

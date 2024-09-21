@@ -8,3 +8,4 @@ export const CORES = {
     AZUL: '#00A9A4',
     ROXO: '#8F6DA0',
 }
+
