@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Administrador() {
   const [componenteAtual, setComponenteAtual] = useState('cadastroAluno');
+  const [escalaFonte, setEscalaFonte] = useState(1);
 
   const navigate = useNavigate();
 
@@ -34,9 +35,26 @@ function Administrador() {
     });
   }
 
+  const alterarEscala = (novaEscala) => {
+    setEscalaFonte(novaEscala);
+    document.documentElement.style.setProperty('--escala-fonte', novaEscala);
+  };
+
+  const handleAumFonte = () => {
+    if (escalaFonte < 1.5) { // Limite máximo
+      alterarEscala(escalaFonte + 0.1); // Aumenta em 10%
+    }
+  }
+
+  const handleDimFonte = () => {
+    if (escalaFonte > 0.5) { // Limite máximo
+      alterarEscala(escalaFonte - 0.1); // Aumenta em 10%
+    }
+  }
+
   return (
     <div>
-      <Header logOut={handleLogOut}></Header>
+      <Header logOut={handleLogOut} aumFonte ={handleAumFonte} dimFonte ={handleDimFonte}></Header>
       <MenuLateral onItemClick={handleItemClick}></MenuLateral>
       <div style={styles.container}>
         <div style={styles.containerConteudo}>

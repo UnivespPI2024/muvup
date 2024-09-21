@@ -25,6 +25,27 @@
     display: flex;
     align-items: center;
   }
+
+  .header__searchPlus {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .header__searchMinus {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
+  }
   
   .header__logout svg {
     margin-right: 5px;

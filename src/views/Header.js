@@ -1,15 +1,23 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faSearchPlus, faSearchMinus, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import '../estilos/header.css';
 
-const Header = ({ logOut }) => {
+const Header = ({ logOut, aumFonte, dimFonte }) => {
   return (
-    <header className="header">
-      <button className="header__logout" onClick={logOut}>
-        <FontAwesomeIcon icon={faSignOut}/>
-      </button>
-    </header>
+    <view>
+      <header className="header">
+        <button className="header__searchPlus" onClick={aumFonte}>
+          <FontAwesomeIcon icon={faSearchPlus} color='#FFF' />
+        </button>
+        <button className="header__searchMinus" onClick={dimFonte}>
+          <FontAwesomeIcon icon={faSearchMinus} color='#FFF' />
+        </button>
+        <button className="header__logout" onClick={logOut}>
+          <FontAwesomeIcon icon={faSignOut} color='#FFF' />
+        </button>
+      </header>
+    </view>
   );
 };
 
