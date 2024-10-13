@@ -1,0 +1,63 @@
+:root {
+  --escala-fonte: 1;
+  --fonte-texto: calc(36px * var(--escala-fonte)); 
+  --fonte-texto-pequeno: calc(24px * var(--escala-fonte)); 
+  --fonte-inputProf: calc(20px * var(--escala-fonte)); 
+  --fonte-select: calc(20px * var(--escala-fonte)); 
+  --fonte-btnCadastrar: calc(20px * var(--escala-fonte)); 
+}
+
+.cadastroContainer {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #8F6DA080;
+  margin: 30px;
+  justify-content: center;
+}
+.checkBoxContainer {
+  margin: 30px;
+}
+.texto {
+  color: white;
+  font-size: var(--fonte-texto);
+}
+.textoPequeno {
+  color: white;
+  font-size: var(--fonte-texto-pequeno);
+}
+.formGroup {
+  margin-bottom: 15px;
+  margin-right: 15px;
+}
+.inputAluno {
+  padding:10px;
+  font-size: 20px;
+  width: 600px;
+}
+.inputProf {
+  padding:10px;
+  font-size: var(--fonte-inputProf);
+  width: 600px;
+}
+.select {
+  padding: 10px;
+  margin: 15px;
+  color: black;
+  font-size: var(--fonte-select);
+  width: 420px ;
+}
+.btnCadastrar {
+  background-color: #6ABC8B;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: var(--fonte-btnCadastrar);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btnCadastrarHover {
+  background-color: #0056b3;
+}
+
+

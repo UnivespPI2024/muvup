@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
-import styleViews from '../estilos/styleViews'
 import Calendar from 'react-calendar';
 import { MAX_DIAS_REMARC, MAX_ALUNOS } from '../constantes';
 
 import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
+import '../estilos/styleViews.css' 
+
 
 import { db } from '../firebase'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -291,10 +292,10 @@ const ReagendarAluno = () => {
 
 
     return (
-        <div style={styleViews.cadastroContainer}>
-            <h2 style={styleViews.texto}>Reagendar horário aluno:</h2>
+        <div className='cadastroContainer'>
+            <h2 className={'texto'}>Reagendar horário aluno:</h2>
             <select
-                style={styleViews.select}
+                className='select'
                 value={diaHorSelecAtual}
                 onChange={handleSelectDiaHorAula}>
                 <option value="">Selecione o dia para reagendar</option>
@@ -308,7 +309,7 @@ const ReagendarAluno = () => {
                 diaHorSelecAtual !== '' ?
                     <div>
                         <select
-                            style={styleViews.select}
+                            className='select'
                             value={profSelec}
                             onChange={handleSelectProf}>
                             <option value="">Escolha um professor</option>
@@ -324,7 +325,7 @@ const ReagendarAluno = () => {
                 profSelec !== '' ?
                     <div>
                         <div>
-                            <h2 style={styleViews.texto}>Para qual data?</h2>
+                            <h2 className='texto'>Para qual data?</h2>
                             <Calendar
                                 onChange={onChangeDataCalendario}
                                 value={dataCalendarioRemarc}
@@ -337,7 +338,7 @@ const ReagendarAluno = () => {
                             />
                         </div>
                         <select
-                            style={styleViews.select}
+                            className='select'
                             value={horDispSelec}
                             onChange={handleHorSelect}>
                             <option value="">Escolha um horário disponível:</option>
@@ -350,7 +351,7 @@ const ReagendarAluno = () => {
                         <div>
                             {
                                 horDispSelec !== '' ?
-                                    <button style={styleViews.btnCadastrar} onClick={handleReagendar}>Reagendar</button> : null
+                                    <button className='btnCadastrar' onClick={handleReagendar}>Reagendar</button> : null
                             }
                         </div>
                     </div> : null
