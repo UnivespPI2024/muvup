@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import logo from '../images/logo.png';
 import Header from '../views/Header';
@@ -7,10 +7,12 @@ import ReagendarAluno from '../views/ReagendarAluno';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { Context } from '../context/Context';
 
 function Aluno() {
   const [componenteAtual, setComponenteAtual] = useState('reagendarAluno');
   const [escalaFonte, setEscalaFonte] = useState(1);
+  const{fontStylesViews, setFontStylesViews} = useContext(Context)
 
   const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ function Aluno() {
   const alterarEscala = (novaEscala) => {
     setEscalaFonte(novaEscala);
     document.documentElement.style.setProperty('--escala-fonte', novaEscala);
+    setFontStylesViews(novaEscala)
   };
 
   //aumenta a fonte do menu em 10%
