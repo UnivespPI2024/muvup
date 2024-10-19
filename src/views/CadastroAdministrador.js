@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import styleViews from '../estilos/styleViews'
-
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
@@ -73,36 +71,33 @@ const CadastroAdministrador = () => {
   }
 
   return (
-    <div style={styleViews.cadastroContainer}>
-      <h2 style={styleViews.texto}>Cadastro de Administrador</h2>
-      <div style={styleViews.formGroup}>
+    <div className={'cadastroContainer'}>
+      <h2 className={'texto'}>Cadastro de Administrador</h2>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="text"
+          className={'input'}
           placeholder="Nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="email"
+          className={'input'}
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="text"
+          className={'input'}
           placeholder="Telefone"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <button style={styleViews.btnCadastrar} onClick={handleCadastroProf}>Cadastrar Administrador</button>
+      <button className={'btnCadastrar'} onClick={handleCadastroProf}>Cadastrar Administrador</button>
     </div>
   )
 }

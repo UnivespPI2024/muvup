@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import styleViews from '../estilos/styleViews'
 
 const SelHorAulaAluno = ({ onChangeDia, onChangeHora, diaAulaSelec, horaAulaSelec, horDispProf }) => {
   const [diaAula, setDiaAula] = useState(diaAulaSelec);
@@ -19,7 +18,7 @@ const SelHorAulaAluno = ({ onChangeDia, onChangeHora, diaAulaSelec, horaAulaSele
   return (
     <div>
       <select
-        style={styleViews.select}
+        className={'select'}
         value={diaAula}
         onChange={handleSelectDia}>
         <option value="">Selecione o dia da semana</option>
@@ -30,7 +29,7 @@ const SelHorAulaAluno = ({ onChangeDia, onChangeHora, diaAulaSelec, horaAulaSele
         <option value="sexta">Sexta</option>
       </select>
       <select
-        style={styleViews.select}
+        className={'select'}
         value={horaAula}
         onChange={handleSelectHorAula}>
         <option value="">Selecione o horário da aula</option>

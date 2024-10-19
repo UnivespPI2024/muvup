@@ -6,8 +6,6 @@ import { consultaAulasDispProf } from '../services/consultasBD'
 import { incluirEdicaoAlunoNoHorarioProf, incluirAluno } from '../services/incluirBD'
 import { criarUsuario } from '../services/loginBD'
 
-import styleViews from '../estilos/styleViews'
-
 import { db } from '../firebase'
 import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
 
@@ -143,48 +141,43 @@ const CadastroAluno = () => {
   }
 
   return (
-    <div style={styleViews.cadastroContainer}>
-      <h2 style={styleViews.texto}>Cadastro de Aluno</h2>
-      <div style={styleViews.formGroup}>
+    <div className='cadastroContainer'>
+      <h2 className={'texto'}>Cadastro de Aluno</h2>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputAluno}
-          type="text"
+          className={'input'}
           placeholder="Nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputAluno}
-          type="email"
+          className={'input'}
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputAluno}
-          type="text"
+          className={'input'}
           placeholder="Telefone"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputAluno}
-          type="text"
+          className={'input'}
           placeholder="Endereço"
           value={endereco}
           onChange={(e) => setEndereco(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputAluno}
-          type="text"
+          className={'input'}
           placeholder="Cidade"
           value={cidade}
           onChange={(e) => setCidade(e.target.value)}
@@ -192,7 +185,7 @@ const CadastroAluno = () => {
       </div>
       <div>
         <select
-          style={styleViews.select}
+          className={'select'}
           value={profSelec}
           onChange={handleSelectProf}>
           <option value="">Escolha um professor</option>
@@ -207,7 +200,7 @@ const CadastroAluno = () => {
         profSelec !== '' ?
           <div>
             <select
-              style={styleViews.select}
+              className={'select'}
               value={qntAulas}
               onChange={handleSelectQntAulas}>
               <option value="">Quantidade de aulas na semana</option>
@@ -220,31 +213,31 @@ const CadastroAluno = () => {
       {
         qntAulas == '1aula' ?
           <div>
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
           </div> : null
       }
       {
         qntAulas == '2aulas' ?
           <div>
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula:</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da segunda aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={hor2DispProf} />
           </div> : null
       }
       {
         qntAulas == '3aulas' ?
           <div>
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da primeira aula::</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula::</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da segunda aula:</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da segunda aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia2} onChangeHora={handleSelHora2} horDispProf={hor2DispProf} />
-            <text style={styleViews.textoPequeno}>Selecione dia e horário da terceira aula:</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da terceira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia3} onChangeHora={handleSelHora3} horDispProf={hor3DispProf} />
           </div> : null
       }
-      <button style={styleViews.btnCadastrar} onClick={handleCadastro}>Cadastrar Aluno</button>
+      <button className={'btnCadastrar'} onClick={handleCadastro}>Cadastrar Aluno</button>
     </div>
   )
 

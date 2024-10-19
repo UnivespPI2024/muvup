@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import styleViews from '../estilos/styleViews'
 import SelHorAulaProf from '../componentes/SelHorAulaProf';
 
 import { db } from '../firebase'
@@ -153,59 +152,56 @@ const CadastroProfessor = () => {
   }
 
   return (
-    <div style={styleViews.cadastroContainer}>
-      <h2 style={styleViews.texto}>Cadastro de Professor</h2>
-      <div style={styleViews.formGroup}>
+    <div className={'cadastroContainer'}>
+      <h2 className={'texto'}>Cadastro de Professor</h2>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="text"
+          className={'input'}
           placeholder="Nome"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="email"
+          className={'input'}
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
-          style={styleViews.inputProf}
-          type="text"
+          className={'input'}
           placeholder="Telefone"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <h2 style={styleViews.texto}>Horário das aulas:</h2>
+      <h2 className={'texto'}>Horário das aulas:</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={styleViews.checkBoxContainer}>
-          <h2 style={styleViews.textoPequeno}>Segunda-feira:</h2>
+        <div className={'checkBoxContainer'}>
+          <h2 className={'textoPequeno'}>Segunda-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeSegunda} handleConf={handleConfSeg}></SelHorAulaProf>
         </div>
-        <div style={styleViews.checkBoxContainer}>
-          <h2 style={styleViews.textoPequeno}>Terça-feira:</h2>
+        <div className={'checkBoxContainer'}>
+          <h2 className={'textoPequeno'}>Terça-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeTerca} handleConf={handleConfTer}></SelHorAulaProf>
         </div>
-        <div style={styleViews.checkBoxContainer}>
-          <h2 style={styleViews.textoPequeno}>Quarta-feira:</h2>
+        <div className={'checkBoxContainer'}>
+          <h2 className={'textoPequeno'}>Quarta-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeQuarta} handleConf={handleConfQua}></SelHorAulaProf>
         </div>
-        <div style={styleViews.checkBoxContainer}>
-          <h2 style={styleViews.textoPequeno}>Quinta-feira:</h2>
+        <div className={'checkBoxContainer'}>
+          <h2 className={'textoPequeno'}>Quinta-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeQuinta} handleConf={handleConfQui}></SelHorAulaProf>
         </div>
-        <div style={styleViews.checkBoxContainer}>
-          <h2 style={styleViews.textoPequeno}>Sexta-feira:</h2>
+        <div className={'checkBoxContainer'}>
+          <h2 className={'textoPequeno'}>Sexta-feira:</h2>
           <SelHorAulaProf onChangeHor={cboxChangeSexta} handleConf={handleConfSex}></SelHorAulaProf>
         </div>
       </div>
-      <button style={styleViews.btnCadastrar} onClick={handleCadastroProf}>Cadastrar Professor</button>
+      <button className={'btnCadastrar'} onClick={handleCadastroProf}>Cadastrar Professor</button>
     </div>
   )
 }

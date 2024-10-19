@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Calendar from 'react-calendar';
 import { MAX_DIAS_REMARC, MAX_ALUNOS } from '../constantes';

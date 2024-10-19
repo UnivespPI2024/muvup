@@ -1,0 +1,31 @@
+:root {
+    --escala-fonte: 1;
+    --fonte-checkBoxLabel: calc(20px * var(--escala-fonte)); 
+    --fonte-btnCadastrar: calc(16px * var(--escala-fonte)); 
+    --fonte-btnCadastrarSelec: calc(16px * var(--escala-fonte)); 
+}
+
+.checkBoxLabel {
+    color: 'white';
+    font-size: var(--fonte-checkBoxLabel);
+}
+.btnCadastrar {
+    background-color: '#CCC';
+    color: '#fff';
+    border: 'none';
+    padding: '10px 20px';
+    font-size: var(--fonte-btnCadastrar);
+    border-radius: '5px';
+    cursor: 'pointer';
+    margin: '15px';
+}
+.btnCadastrarSelec {
+    background-color: '#6ABC8B';
+    color: '#fff';
+    border: 'none';
+    padding: '10px 20px';
+    font-size: var(--fonte-btnCadastrarSelec);
+    border-radius: '5px';
+    cursor: 'pointer';
+    margin: '15px';
+}

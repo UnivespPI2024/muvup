@@ -57,7 +57,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor06 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="06:00h até 07:00h">06:00h até 07:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="06:00h até 07:00h">06:00h até 07:00h</label>
       </div>
       <div>
         <input
@@ -68,7 +68,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor07 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="07:00h até 08:00h">07:00h até 08:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="07:00h até 08:00h">07:00h até 08:00h</label>
       </div>
       <div>
         <input
@@ -79,7 +79,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor08 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="08:00h até 09:00h">08:00h até 09:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="08:00h até 09:00h">08:00h até 09:00h</label>
       </div>
       <div>
         <input
@@ -90,7 +90,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor09 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="09:00h até 10:00h">09:00h até 10:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="09:00h até 10:00h">09:00h até 10:00h</label>
       </div>
       <div>
         <input
@@ -101,7 +101,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor10 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="10:00h até 11:00h">10:00h até 11:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="10:00h até 11:00h">10:00h até 11:00h</label>
       </div>
       <div>
         <input
@@ -112,7 +112,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor11 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="11:00h até 12:00h">11:00h até 12:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="11:00h até 12:00h">11:00h até 12:00h</label>
       </div>
       <div>
         <input
@@ -123,7 +123,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor12 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="12:00h até 13:00h">12:00h até 13:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="12:00h até 13:00h">12:00h até 13:00h</label>
       </div>
       <div>
         <input
@@ -134,7 +134,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor13 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="13:00h até 14:00h">13:00h até 14:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="13:00h até 14:00h">13:00h até 14:00h</label>
       </div>
       <div>
         <input
@@ -145,7 +145,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor14 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="14:00h até 15:00h">14:00h até 15:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="14:00h até 15:00h">14:00h até 15:00h</label>
       </div>
       <div>
         <input
@@ -156,7 +156,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor15 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="15:00h até 16:00h">15:00h até 16:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="15:00h até 16:00h">15:00h até 16:00h</label>
       </div>
       <div>
         <input
@@ -167,7 +167,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor16 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="16:00h até 17:00h">16:00h até 17:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="16:00h até 17:00h">16:00h até 17:00h</label>
       </div>
       <div>
         <input
@@ -178,7 +178,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
           onChange={handleCheckboxChange}
           style={{ appearance: 'none', width: '15px', height: '15px', backgroundColor: checkboxes.hor17 ? '#6ABC8B' : '#fff', border: '1px solid #ccc', borderRadius: '3px', cursor: 'pointer' }}
         />
-        <label style={styleSelHorAulaProf.checkBoxLabel} htmlFor="17:00h até 18:00h">17:00h até 18:00h</label>
+        <label className={'checkBoxLabel'} htmlFor="17:00h até 18:00h">17:00h até 18:00h</label>
       </div>
       <button
         type="submit"
