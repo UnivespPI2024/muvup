@@ -4,8 +4,8 @@ import EditarAluno from './EditarAluno';
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 import { excluirUsuario } from '../services/excluirBD'
 
-import styleViews from '../estilos/styleViews'
-import styleListas from '../estilos/styleListas'
+import '../estilos/styleListas.css';
+import '../estilos/styleViews.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -66,32 +66,32 @@ const ProcurarAluno = () => {
 
     return (
         <div>
-            <div style={styleViews.cadastroContainer}>
-                <h2 style={styleViews.texto}>Procurar por nome</h2>
-                <div style={styleViews.formGroup}>
+            <div className={'cadastroContainer'}>
+                <h2 className={'texto'}>Procurar por nome</h2>
+                <div className={'formGroup'}>
                     <input
-                        style={styleViews.inputAluno}
+                        className={'inputAluno'}
                         type="text"
                         placeholder="Nome"
                         value={searchNome}
                         onChange={(e) => setSearchNome(e.target.value)}
                     />
                 </div>
-                <button style={styleViews.btnCadastrar} onClick={searchAluno}>Procurar Aluno</button>
+                <button className={'btnCadastrar'} onClick={searchAluno}>Procurar Aluno</button>
             </div>
-            <div style={styleListas.container}>
-                <div style={styleListas.containerLista}>
-                    <h2 style={styleListas.heading}>Alunos Encontrados</h2>
-                    <div style={styleListas.listContainer}>
+            <div className={'container'}>
+                <div className={'containerLista'}>
+                    <h2 className={'heading'}>Alunos Encontrados</h2>
+                    <div className={'listContainer'}>
                         {(alunosEncont.map(item => (
-                            <div key={item.email} style={styleListas.item}>
-                                <span style={styleListas.divider}>Nome: {item.nome} </span>
-                                <span style={styleListas.divider}>Email: {item.email} </span>
-                                <span style={styleListas.divider}>Telefone: {item.telefone} </span>
-                                <span style={styleListas.divider}>Endereço: {item.endereco} </span>
-                                <span style={styleListas.divider}>QntAulas: {item.qntAulas} </span>
-                                <FontAwesomeIcon onClick={() => editAluno(item)} style={styleListas.divider} icon={faPenToSquare} />
-                                <FontAwesomeIcon onClick={() => deleteAluno(item.email)} style={styleListas.divider} icon={faTrash} />
+                            <div key={item.email} className={'item'}>
+                                <span className={'divider'}>Nome: {item.nome} </span>
+                                <span className={'divider'}>Email: {item.email} </span>
+                                <span className={'divider'}>Telefone: {item.telefone} </span>
+                                <span className={'divider'}>Endereço: {item.endereco} </span>
+                                <span className={'divider'}>QntAulas: {item.qntAulas} </span>
+                                <FontAwesomeIcon onClick={() => editAluno(item)} className={'divider'} icon={faPenToSquare} />
+                                <FontAwesomeIcon onClick={() => deleteAluno(item.email)} className={'divider'} icon={faTrash} />
                             </div>
                         )))}
                     </div>

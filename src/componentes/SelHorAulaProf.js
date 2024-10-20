@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import styleSelHorAulaProf from '../estilos/styleSelHorProf';
+import '../estilos/styleSelHorProf.css';
 
 function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
 
@@ -183,7 +183,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
       <button
         type="submit"
         onClick={handleBotaoClicado}
-        style={botaoClicado ? styleSelHorAulaProf.btnCadastrarSelec : styleSelHorAulaProf.btnCadastrar}
+        className={botaoClicado ? 'btnCadastrarSelec' : 'btnCadastrar'}
       >Confirmar</button>
     </form>
   );

@@ -1,0 +1,43 @@
+:root {
+  --escala-fonte: 1;
+  --fonte-heading: calc(36px * var(--escala-fonte)); 
+  --fonte-divider: calc(24px * var(--escala-fonte)); 
+}
+
+.container {
+  width: 85%;
+}
+.containerLista {
+  margin: auto;
+  margin-bottom: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5;
+  padding: 10;
+  background-color: #6ABC8B;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.heading {
+  text-align: center;
+  margin-bottom: 15;
+  color: white;
+  font-size: var(--fonte-heading);
+}
+.listContainer {
+  overflow-Y: auto;
+  border-top: 1px solid #ccc;
+}
+.item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  justify-content: space-around;
+  display: flex;
+}
+.itemHover {
+  background-color: #f0f0f0;
+}
+.divider {
+  padding: 10px;
+  font-size: var(--fonte-divider);
+}

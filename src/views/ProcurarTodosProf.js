@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import EditarProfessor from './EditarProfessor';
 
-import styleListas from '../estilos/styleListas'
+import '../estilos/styleListas.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -48,19 +48,19 @@ const ProcurarTodosProf = () => {
 }
 
   return (
-    <div style={styleListas.container}>
-      <div style={styleListas.containerLista}>
-        <h2 style={styleListas.heading}>Professores cadastrados:</h2>
-        <div style={styleListas.listContainer}>
+    <div className={'container'}>
+      <div className={'containerLista'}>
+        <h2 className={'heading'}>Professores cadastrados:</h2>
+        <div className={'listContainer'}>
           {(listaProf.map(item => (
             <div>
-              <div key={item.email} style={styleListas.item}>
-                <span style={styleListas.divider}>Nome: {item.nome} </span>
-                <span style={styleListas.divider}>Email: {item.email} </span>
-                <span style={styleListas.divider}>Telefone: {item.telefone} </span>
+              <div key={item.email} className={'item'}>
+                <span className={'divider'}>Nome: {item.nome} </span>
+                <span className={'divider'}>Email: {item.email} </span>
+                <span className={'divider'}>Telefone: {item.telefone} </span>
                 <span>
-                  <FontAwesomeIcon onClick={() => editProfessor(item)} style={styleListas.divider} icon={faPenToSquare} />
-                  <FontAwesomeIcon onClick={() => deleteProf(item.email)} style={styleListas.divider} icon={faTrash} />
+                  <FontAwesomeIcon onClick={() => editProfessor(item)} className={'divider'} icon={faPenToSquare} />
+                  <FontAwesomeIcon onClick={() => deleteProf(item.email)} className={'divider'} icon={faTrash} />
                 </span>
               </div>
             </div>
