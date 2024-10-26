@@ -98,7 +98,7 @@ function Login() {
 
   return (
     <div className="Login">
-      <div className="container">
+      <div className="containerLogin">
         <img src={logo} alt="Logo" className="logo" />
         <h1>Login</h1>
         <form onSubmit={autenticacaoUsuario}>

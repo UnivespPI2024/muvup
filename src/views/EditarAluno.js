@@ -4,7 +4,7 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
-import styleViews from '../estilos/styleViews'
+import styleViews from '../estilos/styleViews.css'
 
 import { db } from '../firebase'
 import { doc, updateDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
@@ -165,9 +165,9 @@ const EditarAluno = (props) => {
   }
 
   return (
-    <div style={styleViews.cadastroContainer}>
-      <h2 style={styleViews.texto}>Editar Aluno</h2>
-      <div style={styleViews.formGroup}>
+    <div className={'cadastroContainer'}>
+      <h2 className={'texto'}>Editar Aluno</h2>
+      <div className={'formGroup'}>
         <input
           type="text"
           placeholder="Nome"
@@ -175,7 +175,7 @@ const EditarAluno = (props) => {
           onChange={(e) => setNome(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
           type="text"
           placeholder="Nome"
@@ -183,7 +183,7 @@ const EditarAluno = (props) => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
           type="text"
           placeholder="Telefone"
@@ -191,7 +191,7 @@ const EditarAluno = (props) => {
           onChange={(e) => setTelefone(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
           type="text"
           placeholder="Endereço"
@@ -199,7 +199,7 @@ const EditarAluno = (props) => {
           onChange={(e) => setEndereco(e.target.value)}
         />
       </div>
-      <div style={styleViews.formGroup}>
+      <div className={'formGroup'}>
         <input
           type="text"
           placeholder="Cidade"
@@ -209,7 +209,7 @@ const EditarAluno = (props) => {
       </div>
       <div>
         <select
-          style={styleViews.select}
+          className={'select'}
           value={profSelec}
           onChange={handleSelectProf}>
           <option value="">Escolha um professor</option>
@@ -224,7 +224,7 @@ const EditarAluno = (props) => {
         profSelec !== '' ?
           <div>
             <select
-              style={styleViews.select}
+              className={'select'}
               value={qntAulas}
               onChange={handleSelectQntAulas}>
               <option value="">Quantidade de aulas na semana</option>
@@ -237,7 +237,7 @@ const EditarAluno = (props) => {
       {
         qntAulas == '1aula' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula1}
               diaAulaSelec={props.dadosEditar.diaAula1}
@@ -249,14 +249,14 @@ const EditarAluno = (props) => {
       {
         qntAulas == '2aulas' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula1}
               diaAulaSelec={props.dadosEditar.diaAula1}
               onChangeDia={handleSelDia1}
               onChangeHora={handleSelHora1}
               horDispProf={hor1DispProf} />
-            <text>Selecione dia e horário da segunda aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da segunda aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula2}
               diaAulaSelec={props.dadosEditar.diaAula2}
@@ -268,21 +268,21 @@ const EditarAluno = (props) => {
       {
         qntAulas == '3aulas' ?
           <div>
-            <text>Selecione dia e horário da primeira aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula1}
               diaAulaSelec={props.dadosEditar.diaAula1}
               onChangeDia={handleSelDia1}
               onChangeHora={handleSelHora1}
               horDispProf={hor1DispProf} />
-            <text>Selecione dia e horário da segunda aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da segunda aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula2}
               diaAulaSelec={props.dadosEditar.diaAula2}
               onChangeDia={handleSelDia2}
               onChangeHora={handleSelHora2}
               horDispProf={hor2DispProf} />
-            <text>Selecione dia e horário da terceira aula</text>
+            <text className={'textoPequeno'}>Selecione dia e horário da terceira aula</text>
             <SelHorAulaAluno
               horaAulaSelec={props.dadosEditar.horaAula3}
               diaAulaSelec={props.dadosEditar.diaAula3}
@@ -291,7 +291,7 @@ const EditarAluno = (props) => {
               horDispProf={hor3DispProf} />
           </div> : null
       }
-      <button style={styleViews.btnCadastrar} onClick={handleEditarAluno}>Editar Aluno</button>
+      <button className={'btnCadastrar'} onClick={handleEditarAluno}>Editar Aluno</button>
     </div>
   )
 

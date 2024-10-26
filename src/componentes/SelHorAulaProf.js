@@ -183,7 +183,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
       <button
         type="submit"
         onClick={handleBotaoClicado}
-        className={botaoClicado ? 'btnCadastrarSelec' : 'btnCadastrar'}
+        className={botaoClicado ? 'btnCadastrar' : 'btnCadastrarSelec'}
       >Confirmar</button>
     </form>
   );
