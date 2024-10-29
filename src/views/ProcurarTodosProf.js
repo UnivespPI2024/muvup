@@ -7,7 +7,7 @@ import '../estilos/styleListas.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore/lite';
+import { getDocs, collection, doc, deleteDoc, query } from 'firebase/firestore/lite';
 import { db } from '../firebase'
 
 
@@ -34,15 +34,20 @@ const ProcurarTodosProf = () => {
   }
 
   const editProfessor = async (item) => {
+    const qSeg = query(collection(db, 'Professores', item.email, 'segunda'));
+    const querySnapshotSeg = await getDocs(qSeg)
+    const segunda = querySnapshotSeg.docs.map((doc)=>{ return doc.id})
+    
     setDadosEditar({
+      
         nome:item.nome,
         email:item.email,
         telefone:item.telefone,
-        horSeg:item.diaHorProf.horSegunda.map(hor => Object.keys(hor)[0]),
-        horTer:item.diaHorProf.horTerca.map(hor => Object.keys(hor)[0]),
+        horSeg:segunda,
+        /* horTer:item.diaHorProf.horTerca.map(hor => Object.keys(hor)[0]),
         horQua:item.diaHorProf.horQuarta.map(hor => Object.keys(hor)[0]),
         horQui:item.diaHorProf.horQuinta.map(hor => Object.keys(hor)[0]),
-        horSex:item.diaHorProf.horSexta.map(hor => Object.keys(hor)[0]),
+        horSex:item.diaHorProf.horSexta.map(hor => Object.keys(hor)[0]), */
     })
     setVisibleEditar(true)
 }
