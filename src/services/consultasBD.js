@@ -14,4 +14,9 @@ export const consultaAulasDispProf = async (emailProf, dia) => {
   return horariosDisp
 }
 
+export const consultaAulaEditProf = async(emailProf,diaSemana) =>{
+  const qSeg = query(collection(db, 'Professores', emailProf, diaSemana));
+  const querySnapshotSeg = await getDocs(qSeg)
+  return querySnapshotSeg.docs.map((doc)=>{ return doc.id})
+}
 

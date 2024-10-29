@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import EditarProfessor from './EditarProfessor';
 
+import { consultaAulaEditProf } from '../services/consultasBD'
+
 import '../estilos/styleListas.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,20 +36,15 @@ const ProcurarTodosProf = () => {
   }
 
   const editProfessor = async (item) => {
-    const qSeg = query(collection(db, 'Professores', item.email, 'segunda'));
-    const querySnapshotSeg = await getDocs(qSeg)
-    const segunda = querySnapshotSeg.docs.map((doc)=>{ return doc.id})
-    
     setDadosEditar({
-      
         nome:item.nome,
         email:item.email,
         telefone:item.telefone,
-        horSeg:segunda,
-        /* horTer:item.diaHorProf.horTerca.map(hor => Object.keys(hor)[0]),
-        horQua:item.diaHorProf.horQuarta.map(hor => Object.keys(hor)[0]),
-        horQui:item.diaHorProf.horQuinta.map(hor => Object.keys(hor)[0]),
-        horSex:item.diaHorProf.horSexta.map(hor => Object.keys(hor)[0]), */
+        horSeg:await consultaAulaEditProf(item.email,'segunda'),
+        horTer:await consultaAulaEditProf(item.email,'terça'),
+        horQua:await consultaAulaEditProf(item.email,'quarta'),
+        horQui:await consultaAulaEditProf(item.email,'quinta'),
+        horSex:await consultaAulaEditProf(item.email,'sexta'),
     })
     setVisibleEditar(true)
 }
