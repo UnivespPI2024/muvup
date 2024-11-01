@@ -4,9 +4,6 @@ import EditarAluno from './EditarAluno';
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 import { excluirUsuario } from '../services/excluirBD'
 
-import '../estilos/styleListas.css';
-import '../estilos/styleViews.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styleListas from '../estilos/styleListas'
-import styleViews from '../estilos/styleViews'
 
 import { getDocs, collection, arrayUnion, query } from 'firebase/firestore/lite';
 import { db } from '../firebase'
@@ -214,7 +212,7 @@ const ListarAulasProfessor = () => {
         {
           items ?
             items.map((item, idx) => (
-              <li key={idx} style={styleListas.divider}>Horário: {item.horario.substring(3, 5) + ':00 h'}
+              <li key={idx} className={'divider'}>Horário: {item.horario.substring(3, 5) + ':00 h'}
                 <RenderNomeAluno items={item.alunos} />
               </li>
             )) : null
@@ -224,11 +222,11 @@ const ListarAulasProfessor = () => {
   }
 
   return (
-    <div style={styleListas.container}>
-      <div style={styleListas.containerLista}>
-        <h2 style={styleListas.heading}>Aulas da Semana do Professor:</h2>
+    <div className={'container'}>
+      <div className={'containerLista'}>
+        <h2 className={'heading'}>Aulas da Semana do Professor:</h2>
         <select
-          style={styleViews.select}
+          className={'select'}
           value={semanaSelec}
           onChange={handleSelectSemana}>
           <option value="">Selecione uma semana</option>
@@ -238,12 +236,12 @@ const ListarAulasProfessor = () => {
             </option>
           ))}
         </select>
-        <div style={styleListas.listContainer}>
+        <div className={'listContainer'}>
           {
             listaAulasSemanaProf.map((item, idx) => (
               <div>
-                <div key={idx} style={styleListas.item}>
-                  <span style={styleListas.divider}>{item.diaSemana ? item.diaSemana + ' - ' : null} {item.diaMes} </span>
+                <div key={idx} className={'item'}>
+                  <span className={'divider'}>{item.diaSemana ? item.diaSemana + ' - ' : null} {item.diaMes} </span>
                   <RenderHorario items={item.horarios} />
                 </div>
               </div>
@@ -253,16 +251,16 @@ const ListarAulasProfessor = () => {
       </div>
       <div>
         <h2 >Legenda:</h2>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-          <div style={{ width: '20px', height: '20px', backgroundColor: 'black', marginRight: '10px' }}></div>
+        <div className={'containerLegenda'}>
+          <div className={'boxLegendaPreto'}></div>
           <span>Aulas Regulares</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-          <div style={{ width: '20px', height: '20px', backgroundColor: 'blue', marginRight: '10px' }}></div>
+        <div className={'containerLegenda'}>
+          <div className={'boxLegendaAzul'}></div>
           <span>Aulas Remarcadas</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '50px' }}>
-          <div style={{ width: '20px', height: '20px', backgroundColor: 'red', marginRight: '10px' }}></div>
+        <div className={'containerLegenda'}>
+          <div className={'boxLegendaVermelho'}></div>
           <span>Aulas Desmarcadas</span>
         </div>
       </div>

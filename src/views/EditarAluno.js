@@ -4,7 +4,6 @@ import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
 import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 import { incluirEdicaoAlunoNoHorarioProf } from '../services/incluirBD'
-import styleViews from '../estilos/styleViews.css'
 
 import { db } from '../firebase'
 import { doc, updateDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
