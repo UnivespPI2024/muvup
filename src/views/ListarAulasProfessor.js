@@ -249,19 +249,19 @@ const ListarAulasProfessor = () => {
           }
         </div>
       </div>
-      <div>
-        <h2 >Legenda:</h2>
+      <div className='containerLegendas'>
+        <h2 className={'texto'}>Legenda:</h2>
         <div className={'containerLegenda'}>
           <div className={'boxLegendaPreto'}></div>
-          <span>Aulas Regulares</span>
+          <span className={'textoPequeno'}>Aulas Regulares</span>
         </div>
         <div className={'containerLegenda'}>
           <div className={'boxLegendaAzul'}></div>
-          <span>Aulas Remarcadas</span>
+          <span className={'textoPequeno'}>Aulas Remarcadas</span>
         </div>
         <div className={'containerLegenda'}>
-          <div className={'boxLegendaVermelho'}></div>
-          <span>Aulas Desmarcadas</span>
+          <div className={'boxLegendaVermelho'} ></div>
+          <span className={'textoPequeno'}>Aulas Desmarcadas</span>
         </div>
       </div>
     </div>

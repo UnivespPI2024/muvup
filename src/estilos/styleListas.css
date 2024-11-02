@@ -41,3 +41,31 @@
   padding: 10px;
   font-size: var(--fonte-divider);
 }
+.containerLegendas {
+  background-color: #6ABC8B;
+  padding: 50px;
+  margin-bottom: 15px;
+}
+.containerLegenda {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.boxLegendaPreto {
+  height: 20px;
+  width: 20px;
+  background-color: black;
+  margin-right: 10px;
+}
+.boxLegendaAzul {
+  height: 20px;
+  width: 20px;
+  background-color: blue;
+  margin-right: 10px;
+}
+.boxLegendaVermelho {
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  margin-right: 10px;
+}
