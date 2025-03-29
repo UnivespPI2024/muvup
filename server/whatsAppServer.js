@@ -1,16 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const twilio = require('twilio');
+const cors = require('cors');
 require('dotenv').config();
+console.log(process.env.TWILIO_ACCOUNT_SID); 
 
 const app = express();
 const port = 5000;
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = new twilio(accountSid, authToken);
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
+app.use(cors());
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.send('Servidor está rodando corretamente.');
+  });
 
 app.post('/send-whatsapp', (req, res) => {
   const { to, message } = req.body;
