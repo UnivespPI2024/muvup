@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import Calendar from 'react-calendar';
 import { MAX_DIAS_REMARC, MAX_ALUNOS } from '../constantes';
 
 import 'react-calendar/dist/Calendar.css';
 import '../estilos/customCalendar.css';
-import '../estilos/styleViews.css' 
+import '../estilos/styleViews.css'
 
 
 import { db } from '../firebase'
@@ -37,9 +38,9 @@ const ReagendarAluno = () => {
     const [emailProf, setEmailProf] = useState('');
     const [emailAluno, setEmailAluno] = useState('');
     const [nomeAluno, setNomeAluno] = useState('');
+    const [telefoneAluno, setTelefoneAluno] = useState('');
 
     useEffect(() => {
-        console.log('entrouAAqui');
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setEmailAluno(user.email)
@@ -50,15 +51,42 @@ const ReagendarAluno = () => {
     }, [])
 
     useEffect(() => {
-        (async()=>{
+        (async () => {
             const qNomeAluno = query(collection(db, "Alunos"), where("email", "==", emailAluno));
             const querySnapshotNome = await getDocs(qNomeAluno).catch((error) => { console.log('erro', error); })
             querySnapshotNome.forEach(doc => {
-                console.log('nome',doc.data().nome);
+                console.log('nome', doc.data().nome);
+                console.log('telefone', doc.data().telefone);
                 setNomeAluno(doc.data().nome)
+                setTelefoneAluno(doc.data().telefone)
             });
         })()
     }, [emailAluno])
+
+    const enviarMsgWhatsApp = async (diaRemarc, horRemarc, profSelec) => {
+        try {
+            const response = await axios.post('http://localhost:5000/send-whatsapp', {
+                to: `+55${telefoneAluno}`,
+                message: `A sua aula foi remarcada para o dia: ${diaRemarc} às: ${horRemarc.slice(-2)} horas, com o professor: ${profSelec}`
+            });
+            console.log(`Mensagem enviada com sucesso! SID: ${response.data.sid}`);
+        } catch (error) {
+            console.log(`Erro: ${error.message}`);
+        }
+    }
+
+    function formatarData(data) {
+        const meses = [
+            "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+        ];
+
+        // Dividir a data na string dd-mm-aaaa
+        const [dia, mes, ano] = data.split('-');
+
+        // Formatar a data no formato "dd de mês de aaaa"
+        return `${dia} de ${meses[parseInt(mes) - 1]} de ${ano}`;
+    }
 
     const handleReagendar = async () => {
         const diaAtual = diaHorSelecAtual.split(',')[0].replace(/\//g, '-')
@@ -66,6 +94,7 @@ const ReagendarAluno = () => {
         const horAtual = 'hor' + diaHorSelecAtual.split(' ')[3].substring(0, 2)
         const diaRemarc = dataCalendarioRemarc.getDate() + '-' + (dataCalendarioRemarc.getMonth() + 1) + '-' + dataCalendarioRemarc.getFullYear()
         const horRemarc = horDispSelec
+        const diaFormatRemarc = formatarData(diaRemarc)
         let flagIdRemarc = false
         let flagIdDesmarc = false
 
@@ -81,11 +110,11 @@ const ReagendarAluno = () => {
         // atualiza nó AulasReagendadas se já existir ou cria nó se não existir
         if (flagIdRemarc) {
             updateDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion({nomeAluno,status:'Remarcada'})
+                [horRemarc]: arrayUnion({ nomeAluno, status: 'Remarcada' })
             })
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasReagendadas', diaRemarc), {
-                [horRemarc]: arrayUnion({nomeAluno,status:'Remarcada'})
+                [horRemarc]: arrayUnion({ nomeAluno, status: 'Remarcada' })
             })
         }
 
@@ -103,15 +132,16 @@ const ReagendarAluno = () => {
         if (flagIdDesmarc) {
             console.log('entrou aqui');
             updateDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
-                [horAtual]: arrayUnion({nomeAluno,status:'Desmarcada'})
+                [horAtual]: arrayUnion({ nomeAluno, status: 'Desmarcada' })
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
-                [horAtual]: arrayUnion({nomeAluno,status:'Desmarcada'})
+                [horAtual]: arrayUnion({ nomeAluno, status: 'Desmarcada' })
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
+                enviarMsgWhatsApp(diaFormatRemarc, horRemarc, profSelec)
             ])
         }
 
@@ -241,7 +271,7 @@ const ReagendarAluno = () => {
             // junção de keys no mesmo array ex. diaAula1 && horaAula1
             const keysConcatenadas = [['diaAula1', 'horaAula1'], ['diaAula2', 'horaAula2'], ['diaAula3', 'horaAula3']]; // Pares de chaves que você quer concatenar
             const listaDiaHor = keysConcatenadas.map(([key1, key2]) => {
-                if(listaNormalizada){
+                if (listaNormalizada) {
                     if (listaNormalizada.hasOwnProperty(key1) && listaNormalizada.hasOwnProperty(key2)) {
                         return listaNormalizada[key1] + ' ' + listaNormalizada[key2].substring(3, 5);
                     }

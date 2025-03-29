@@ -4,7 +4,6 @@ import logo from '../images/logo.png';
 import Header from '../views/Header';
 import MenuLateralAluno from '../views/MenuLateralAluno';
 import ReagendarAluno from '../views/ReagendarAluno';
-import MandarWhatsApp from '../componentes/MandarWhatsApp';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -62,7 +61,6 @@ function Aluno() {
           <div style={styles.containerCadastro}>
             {componenteAtual === 'reagendarAluno' && <ReagendarAluno></ReagendarAluno>}
           </div>
-      <MandarWhatsApp></MandarWhatsApp>
         </div>
       </div>
     </div>
