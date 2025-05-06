@@ -64,10 +64,12 @@ const ReagendarAluno = () => {
     }, [emailAluno])
 
     const enviarMsgWhatsApp = async (diaRemarc, horRemarc, profSelec) => {
+        console.log('entrou no enviar msg')
         try {
             const response = await axios.post('http://localhost:5000/send-whatsapp', {
                 to: `+55${telefoneAluno}`,
-                message: `A sua aula foi remarcada para o dia: ${diaRemarc} às: ${horRemarc.slice(-2)} horas, com o professor: ${profSelec}`
+                message: `A sua aula foi remarcada para o dia: ${diaRemarc} às: 
+                ${horRemarc.slice(-2)} horas, com o professor: ${profSelec}`
             });
             console.log(`Mensagem enviada com sucesso! SID: ${response.data.sid}`);
         } catch (error) {
@@ -122,7 +124,6 @@ const ReagendarAluno = () => {
         const aulasDesmarcREf = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'))
         const docSnapAulasDesmarc = await getDocs(aulasDesmarcREf)
         docSnapAulasDesmarc.forEach((doc) => {
-            console.log('doc.id', doc.id, 'diaAtual', diaAtual);
             if (doc.id == diaAtual) {
                 flagIdDesmarc = true
             }
@@ -136,6 +137,7 @@ const ReagendarAluno = () => {
             }).then([
                 window.alert('Dia e horário remarcado com sucesso!'),
             ])
+            enviarMsgWhatsApp(diaFormatRemarc, horRemarc, profSelec)
         } else {
             setDoc(doc(db, 'Professores', emailProf, 'AulasDesmarcadas', diaAtual), {
                 [horAtual]: arrayUnion({ nomeAluno, status: 'Desmarcada' })

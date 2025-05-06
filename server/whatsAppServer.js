@@ -23,7 +23,7 @@ app.post('/send-whatsapp', (req, res) => {
   client.messages
     .create({
       body: message,
-      from: 'whatsapp:+14155238886', // Número do Twilio (sandbox ou outro número habilitado para WhatsApp)
+      from: 'whatsapp:+14155238886', 
       to: `whatsapp:${to}`
     })
     .then((message) => {
