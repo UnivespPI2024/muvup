@@ -9,7 +9,7 @@ import '../estilos/styleListas.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { getDocs, collection, doc, deleteDoc, query } from 'firebase/firestore/lite';
+import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore/lite';
 import { db } from '../firebase'
 
 

@@ -64,7 +64,7 @@ function Login() {
     } else {
       navigate('/')
     }
-  }, [logado, perfil])
+  }, [logado, perfil, navigate, auth])
 
   // redefinição de senha através de link no email
   const enviarEmailRedefSenha = () => {
@@ -106,7 +106,13 @@ function Login() {
           <input type="password" name="password" placeholder="Password" onChange={(e) => setSenha(e.target.value)} />
           <input type="submit" value="Entrar" />
         </form>
-        <a href="#" onClick={enviarEmailRedefSenha} className="forgot-password">Esqueci minha senha</a>
+        <button
+          type="button"
+          onClick={enviarEmailRedefSenha}
+          className="forgot-password"
+        >
+          Esqueci minha senha
+        </button>
       </div>
     </div>
   );

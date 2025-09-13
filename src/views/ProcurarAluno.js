@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import EditarAluno from './EditarAluno';
-import { excluirAlunoDoHorarProf } from '../services/excluirBD'
 import { excluirUsuario } from '../services/excluirBD'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

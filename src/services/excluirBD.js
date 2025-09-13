@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
 import { db } from '../firebase'
 import { doc, updateDoc, arrayRemove} from 'firebase/firestore/lite';
-import { getAuth, deleteUser, getUser } from "firebase/auth";
 import axios from 'axios';
 
 

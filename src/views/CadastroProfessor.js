@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 import SelHorAulaProf from '../componentes/SelHorAulaProf';
 
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
-import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 
 const CadastroProfessor = () => {
@@ -53,7 +53,6 @@ const CadastroProfessor = () => {
         console.log('novaSenha',novaSenha);
         createUserWithEmailAndPassword(auth, email, novaSenha)
           .then((userCredential) => {
-            const user = userCredential.user;
             console.log('UserProf criado')
           })
           .catch((error) => {

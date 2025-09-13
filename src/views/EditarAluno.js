@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
 import { consultaAulasDispProf } from '../services/consultasBD'
@@ -11,20 +11,20 @@ import { doc, updateDoc, collection, getDocs, query, where } from 'firebase/fire
 const EditarAluno = (props) => {
   const [nome, setNome] = useState(props.dadosEditar.nome);
   const [email, setEmail] = useState(props.dadosEditar.email);
-  const [emailProfAtual, setEmailProfAtual] = useState(props.dadosEditar.profDoAluno);
+  const [emailProfAtual] = useState(props.dadosEditar.profDoAluno);
   const [emailProf, setEmailProf] = useState('');
   const [telefone, setTelefone] = useState(props.dadosEditar.telefone);
   const [endereco, setEndereco] = useState(props.dadosEditar.endereco);
   const [cidade, setCidade] = useState(props.dadosEditar.cidade);
 
-  const [qntAulasAtual, setQntAulasAtual] = useState(props.dadosEditar.qntAulas);
+  const [qntAulasAtual] = useState(props.dadosEditar.qntAulas);
   const [qntAulas, setQntAulas] = useState('');
-  const [diaAula1Atual, setDiaAula1Atual] = useState(props.dadosEditar.diaHorAula.diaAula1);
-  const [horaAula1Atual, setHoraAula1Atual] = useState(props.dadosEditar.diaHorAula.horaAula1);
-  const [diaAula2Atual, setDiaAula2Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
-  const [horaAula2Atual, setHoraAula2Atual] = useState(props.dadosEditar.diaHorAula.horaAula2);
-  const [diaAula3Atual, setDiaAula3Atual] = useState(props.dadosEditar.diaHorAula.diaAula3);
-  const [horaAula3Atual, setHoraAula3Atual] = useState(props.dadosEditar.diaHorAula.horaAula3);
+  const [diaAula1Atual] = useState(props.dadosEditar.diaHorAula.diaAula1);
+  const [horaAula1Atual] = useState(props.dadosEditar.diaHorAula.horaAula1);
+  const [diaAula2Atual] = useState(props.dadosEditar.diaHorAula.diaAula2);
+  const [horaAula2Atual] = useState(props.dadosEditar.diaHorAula.horaAula2);
+  const [diaAula3Atual] = useState(props.dadosEditar.diaHorAula.diaAula3);
+  const [horaAula3Atual] = useState(props.dadosEditar.diaHorAula.horaAula3);
   const [diaAula1, setDiaAula1] = useState('');
   const [horaAula1, setHoraAula1] = useState('');
   const [diaAula2, setDiaAula2] = useState('');
@@ -51,7 +51,7 @@ const EditarAluno = (props) => {
   // inclusão no DB de aluno
   const handleEditarAluno = async () => {
     console.log('entrouEditALuno');
-    if (nome != '' && email != '' && telefone != '' && endereco != '' && cidade != '' && qntAulas != '') {
+    if (nome !== '' && email !== '' && telefone !== '' && endereco !== '' && cidade !== '' && qntAulas !== '') {
       if ((qntAulas === '1aula' && horaAula1 !== '') ||
         (qntAulas === '2aulas' && horaAula1 !== '' && horaAula2 !== '') ||
         (qntAulas === '3aulas' && horaAula1 !== '' && horaAula2 !== '' && horaAula3 !== '')) {
@@ -234,7 +234,7 @@ const EditarAluno = (props) => {
           </div> : null
       }
       {
-        qntAulas == '1aula' ?
+        qntAulas === '1aula' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno
@@ -246,7 +246,7 @@ const EditarAluno = (props) => {
           </div> : null
       }
       {
-        qntAulas == '2aulas' ?
+        qntAulas === '2aulas' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno
@@ -265,7 +265,7 @@ const EditarAluno = (props) => {
           </div> : null
       }
       {
-        qntAulas == '3aulas' ?
+        qntAulas === '3aulas' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula</text>
             <SelHorAulaAluno

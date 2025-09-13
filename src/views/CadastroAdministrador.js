@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import { db } from '../firebase'
 import { setDoc, doc } from 'firebase/firestore/lite';
-import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 
 const CadastroAdministrador = () => {
@@ -41,7 +40,7 @@ const CadastroAdministrador = () => {
 
       //criar novo usuário com senha aleatória
       const auth = getAuth();
-      console.log('email',email);
+      console.log('email', email);
       createUserWithEmailAndPassword(auth, email, novaSenha)
         .then((userCredential) => {
           console.log('UserAdmin criado')

@@ -1,6 +1,4 @@
-import { db } from '../firebase'
 import { getAuth, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-import { collection, getDocs, query } from 'firebase/firestore/lite';
 
 import { gerarSenha } from '../utils/gerarSenha'
 

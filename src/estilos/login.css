@@ -52,3 +52,13 @@ input[type="submit"] {
   text-decoration: none;
   font-size: 18px; 
 }
+
+.forgot-password {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: blue; /* ou a cor do seu link */
+  text-decoration: underline;
+}

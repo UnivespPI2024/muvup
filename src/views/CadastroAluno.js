@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 
 import SelHorAulaAluno from '../componentes/SelHorAulaAluno'
@@ -7,7 +7,7 @@ import { incluirEdicaoAlunoNoHorarioProf, incluirAluno } from '../services/inclu
 import { criarUsuario } from '../services/loginBD'
 
 import { db } from '../firebase'
-import { setDoc, doc, collection, getDocs, query, where, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where } from 'firebase/firestore/lite';
 
 const CadastroAluno = () => {
 
@@ -211,14 +211,14 @@ const CadastroAluno = () => {
           </div> : null
       }
       {
-        qntAulas == '1aula' ?
+        qntAulas === '1aula' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
           </div> : null
       }
       {
-        qntAulas == '2aulas' ?
+        qntAulas === '2aulas' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula:</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
@@ -227,7 +227,7 @@ const CadastroAluno = () => {
           </div> : null
       }
       {
-        qntAulas == '3aulas' ?
+        qntAulas === '3aulas' ?
           <div>
             <text className={'textoPequeno'}>Selecione dia e horário da primeira aula::</text>
             <SelHorAulaAluno onChangeDia={handleSelDia1} onChangeHora={handleSelHora1} horDispProf={hor1DispProf} />
