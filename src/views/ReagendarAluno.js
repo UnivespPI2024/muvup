@@ -51,7 +51,7 @@ const ReagendarAluno = () => {
     }, [])
 
     useEffect(() => {
-        (async () => {
+        const fetchNomeAluno = async () => {
             const qNomeAluno = query(collection(db, "Alunos"), where("email", "==", emailAluno));
             const querySnapshotNome = await getDocs(qNomeAluno).catch((error) => { console.log('erro', error); })
             querySnapshotNome.forEach(doc => {
@@ -60,16 +60,18 @@ const ReagendarAluno = () => {
                 setNomeAluno(doc.data().nome)
                 setTelefoneAluno(doc.data().telefone)
             });
-        })()
-    }, [emailAluno])
+        };
+        if (emailAluno) {
+            fetchNomeAluno();
+        }
+    }, [emailAluno]);
 
     const enviarMsgWhatsApp = async (diaRemarc, horRemarc, profSelec) => {
         console.log('entrou no enviar msg')
         try {
             const response = await axios.post('http://localhost:5000/send-whatsapp', {
                 to: `+55${telefoneAluno}`,
-                message: `A sua aula foi remarcada para o dia: ${diaRemarc} às: 
-                ${horRemarc.slice(-2)} horas, com o professor: ${profSelec}`
+                message: `A sua aula foi remarcada para o dia: ${diaRemarc} às: ${horRemarc.slice(-2)} horas, com o professor: ${profSelec}`
             });
             console.log(`Mensagem enviada com sucesso! SID: ${response.data.sid}`);
         } catch (error) {
@@ -104,7 +106,7 @@ const ReagendarAluno = () => {
         const aulasReagendREf = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'))
         const docSnapAulasReagend = await getDocs(aulasReagendREf)
         docSnapAulasReagend.forEach((doc) => {
-            if (doc.id == diaRemarc) {
+            if (doc.id === diaRemarc) {
                 flagIdRemarc = true
             }
         })
@@ -124,7 +126,7 @@ const ReagendarAluno = () => {
         const aulasDesmarcREf = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'))
         const docSnapAulasDesmarc = await getDocs(aulasDesmarcREf)
         docSnapAulasDesmarc.forEach((doc) => {
-            if (doc.id == diaAtual) {
+            if (doc.id === diaAtual) {
                 flagIdDesmarc = true
             }
         })
@@ -207,7 +209,7 @@ const ReagendarAluno = () => {
             const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
             const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
             querySnapshotHorRemarc.forEach((docDia) => {
-                if (docDia.id == diaSelec) {
+                if (docDia.id === diaSelec) {
                     if (Object.keys(docDia.data()).includes(docHor.id)) {
                         const idx = Object.keys(docDia.data()).indexOf(docHor.id)
                         qntAulasRemarc = Object.values(docDia.data())[idx].length
@@ -219,7 +221,7 @@ const ReagendarAluno = () => {
             const qHorariosDesmarc = query(collection(db, 'Professores', emailProf, 'AulasDesmarcadas'));
             const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
             querySnapshotHorDesmarc.forEach((docDia) => {
-                if (docDia.id == diaSelec) {
+                if (docDia.id === diaSelec) {
                     if (Object.keys(docDia.data()).includes(docHor.id)) {
                         const idx = Object.keys(docDia.data()).indexOf(docHor.id)
                         qntAulasDesmarc = Object.values(docDia.data())[idx].length
@@ -307,6 +309,7 @@ const ReagendarAluno = () => {
             // concatenação dos array formados para cada dia da semana
             const listaDataDiaHorNorm = [].concat(...listaDataDiaHor)
             listaDataDiaHorNorm.sort(compararDatas)
+            console.log('listaDatasHr', listaDataDiaHorNorm)
             setListaDiaHorAluno(listaDataDiaHorNorm)
         })()
     }, [emailAluno])

@@ -62,7 +62,7 @@ function Administrador() {
       <div style={styles.container}>
         <div style={styles.containerConteudo}>
           <div style={styles.logoContainer}>
-            <img src={logo} style={styles.logo}></img>
+            <img src={logo} style={styles.logo} alt="Logo"></img>
           </div>
           <div style={styles.containerCadastro}>
             {componenteAtual === 'cadastroAluno' && <CadastroAluno></CadastroAluno>}
