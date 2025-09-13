@@ -19,7 +19,7 @@ function SelHorAulaProf({ onChangeHor, handleConf, horariosEditar }) {
         }
       }
     }
-  }, [])
+  }, [horariosEditar, horarios])
 
   const [botaoClicado, setBotaoClicado] = useState(false);
   const [checkboxes, setCheckboxes] = useState(horarios);

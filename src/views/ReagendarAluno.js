@@ -13,12 +13,13 @@ import { db } from '../firebase'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, where, doc, arrayUnion, updateDoc, setDoc } from 'firebase/firestore/lite';
 
-const ReagendarAluno = () => {
+const diasDaSemana = {
+    "domingo": 0, "segunda": 1, "terça": 2, "quarta": 3,
+    "quinta": 4, "sexta": 5, "sabado": 6
+};
 
-    const diasDaSemana = {
-        "domingo": 0, "segunda": 1, "terça": 2, "quarta": 3,
-        "quinta": 4, "sexta": 5, "sabado": 6
-    };
+
+const ReagendarAluno = () => {
 
     const diasDaSemana2 = {
         0: 'domingo', 1: 'segunda', 2: 'terça', 3: 'quarta',
@@ -48,7 +49,7 @@ const ReagendarAluno = () => {
                 setEmailAluno('')
             }
         });
-    }, [])
+    }, [auth])
 
     useEffect(() => {
         const fetchNomeAluno = async () => {
@@ -259,7 +260,7 @@ const ReagendarAluno = () => {
                     if (diaAtual.getDay() === diaAlvo) {
                         const dataFormatada = diaAtual.getDate() + '/' +
                             (diaAtual.getMonth() + 1) + '/' + diaAtual.getFullYear() +
-                            ', ' + diaDaSemanaStr + '-feira' + ' às ' + hora + 'h';
+                            ', ' + diaDaSemanaStr + '-feira às ' + hora + 'h';
                         datas.push(dataFormatada);
                     }
                 }

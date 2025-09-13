@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getDocs, collection, arrayUnion, query } from 'firebase/firestore/lite';
+import { getDocs, collection, query } from 'firebase/firestore/lite';
 import { db } from '../firebase'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -72,7 +72,7 @@ const ListarAulasProfessor = () => {
         setEmailProf('')
       }
     });
-  }, [])
+  }, [auth])
 
   //função que retorna quantos dias tem entre duas datas
   function diasEntreDatas(dataInicio, dataFim) {
@@ -114,9 +114,9 @@ const ListarAulasProfessor = () => {
     //consulta de aulas remarcadas do professor
     const qHorariosRemarc = query(collection(db, 'Professores', emailProf, 'AulasReagendadas'));
     const querySnapshotHorRemarc = await getDocs(qHorariosRemarc).catch((error) => { console.log('erro', error); })
-    const objRemarc = []
+
     querySnapshotHorRemarc.forEach((docDia) => {
-      if (docDia.id == diaDoMes) {
+      if (docDia.id === diaDoMes) {
         Object.keys(docDia.data()).forEach((horario, idx) => {
           let valoresDias = aulas.map(objeto => objeto['diaMes']);
           let valoresHorarios = aulas[0].horarios.map(objeto => objeto['horario']);
@@ -142,7 +142,7 @@ const ListarAulasProfessor = () => {
     const querySnapshotHorDesmarc = await getDocs(qHorariosDesmarc).catch((error) => { console.log('erro', error); })
     const objDesmarc = []
     querySnapshotHorDesmarc.forEach((docDia) => {
-      if (docDia.id == diaDoMes) {
+      if (docDia.id === diaDoMes) {
         Object.keys(docDia.data()).forEach((hor) => {
           console.log('hor', docDia.data()[hor]);
           docDia.data()[hor].forEach(alunos => {
