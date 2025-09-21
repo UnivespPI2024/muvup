@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import admin from "./firebaseAdmin";
+import {admin} from "./firebaseAdmin";
 
 const db = admin.firestore();
 
