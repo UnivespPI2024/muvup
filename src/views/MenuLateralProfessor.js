@@ -14,6 +14,10 @@ const MenuLateralProfessor = ({onItemClick}) => {
         <li className="menu-item" onClick={() => handleClick('listarAulasProfessor')}>
           <span className="menu-link">Listar Aulas Professor</span>
         </li>
+        <li className="menu-group">Relatórios Alunos</li>
+        <li className="menu-item" onClick={() => handleClick('relatorioSaude')}>
+          <span className="menu-link">Relatório de Saúde</span>
+        </li>
       </ul>
     </div>
   );
