@@ -10,6 +10,7 @@ import ProcurarTodosProf from '../views/ProcurarTodosProf';
 import ProcurarAluno from '../views/ProcurarAluno';
 import MenuLateral from '../views/MenuLateralAdministrador';
 import ReagendarAluno from '../views/ReagendarAluno';
+import RelatorioSaude from '../views/RelatorioSaude';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -72,6 +73,7 @@ function Administrador() {
             {componenteAtual === 'todosProfessores' && <ProcurarTodosProf></ProcurarTodosProf>}
             {componenteAtual === 'procurarAluno' && <ProcurarAluno></ProcurarAluno>}
             {componenteAtual === 'reagendarAluno' && <ReagendarAluno></ReagendarAluno>}
+            {componenteAtual === 'relatorioSaude' && <RelatorioSaude perfil="administrador" />}
           </div>
         </div>
       </div>

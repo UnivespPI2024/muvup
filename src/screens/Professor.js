@@ -4,6 +4,7 @@ import logo from '../images/logo.png';
 import Header from '../views/Header';
 import MenuLateralProfessor from '../views/MenuLateralProfessor';
 import ListarAulasProfessor from '../views/ListarAulasProfessor';
+import RelatorioSaude from '../views/RelatorioSaude';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -60,6 +61,7 @@ function Professor() {
           </div>
           <div style={styles.containerCadastro}>
             {componenteAtual === 'listarAulasProfessor' && <ListarAulasProfessor></ListarAulasProfessor>}
+             {componenteAtual === 'relatorioSaude' && <RelatorioSaude perfil="professor" />}
           </div>
         </div>
       </div>

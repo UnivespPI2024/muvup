@@ -4,6 +4,7 @@ import logo from '../images/logo.png';
 import Header from '../views/Header';
 import MenuLateralAluno from '../views/MenuLateralAluno';
 import ReagendarAluno from '../views/ReagendarAluno';
+import RelatorioSaude from '../views/RelatorioSaude';
 
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -60,6 +61,7 @@ function Aluno() {
           </div>
           <div style={styles.containerCadastro}>
             {componenteAtual === 'reagendarAluno' && <ReagendarAluno></ReagendarAluno>}
+            {componenteAtual === 'relatorioSaude' && <RelatorioSaude perfil="aluno" />}
           </div>
         </div>
       </div>
