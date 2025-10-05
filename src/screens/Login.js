@@ -90,7 +90,7 @@ function Login() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('erro', errorCode, errorMessage);
+        alert(errorCode,errorMessage)
       });
   }
 
