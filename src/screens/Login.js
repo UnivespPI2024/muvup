@@ -88,9 +88,8 @@ function Login() {
         console.log('user', user);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorCode,errorMessage)
+        if (errorMessage==='invalid-credential') alert('Email ou senha errada')
       });
   }
 
