@@ -14,11 +14,11 @@ const handler: Handler = async (event) => {
   // Inicializa o SDK
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
   // Configuramos o modelo 1.5-flash que é mais estável na camada gratuita
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+  
   try {
     const healthData = event.body ? JSON.parse(event.body) : {};
-    
+
     const prompt = `
       Você é um assistente de saúde e fitness.
       Analise os seguintes dados de saúde de um usuário, que já estão resumidos.
