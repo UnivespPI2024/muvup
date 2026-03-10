@@ -1,4 +1,5 @@
 import { Handler } from "@netlify/functions";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const handler: Handler = async (event) => {
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -6,9 +7,14 @@ const handler: Handler = async (event) => {
   if (!GEMINI_API_KEY) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Erro no servidor: Chave da API do Gemini não foi encontrada." }),
+      body: JSON.stringify({ error: "Erro no servidor: Chave da API não configurada." }),
     };
   }
+
+  // Inicializa o SDK
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+  // Configuramos o modelo 1.5-flash que é mais estável na camada gratuita
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   try {
     const healthData = event.body ? JSON.parse(event.body) : {};
@@ -32,38 +38,31 @@ const handler: Handler = async (event) => {
       ${JSON.stringify(healthData, null, 2)}
     `;
 
-    //const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;    
-    const response = await fetch(apiUrl, {
-      method: "POST",
+    // Chamada usando o SDK
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const reportText = response.text();
+
+    return {
+      statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-      }),
-    });
+      body: JSON.stringify({ report: reportText }),
+    };
 
-    const data = await response.json();
-    console.log("Resposta completa da API Gemini:", JSON.stringify(data, null, 2));
+  } catch (err: any) {
+    console.error("❌ Erro na execução da function:", err);
 
-    if (data.candidates && data.candidates[0]?.content?.parts) {
-      const reportText = data.candidates[0].content.parts[0].text;
+    // Tratamento específico para erro de cota (429)
+    if (err.message?.includes("429") || err.status === 429) {
       return {
-        statusCode: 200,
-        body: JSON.stringify({ report: reportText }),
-      };
-    } else {
-      const errorMessage = data.promptFeedback?.blockReason || data.error?.message || "A API não retornou um relatório válido.";
-      console.error("Erro ou bloqueio da API Gemini:", errorMessage);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: `A IA não conseguiu processar a solicitação: ${errorMessage}` }),
+        statusCode: 429,
+        body: JSON.stringify({ error: "Limite de requisições atingido. Tente novamente em alguns segundos." }),
       };
     }
-  } catch (err) {
-    console.error("❌ Erro na execução da function:", err);
+
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Erro interno na função do servidor." }),
+      body: JSON.stringify({ error: "Erro interno ao processar o relatório de IA." }),
     };
   }
 };
