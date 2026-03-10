@@ -14,8 +14,7 @@ const handler: Handler = async (event) => {
   // Inicializa o SDK
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
   // Configuramos o modelo 1.5-flash que é mais estável na camada gratuita
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-  
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
   try {
     const healthData = event.body ? JSON.parse(event.body) : {};
 
@@ -39,6 +38,7 @@ const handler: Handler = async (event) => {
     `;
 
     // Chamada usando o SDK
+    console.log("Usando a chave iniciada em:", GEMINI_API_KEY.substring(0, 4));
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const reportText = response.text();
